@@ -11,6 +11,9 @@ export const API_URLS = {
   COMPLETED_ORDERS_LOAD_SHEETS: '/getCompletedOrdersLoadSheetWise',
   COUNTER_SALE_DATA: '/counterSaleData',
   ADD_COUNTER_SALE: '/saveOrder/counter',
+  PENDING_APPROVAL_ORDERS: '/orders-list/pending-approval',
+  PENDING_ORDERS: '/orders-list/pending',
+  FETCH_ORDER_BY_ID: '/fetch-order-data/',
   SAVE_DISPATCH: '/saveOrder/dispatch',
   SAVE_EXECUTION: '/saveOrder/execution',
   SAVE_SPOT: '/saveOrder/spot',
@@ -84,7 +87,7 @@ export const API_URLS = {
   DISTRIBUTOR_PURCHASE_HISTORY: '/distributorPurchaseHistory',
   RATE_LIST_CORE: '/rateListCore',
   CASH_SUMMARY: '/CashSummaryReport',
-  PURCHASE_DETAIL: '/distributorPurchaseDetail'
+  PURCHASE_DETAIL: '/distributorPurchaseDetail',
 
   // Payments
 };

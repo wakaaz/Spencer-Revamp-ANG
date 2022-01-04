@@ -1,353 +1,456 @@
 <!-- Order details Popup -->
-<div class="modal fade" [ngClass]="showDetailsPopup ? 'show active' : ''" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-full modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <button type="button" class="close" (click)="showDetailsPopup=false;closeDetailsModal()" aria-label="Close"
-                    style="font-size:30px; outline: none;">×</button>
-            </div>
-            <div class="modal-body p-0">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="p-10" style="border-bottom: solid 2px #000">
-                                    <div class="row m-0">
-                                        <div class="col-8 OrderLogo">
-                                            <img src="assets/images/sell-360.svg" alt="" />
-                                        </div>
-                                        <div class="col-4 ord-no">
-                                            Order # <strong>05485</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="body" style="padding:15px 20px">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-body">
-                                                <div class="row OrderInfo">
-
-                                                    <div class="col-md-9">
-                                                        <span>Retailer Name: </span> <strong>Chohan Store
-                                                            Township</strong><br>
-                                                        <span>Phone No: </span> <strong>02222222221</strong><br>
-                                                        <span>Location: </span> <strong>Madina Market Township,
-                                                            Lahore</strong>
-                                                    </div>
-
-                                                    <div class="col-md-3 p-0">
-                                                        <span>Status: </span> <strong>Awaiting</strong><br>
-                                                        <span>Booking Date: </span> <strong>12/04/2020</strong><br>
-                                                        <span>Employee: </span> <strong>Asad Ali</strong>
-                                                    </div>
-
-                                                </div>
-
-
-
-                                                <div class="seprator-block"></div>
-
-                                                <div class="Order-Detail-table mt-30">
-
-
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th><strong>Code</strong></th>
-                                                                <th><strong>Product Name</strong></th>
-                                                                <th><strong>CTN</strong></th>
-                                                                <th><strong>BOX/PCS</strong></th>
-                                                                <th><strong>T.P</strong></th>
-                                                                <th><strong>GR Amt</strong></th>
-                                                                <th><strong>T.O</strong></th>
-                                                                <th><strong>T.Disc</strong></th>
-                                                                <th><strong>SPC.Disc</strong></th>
-                                                                <th><strong>Net.Amt</strong></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="order_items_body">
-                                                            <tr>
-                                                                <td>5261</td>
-                                                                <td>AasPas R5 (Chocolate BTNT) (24x36)</td>
-                                                                <td>0</td>
-                                                                <td>1</td>
-                                                                <td>103.25</td>
-                                                                <td>103.25</td>
-                                                                <td>0</td>
-                                                                <td>3%</td>
-                                                                <td>0</td>
-                                                                <td>100.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>5259</td>
-                                                                <td>AasPas Rs2 (chocolate WO BTNT)</td>
-                                                                <td>0</td>
-                                                                <td>1</td>
-                                                                <td>82.61</td>
-                                                                <td>82.61</td>
-                                                                <td>0</td>
-                                                                <td>3%</td>
-                                                                <td>5</td>
-                                                                <td>75.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>5258</td>
-                                                                <td>AasPas Rs5 (Sweet Sonf) (24x24)</td>
-                                                                <td>0</td>
-                                                                <td>9</td>
-                                                                <td>103.26</td>
-                                                                <td>929.34</td>
-                                                                <td>0</td>
-                                                                <td>3%</td>
-                                                                <td>1</td>
-                                                                <td>900.02</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td><strong>Subtotal PKR.</strong></td>
-                                                                <td><strong>1115.20</strong></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td><strong>Discount PKR.</strong></td>
-                                                                <td><strong>-40.18</strong></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td style="background-color:#000; color:#fff">
-                                                                    <strong>Total PKR.</strong>
-                                                                </td>
-                                                                <td style="background-color:#000; color:#fff">
-                                                                    <strong>1075.02</strong>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                    <div class="clearfix"></div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div
+  class="modal fade"
+  [ngClass]="showDetailsPopup ? 'show active' : ''"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-full modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button
+          type="button"
+          class="close"
+          (click)="showDetailsPopup = false; closeDetailsModal()"
+          aria-label="Close"
+          style="font-size: 30px; outline: none"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="p-10" style="border-bottom: solid 2px #000">
+                  <div class="row m-0">
+                    <div class="col-8 OrderLogo">
+                      <img src="assets/images/sell-360.svg" alt="" />
                     </div>
+                    <div class="col-4 ord-no">
+                      Order # <strong>05485</strong>
+                    </div>
+                  </div>
                 </div>
-            </div>
+                <div class="body" style="padding: 15px 20px">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-body">
+                        <div class="row OrderInfo">
+                          <div class="col-md-9">
+                            <span>Retailer Name: </span>
+                            <strong>Chohan Store Township</strong><br />
+                            <span>Phone No: </span> <strong>02222222221</strong
+                            ><br />
+                            <span>Location: </span>
+                            <strong>Madina Market Township, Lahore</strong>
+                          </div>
 
-            <div class="modal-footer button-list">
-                <button type="button" class="btn btn-primary btn-outline"><i class="fa fa-file-pdf"> </i> <span> Save
-                        PDF</span> </button> <button type="button" class="btn btn-primary btn-outline"> <i
-                        class="fa fa-envelope"> </i> <span> Send Email</span> </button> <button type="button"
-                    class="btn btn-primary btn-outline"><i class="fa fa-print"></i> <span> Print</span> </button>
+                          <div class="col-md-3 p-0">
+                            <span>Status: </span> <strong>Awaiting</strong
+                            ><br />
+                            <span>Booking Date: </span>
+                            <strong>12/04/2020</strong><br />
+                            <span>Employee: </span> <strong>Asad Ali</strong>
+                          </div>
+                        </div>
 
+                        <div class="seprator-block"></div>
+
+                        <div class="Order-Detail-table mt-30">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th><strong>Code</strong></th>
+                                <th><strong>Product Name</strong></th>
+                                <th><strong>CTN</strong></th>
+                                <th><strong>BOX/PCS</strong></th>
+                                <th><strong>T.P</strong></th>
+                                <th><strong>GR Amt</strong></th>
+                                <th><strong>T.O</strong></th>
+                                <th><strong>T.Disc</strong></th>
+                                <th><strong>SPC.Disc</strong></th>
+                                <th><strong>Net.Amt</strong></th>
+                              </tr>
+                            </thead>
+                            <tbody class="order_items_body">
+                              <tr>
+                                <td>5261</td>
+                                <td>AasPas R5 (Chocolate BTNT) (24x36)</td>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>103.25</td>
+                                <td>103.25</td>
+                                <td>0</td>
+                                <td>3%</td>
+                                <td>0</td>
+                                <td>100.00</td>
+                              </tr>
+                              <tr>
+                                <td>5259</td>
+                                <td>AasPas Rs2 (chocolate WO BTNT)</td>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>82.61</td>
+                                <td>82.61</td>
+                                <td>0</td>
+                                <td>3%</td>
+                                <td>5</td>
+                                <td>75.00</td>
+                              </tr>
+                              <tr>
+                                <td>5258</td>
+                                <td>AasPas Rs5 (Sweet Sonf) (24x24)</td>
+                                <td>0</td>
+                                <td>9</td>
+                                <td>103.26</td>
+                                <td>929.34</td>
+                                <td>0</td>
+                                <td>3%</td>
+                                <td>1</td>
+                                <td>900.02</td>
+                              </tr>
+                              <tr>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td><strong>Subtotal PKR.</strong></td>
+                                <td><strong>1115.20</strong></td>
+                              </tr>
+                              <tr>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td><strong>Discount PKR.</strong></td>
+                                <td><strong>-40.18</strong></td>
+                              </tr>
+                              <tr>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td style="background-color: #000; color: #fff">
+                                  <strong>Total PKR.</strong>
+                                </td>
+                                <td style="background-color: #000; color: #fff">
+                                  <strong>1075.02</strong>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                          <div class="clearfix"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
+      <div class="modal-footer button-list">
+        <button type="button" class="btn btn-primary btn-outline">
+          <i class="fa fa-file-pdf"> </i> <span> Save PDF</span>
+        </button>
+        <button type="button" class="btn btn-primary btn-outline">
+          <i class="fa fa-envelope"> </i> <span> Send Email</span>
+        </button>
+        <button type="button" class="btn btn-primary btn-outline">
+          <i class="fa fa-print"></i> <span> Print</span>
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Order Managemenet -->
 <div class="container">
-    <div class="row mt-2 mb-2">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <h2 class="_head01">Orders <span> Management</span></h2>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <ol class="breadcrumb">
-                <li><a routerLink="/orders"><span>Orders</span></a></li>
-                <li><span>List</span></li>
-            </ol>
-        </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <h2 class="_head01">Orders <span> Management</span></h2>
     </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="header-tabs mb-0" style="min-height:47px">
-                <div class="row">
-                    <div class="col-auto">
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <!-- <a class="nav-item nav-link" [ngClass]="byOrderBooker === false ? 'active' : ''"
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <ol class="breadcrumb">
+        <li>
+          <a routerLink="/orders"><span>Orders</span></a>
+        </li>
+        <li><span>List</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-tabs mb-0" style="min-height: 47px">
+        <div class="row">
+          <div class="col-auto">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <!-- <a class="nav-item nav-link" [ngClass]="byOrderBooker === false ? 'active' : ''"
                                 id="NewOrder-tab" data-toggle="tab" (click)="byOrderBooker=false;" role="tab"
                                 aria-controls="NewOrder" aria-selected="true">Assign By Order</a> -->
-                            <a class="nav-item nav-link" [ngClass]="byOrderBooker === true ? 'active' : ''"
-                                id="ProcessedOrder-tab" data-toggle="tab" role="tab" aria-controls="ProcessedOrder"
-                                (click)="byOrderBooker=true;" aria-selected="false">Assign By Order Booker</a>
-                        </div>
-                    </div>
-                </div>
+              <a
+                class="nav-item nav-link"
+                [ngClass]="byOrderBooker === true ? 'active' : ''"
+                id="ProcessedOrder-tab"
+                data-toggle="tab"
+                role="tab"
+                aria-controls="ProcessedOrder"
+                (click)="byOrderBooker = true"
+                aria-selected="false"
+                >Assign By Order Booker</a
+              >
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="tab-content" id="nav-tabContent">
-                <!-- Assign By Order -->
-                <div class="tab-pane fade" [ngClass]="byOrderBooker === false ? 'active show' : ''" id="NewOrder"
-                    role="tabpanel" aria-labelledby="NewOrder-tab">
-                    <div class="Product-Filter border-0">
-                        <div class="row">
-                            <div class="col-auto pr-0">
-                                <div class="CL-Product" style="width: 180px!important;">
-                                    <input type="text" id="datepicker" class="form-control pl-15"
-                                        placeholder="Select Date">
-                                </div>
-                            </div>
-
-                            <div class="col pl-0">
-                                <div class="_cust_filter">
-                                    <div class="form-s2">
-                                        <ng-select class="form-control formselect" placeholder="Select Order Booker"
-                                            name="order-booker" style="width: 100%!important" [multiple]="false"
-                                            [(ngModel)]="selectedOrderBooker" id="order-booker">
-                                            <ng-option [value]="orderBooker.id"
-                                                *ngFor="let orderBooker of orderBookers">
-                                                {{orderBooker.name}}
-                                            </ng-option>
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="card p-15">
-                        <div class="col-12 p-0" style="min-height:360px;">
-                            <table datatable [dtOptions]="dtOptions" class="table table-hover dt-responsive nowrap"
-                                id="example" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th> Select
-                                        </th>
-                                        <th>Retailer</th>
-                                        <th>Channel</th>
-                                        <th>Order Total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let order of orders; let i=index">
-                                        <td>
-                                            <div class="custom-control custom-checkbox cus-che-table">
-                                                <input type="checkbox" name="" class="custom-control-input" value=""
-                                                    [id]="i">
-                                                <label class="custom-control-label" [for]="i"></label>
-                                            </div>
-                                        </td>
-                                        <td>{{order.emp_name}}</td>
-                                        <td>{{order.retailer_name}}</td>
-                                        <td>{{order.order_total | number: '1.2-2'}}</td>
-                                        <td><button (click)="showDetailsPopup=true;openDetailsModal(order)"
-                                                class="btn btn-default btn-line mb-0">Detail</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="col-12 bottom-gray">
-
-                            <div class="row justify-content-end">
-
-                                <div class="col-auto pr-0">
-                                    <div class="_cust_filter m-0">
-                                        <div class="form-s2">
-                                            <ng-select class="form-control formselect" placeholder="Select Salesman" name="select-saleman"
-                                                style="width: 100%!important" [(ngModel)]="selectedOrderBooker" id="select-saleman">
-                                                <ng-option [value]="orderBooker.id" *ngFor="let orderBooker of orderBookers">
-                                                    {{orderBooker.name}}
-                                                </ng-option>
-                                            </ng-select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-auto pl-0">
-                                    <button type="submit" class="btn btn-primary">Assign Orders</button>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tab-content" id="nav-tabContent">
+        <!-- Assign By Order -->
+        <div
+          class="tab-pane fade"
+          [ngClass]="byOrderBooker === false ? 'active show' : ''"
+          id="NewOrder"
+          role="tabpanel"
+          aria-labelledby="NewOrder-tab"
+        >
+          <div class="Product-Filter border-0">
+            <div class="row">
+              <div class="col-auto pr-0">
+                <div class="CL-Product" style="width: 180px !important">
+                  <input
+                    type="text"
+                    id="datepicker"
+                    class="form-control pl-15"
+                    placeholder="Select Date"
+                  />
                 </div>
-                <!-- Assign By Order Booker -->
-                <div class="tab-pane fade" [ngClass]="byOrderBooker === true ? 'active show' : ''" id="ProcessedOrder"
-                    role="tabpanel" aria-labelledby="ProcessedOrder-tab">
-                    <div class="card p-15 mt-15">
-                        <div class="col-12 p-0" style="min-height:360px;">
-                            <table *ngIf="!loading" datatable [dtOptions]="dtOptions" class="table table-hover dt-responsive nowrap"
-                                id="example2" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Order Booker</th>
-                                        <th>Total Orders</th>
-                                        <th>Assign To Salesman</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let order of orders;let i=index">
-                                        <td>{{order.date}}</td>
-                                        <td>{{order.emp_name}}</td>
-                                        <td>{{order.total_orders}}</td>
-                                        <td>
-                                            <ng-select class="formselect" (change)="addOrderToAssignment(order)" placeholder="Select Salesman" name="select-saleman-{{i}}" [multiple]="false"
-                                                style="width: 95%!important" [(ngModel)]="order.selectedSaleman" id="select-saleman-{{i}}">
-                                                <ng-option *ngFor="let saleman of salesMen; let in=index" [value]="saleman">{{saleman.name}}</ng-option>
-                                            </ng-select>
-                                        </td>
-                                        <td>
-                                            <a [routerLink]="['/orders/order-list-details', order.employee_id ,order.date]"
-                                                class="btn btn-default btn-line mb-0">View Orders</a>
-                                            <!-- <a (click)="loadBookingSheet(order)" class="btn btn-default mb-0">BS</a> -->
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div *ngIf="loading" class="col-md-12">
-                                <app-loader-white></app-loader-white>
-                            </div>
-                        </div>
+              </div>
 
-                        <div *ngIf="!loading" class="col-12 bottom-gray">
-                            <div class="row justify-content-end">
-                                <div class="col-auto pl-0">
-                                    <button type="submit" [disabled]="selectedOrders.length === 0" (click)="assignSaleman()" class="btn btn-primary">{{selectedOrders.length === 0 ? 'Select Salesman' : 'Assign Salesman'}}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="col pl-0">
+                <div class="_cust_filter">
+                  <div class="form-s2">
+                    <ng-select
+                      class="form-control formselect"
+                      placeholder="Select Order Booker"
+                      name="order-booker"
+                      style="width: 100% !important"
+                      [multiple]="false"
+                      [(ngModel)]="selectedOrderBooker"
+                      id="order-booker"
+                    >
+                      <ng-option
+                        [value]="orderBooker.id"
+                        *ngFor="let orderBooker of orderBookers"
+                      >
+                        {{ orderBooker.name }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
                 </div>
+              </div>
             </div>
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="card p-15">
+            <div class="col-12 p-0" style="min-height: 360px">
+              <table
+                datatable
+                [dtOptions]="dtOptions"
+                class="table table-hover dt-responsive nowrap"
+                id="example"
+                style="width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th>Select</th>
+                    <th>Retailer</th>
+                    <th>Channel</th>
+                    <th>Order Total</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of orders; let i = index">
+                    <td>
+                      <div class="custom-control custom-checkbox cus-che-table">
+                        <input
+                          type="checkbox"
+                          name=""
+                          class="custom-control-input"
+                          value=""
+                          [id]="i"
+                        />
+                        <label class="custom-control-label" [for]="i"></label>
+                      </div>
+                    </td>
+                    <td>{{ order.emp_name }}</td>
+                    <td>{{ order.retailer_name }}</td>
+                    <td>{{ order.order_total | number: "1.2-2" }}</td>
+                    <td>
+                      <button
+                        (click)="
+                          showDetailsPopup = true; openDetailsModal(order)
+                        "
+                        class="btn btn-default btn-line mb-0"
+                      >
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-12 bottom-gray">
+              <div class="row justify-content-end">
+                <div class="col-auto pr-0">
+                  <div class="_cust_filter m-0">
+                    <div class="form-s2">
+                      <ng-select
+                        class="form-control formselect"
+                        placeholder="Select Salesman"
+                        name="select-saleman"
+                        style="width: 100% !important"
+                        [(ngModel)]="selectedOrderBooker"
+                        id="select-saleman"
+                      >
+                        <ng-option
+                          [value]="orderBooker.id"
+                          *ngFor="let orderBooker of orderBookers"
+                        >
+                          {{ orderBooker.name }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto pl-0">
+                  <button type="submit" class="btn btn-primary">
+                    Assign Orders
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- Assign By Order Booker -->
+        <div
+          class="tab-pane fade"
+          [ngClass]="byOrderBooker === true ? 'active show' : ''"
+          id="ProcessedOrder"
+          role="tabpanel"
+          aria-labelledby="ProcessedOrder-tab"
+        >
+          <div class="card p-15 mt-15">
+            <div class="col-12 p-0" style="min-height: 360px">
+              <table
+                *ngIf="!loading"
+                datatable
+                [dtOptions]="dtOptions"
+                class="table table-hover dt-responsive nowrap"
+                id="example2"
+                style="width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Order Booker</th>
+                    <th>Total Orders</th>
+                    <th>Assign To Salesman</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of orders; let i = index">
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.emp_name }}</td>
+                    <td>{{ order.total_orders }}</td>
+                    <td>
+                      <ng-select
+                        class="formselect"
+                        (change)="addOrderToAssignment(order)"
+                        placeholder="Select Salesman"
+                        name="select-saleman-{{ i }}"
+                        [multiple]="false"
+                        style="width: 95% !important"
+                        [(ngModel)]="order.selectedSaleman"
+                        id="select-saleman-{{ i }}"
+                      >
+                        <ng-option
+                          *ngFor="let saleman of salesMen; let in = index"
+                          [value]="saleman"
+                          >{{ saleman.name }}</ng-option
+                        >
+                      </ng-select>
+                    </td>
+                    <td>
+                      <a
+                        [routerLink]="[
+                          '/orders/order-list-details',
+                          order.employee_id,
+                          order.date
+                        ]"
+                        class="btn btn-default btn-line mb-0"
+                        >View Orders</a
+                      >
+                      <!-- <a (click)="loadBookingSheet(order)" class="btn btn-default mb-0">BS</a> -->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="loading" class="col-md-12">
+                <app-loader-white></app-loader-white>
+              </div>
+            </div>
+
+            <div *ngIf="!loading" class="col-12 bottom-gray">
+              <div class="row justify-content-end">
+                <div class="col-auto pl-0">
+                  <button
+                    type="submit"
+                    [disabled]="selectedOrders.length === 0"
+                    (click)="assignSaleman()"
+                    class="btn btn-primary"
+                  >
+                    {{
+                      selectedOrders.length === 0
+                        ? "Select Salesman"
+                        : "Assign Salesman"
+                    }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

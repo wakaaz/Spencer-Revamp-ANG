@@ -1,65 +1,134 @@
 <div *ngIf="!isLoggedIn" class="bg_main">
-  <div *ngIf="showToast" aria-live="polite" aria-atomic="true" style="position: absolute; z-index: 1052; left: 30px;">
+  <div
+    *ngIf="showToast"
+    aria-live="polite"
+    aria-atomic="true"
+    style="position: absolute; z-index: 1052; left: 30px"
+  >
     <!-- Position it -->
-    <div style="position: fixed; bottom: 80px;">
-
+    <div style="position: fixed; bottom: 80px">
       <!-- Then put toasts within -->
-        <div class="toast  {{toastType}}" [ngClass]="showToast ? 'show ' : ''" role="alert" aria-live="assertive" aria-atomic="true">
+      <div
+        class="toast  {{ toastType }}"
+        [ngClass]="showToast ? 'show ' : ''"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
         <div class="toast-header">
-          <strong class="mr-auto">{{toastTitle}}</strong>
-          <button type="button" class="ml-2 mb-1 close" (click)="showToast=false;" data-dismiss="toast" aria-label="Close">
+          <strong class="mr-auto">{{ toastTitle }}</strong>
+          <button
+            type="button"
+            class="ml-2 mb-1 close"
+            (click)="showToast = false"
+            data-dismiss="toast"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="toast-body">
-          {{toastMessage}}
+          {{ toastMessage }}
         </div>
       </div>
-
     </div>
   </div>
   <div id="wrapper" class="EbobBGImg">
-
     <div class="container mt-0 mb-0">
       <router-outlet></router-outlet>
     </div>
-    <div class="Log_footer">Copyright © 2021 Sell3sixty All rights reserved.<br>
-      Design & Developed by <a href="https://allomate.com" target="_blank">Allomate Solutions</a>
+    <div class="Log_footer">
+      Copyright © 2021 Sell3sixty All rights reserved.<br />
+      Design & Developed by
+      <a href="https://allomate.com" target="_blank">Allomate Solutions</a>
     </div>
   </div>
 </div>
 
 <div *ngIf="isLoggedIn && !isSideNavHidden" class="sidebarblue">
   <div class="aside-primary">
-    <div class="sell360"><a routerLink="/home"><img alt="Sell360" src="/assets/images/logo-w.svg"></a></div>
+    <div class="sell360">
+      <a routerLink="/home"
+        ><img alt="Sell360" src="/assets/images/logo-w.svg"
+      /></a>
+    </div>
     <div class="main-links">
       <ul>
-        <li><a (click)="openSubmenu($event, 'orders')"><img src="/assets/images/order-icon.svg" alt="" /> Orders</a></li>
-        <li><a (click)="openSubmenu($event, 'salesmen')"><img src="/assets/images/customer-icon.svg" alt="" /> Salesmen</a></li>
-        <li><a (click)="openSubmenu($event, 'inventory')"><img src="/assets/images/inventory-icon.svg" alt="" /> Inventory</a></li>
-        <li><a (click)="openSubmenu($event, 'retailer')"><img src="/assets/images/retailar-icon.svg" alt="" /> Retailer</a></li>
-        <li><a (click)="openSubmenu($event, 'reports')"><img src="/assets/images/reports-icon.svg" alt="" /> Reports</a></li>
+        <li>
+          <a (click)="openSubmenu($event, 'orders')"
+            ><img src="/assets/images/order-icon.svg" alt="" /> Orders</a
+          >
+        </li>
+        <li>
+          <a (click)="openSubmenu($event, 'primaryOrders')"
+            ><img src="/assets/images/order-icon.svg" alt="" />Primary Orders</a
+          >
+        </li>
+        <li>
+          <a (click)="openSubmenu($event, 'salesmen')"
+            ><img src="/assets/images/customer-icon.svg" alt="" /> Salesmen</a
+          >
+        </li>
+        <li>
+          <a (click)="openSubmenu($event, 'inventory')"
+            ><img src="/assets/images/inventory-icon.svg" alt="" /> Inventory</a
+          >
+        </li>
+        <li>
+          <a (click)="openSubmenu($event, 'retailer')"
+            ><img src="/assets/images/retailar-icon.svg" alt="" /> Retailer</a
+          >
+        </li>
+        <li>
+          <a (click)="openSubmenu($event, 'reports')"
+            ><img src="/assets/images/reports-icon.svg" alt="" /> Reports</a
+          >
+        </li>
         <!-- Hidden for first version -->
         <!-- <li><a (click)="openSubmenu($event, 'payments')"><img src="/assets/images/payment-icon.svg" alt="" /> Payments</a></li> -->
       </ul>
     </div>
-    <div class="_user-nav"> <a href="#"><img src="/assets/images/bell-icon-2.svg" alt="Notification"
-          title="Notification" /><span class="badge">4</span></a> <a href="#" class="userIMG"><img
-          src="/assets/images/avatar.svg" alt="" /></a> <a href="#" class="setting-icon"><img src="/assets/images/setting-icon.svg"
-          alt="Setting" title="Setting" /></a> </div>
+    <div class="_user-nav">
+      <a href="#"
+        ><img
+          src="/assets/images/bell-icon-2.svg"
+          alt="Notification"
+          title="Notification"
+        /><span class="badge">4</span></a
+      >
+      <a href="#" class="userIMG"
+        ><img src="/assets/images/avatar.svg" alt=""
+      /></a>
+      <a href="#" class="setting-icon"
+        ><img
+          src="/assets/images/setting-icon.svg"
+          alt="Setting"
+          title="Setting"
+      /></a>
+    </div>
     <div class="sidebar-BL">
       <ul>
-        <li><a (click)="logout()"><img src="/assets/images/logout-icon.svg" alt="Employee" /> Logout</a></li>
+        <li>
+          <a (click)="logout()"
+            ><img src="/assets/images/logout-icon.svg" alt="Employee" />
+            Logout</a
+          >
+        </li>
       </ul>
     </div>
   </div>
 </div>
 <div *ngIf="isLoggedIn" id="_subNav-id" #subNav (clickOutside)="closeSubMenu()">
-  <div *ngIf="selectedSubMenu" class="_subNav"> <a id="SN-close" (click)="closeSubMenu()" class="SN-close-btn"><i class="fa fa-arrow-left"></i></a>
-    <h2>{{selectedSubMenu.title}}</h2>
+  <div *ngIf="selectedSubMenu" class="_subNav">
+    <a id="SN-close" (click)="closeSubMenu()" class="SN-close-btn"
+      ><i class="fa fa-arrow-left"></i
+    ></a>
+    <h2>{{ selectedSubMenu.title }}</h2>
     <ul>
       <li *ngFor="let menu of selectedSubMenu.subMenu">
-        <a [routerLink]="[menu.link]" (click)="closeSubMenu()"><img [src]="menu.icon" alt="" />{{menu.title}}</a>
+        <a [routerLink]="[menu.link]" (click)="closeSubMenu()"
+          ><img [src]="menu.icon" alt="" />{{ menu.title }}</a
+        >
       </li>
     </ul>
   </div>
@@ -67,35 +136,58 @@
 
 <div *ngIf="isLoggedIn" id="wrapper">
   <div id="content-wrapper" [ngClass]="isSideNavHidden ? 'pl-0' : ''">
-    <div *ngIf="showToast" aria-live="polite" aria-atomic="true" style="position: absolute; z-index: 1052; left: 30px;">
+    <div
+      *ngIf="showToast"
+      aria-live="polite"
+      aria-atomic="true"
+      style="position: absolute; z-index: 1052; left: 30px"
+    >
       <!-- Position it -->
-      <div style="position: fixed; bottom: 80px;">
-
+      <div style="position: fixed; bottom: 80px">
         <!-- Then put toasts within -->
-          <div class="toast {{toastType}}" [ngClass]="showToast ? 'show ' : ''" role="alert" aria-live="assertive" aria-atomic="true">
+        <div
+          class="toast {{ toastType }}"
+          [ngClass]="showToast ? 'show ' : ''"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
           <div class="toast-header">
-            <strong class="mr-auto">{{toastTitle}}</strong>
-            <button type="button" class="ml-2 mb-1 close" (click)="showToast=false;" data-dismiss="toast" aria-label="Close">
+            <strong class="mr-auto">{{ toastTitle }}</strong>
+            <button
+              type="button"
+              class="ml-2 mb-1 close"
+              (click)="showToast = false"
+              data-dismiss="toast"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="toast-body">
-            {{toastMessage}}
+            {{ toastMessage }}
           </div>
         </div>
-
       </div>
     </div>
 
     <div id="blureEffct">
       <div class="overlay-blure"></div>
-      <button id="Close-All" (click)="closeEverything()" hidden data-dismiss="modal"  aria-label="Close">
+      <button
+        id="Close-All"
+        (click)="closeEverything()"
+        hidden
+        data-dismiss="modal"
+        aria-label="Close"
+      >
         Close every thing!
       </button>
       <router-outlet></router-outlet>
       <footer *ngIf="true" class="sticky-footer">
         <div class="container my-auto">
-          <div class="copyright text-center my-auto">2021 © Sell3sixty All rights reserved </div>
+          <div class="copyright text-center my-auto">
+            2021 © Sell3sixty All rights reserved
+          </div>
         </div>
       </footer>
     </div>

@@ -4,11 +4,12 @@ import { LocalStorageService } from './core/services/storage.service';
 
 import {
   inventorySubMenu,
+  primaryOrderSubMenu,
   ordersSubMenu,
   paymentsSubMenu,
   reportsSubMenu,
   retailerSubMenu,
-  salesmanSubMenu
+  salesmanSubMenu,
 } from './core/constants/sub-nav.constants';
 import { Toaster, ToasterService } from './core/services/toaster.service';
 import { leftBarHidden } from './core/constants/no-left-bar.constants';
@@ -17,10 +18,9 @@ import { localStorageKeys } from './core/constants/localstorage.constants';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
   @ViewChild('subNav') subNav: ElementRef;
   isLoggedIn: boolean;
   isSideNavHidden: boolean;
@@ -30,24 +30,35 @@ export class AppComponent {
   toastType: string;
   showToast: boolean;
 
-  selectedSubMenu: { title: string; subMenu: Array<{ title: string, link: string, icon: string }> };
+  selectedSubMenu: {
+    title: string;
+    subMenu: Array<{ title: string; link: string; icon: string }>;
+  };
 
   constructor(
     private router: Router,
     private storageService: LocalStorageService,
-    private toasterService: ToasterService,
+    private toasterService: ToasterService
   ) {
-    this.isLoggedIn = this.storageService.getItem('dist_session') ? true : false;
+    this.isLoggedIn = this.storageService.getItem('dist_session')
+      ? true
+      : false;
     if (!this.isLoggedIn) {
       this.router.navigateByUrl('/login');
     } else if (location.pathname === '/') {
       this.router.navigateByUrl('/home');
     }
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isLoggedIn = this.storageService.getItem('dist_session') ? true : false;
+        this.isLoggedIn = this.storageService.getItem('dist_session')
+          ? true
+          : false;
         const url = event.urlAfterRedirects;
-        if (leftBarHidden.includes(url) || url.includes('/orders/dispatch/') || url.includes('/orders/execute-order/')) {
+        if (
+          leftBarHidden.includes(url) ||
+          url.includes('/orders/dispatch/') ||
+          url.includes('/orders/execute-order/')
+        ) {
           this.isSideNavHidden = true;
         } else {
           this.isSideNavHidden = false;
@@ -77,6 +88,9 @@ export class AppComponent {
       case 'orders':
         this.selectedSubMenu = ordersSubMenu;
         break;
+      case 'primaryOrders':
+        this.selectedSubMenu = primaryOrderSubMenu;
+        break;
       case 'salesmen':
         this.selectedSubMenu = salesmanSubMenu;
         break;
@@ -98,7 +112,9 @@ export class AppComponent {
     this.subNav.nativeElement.className = 'active';
     document.body.classList.add('no-scroll');
     document.getElementById('blureEffct').classList.add('blur-div');
-    document.getElementsByClassName('overlay-blure')[0].classList.add('d-block');
+    document
+      .getElementsByClassName('overlay-blure')[0]
+      .classList.add('d-block');
   }
 
   closeSubMenu(): void {
@@ -106,7 +122,9 @@ export class AppComponent {
       this.subNav.nativeElement.className = '';
       document.body.classList.remove('no-scroll');
       document.getElementById('blureEffct').classList.remove('blur-div');
-      document.getElementsByClassName('overlay-blure')[0].classList.remove('d-block');
+      document
+        .getElementsByClassName('overlay-blure')[0]
+        .classList.remove('d-block');
     }
   }
 
@@ -119,11 +137,10 @@ export class AppComponent {
   }
 
   closeEverything(): void {
-    const modal  = document.querySelector('div.modal');
+    const modal = document.querySelector('div.modal');
     if (modal) {
       const closeButton = modal.querySelector('button.close');
       (closeButton as HTMLButtonElement).click();
     }
   }
-
 }
