@@ -24,14 +24,14 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <div class="card" *ngIf="orderDetial">
+              <div class="card" *ngIf="order">
                 <div class="p-10" style="border-bottom: solid 2px #000">
                   <div class="row m-0">
                     <div class="col-8 OrderLogo">
                       <img src="images/sell-360.svg" alt="" />
                     </div>
                     <div class="col-4 ord-no">
-                      Order # <strong>{{ orderDetial.order.id }}</strong>
+                      Order # <strong>{{ order.id }}</strong>
                     </div>
                   </div>
                 </div>
@@ -42,26 +42,37 @@
                         <div class="row OrderInfo">
                           <div class="col-md-9">
                             <span>Dist Name: </span>
-                            <strong class="retailer_name"
-                              >wazeer Ali...(Sann)</strong
+                            <strong class="retailer_name">{{
+                              order?.distributor_name
+                            }}</strong
                             ><br />
                             <span>Phone No: </span>
-                            <strong class="retailer_phone">03443244781</strong
+                            <strong class="retailer_phone">{{
+                              order?.distributor_phone
+                            }}</strong
                             ><br />
                             <span>Location: </span>
-                            <strong class="retailer_location"
-                              >main road sann</strong
-                            >
+                            <strong class="retailer_location">{{
+                              order?.distributor_address
+                            }}</strong>
                           </div>
 
                           <div class="col-md-3 p-0">
                             <span>Status: </span>
-                            <strong class="status">executed</strong><br />
+                            <strong class="status">
+                              {{
+                                order?.status ? order?.status : "--"
+                              }} </strong
+                            ><br />
                             <span>Booking Date: </span>
-                            <strong class="booking_date">2022-01-05</strong
+                            <strong class="booking_date">{{
+                              order?.date
+                            }}</strong
                             ><br />
                             <span>Employee: </span>
-                            <strong class="employee_name">Usama Shahid</strong>
+                            <strong class="employee_name">{{
+                              order?.employee_name
+                            }}</strong>
                           </div>
                         </div>
 
@@ -86,18 +97,79 @@
                                 </tr>
                               </thead>
                               <tbody class="order_items_body">
-                                <tr>
-                                  <td>BB0002</td>
-                                  <td>Big Beans (24 Pcs) Rs. 5 (Box)</td>
-                                  <td>24</td>
-                                  <td>3,888.00</td>
-                                  <td>93,312.00</td>
-                                  <td>0.00</td>
-                                  <td>12.50</td>
-                                  <td>0.00</td>
-                                  <td>0.00</td>
-                                  <td>0.00</td>
-                                  <td>81,648.00</td>
+                                <tr *ngFor="let item of orderDetial?.content">
+                                  <td>{{ item?.item_sku }}</td>
+                                  <!--Code -->
+                                  <td>{{ item.item_name }}</td>
+                                  <!--Product Name -->
+                                  <td>{{ item?.booked_total_qty }}</td>
+                                  <!--Qty -->
+                                  <td>{{ item?.unit_price }}</td>
+                                  <!--T.P -->
+                                  <td>
+                                    {{
+                                      item?.booked_total_qty * item?.unit_price
+                                    }}
+                                  </td>
+                                  <!-- GR Amt -->
+                                  <td>
+                                    {{
+                                      item?.scheme_id !== 0
+                                        ? item?.booked_total_qty *
+                                          ((item?.booked_total_qty *
+                                            item?.unit_price) /
+                                            item?.scheme_min_quantity +
+                                            item?.scheme_quantity_free)
+                                        : "0.00"
+                                    }}
+                                  </td>
+                                  <!--T.O -->
+                                  <td>{{ item?.distributor_discount }}</td>
+                                  <!-- DIST.Disc % -->
+                                  <td>
+                                    {{ item?.special_discount }}
+                                  </td>
+                                  <!--SPC.DIST% -->
+                                  <td>
+                                    {{
+                                      item?.booker_discount *
+                                        item?.booked_total_qty
+                                    }}
+                                  </td>
+                                  <!--B.Disc -->
+                                  <td>
+                                    {{
+                                      item?.booked_total_qty *
+                                        ((item?.unit_price * item?.tax_amount) /
+                                          100)
+                                    }}
+                                  </td>
+                                  <!--Tax -->
+                                  <td>
+                                    <!-- gross amt - trade offer - trade discount - 
+                                      speacial discount - extra discount -->
+                                    {{
+                                      item?.booked_total_qty *
+                                        item?.unit_price -
+                                        (item?.scheme_id !== 0
+                                          ? item?.booked_total_qty *
+                                            ((item?.booked_total_qty *
+                                              item?.unit_price) /
+                                              scheme_min_quantity +
+                                              scheme_quantity_free)
+                                          : 0) -
+                                        0 -
+                                        ((item?.unit_price *
+                                          item?.distributor_discount) /
+                                          100) *
+                                          item?.booked_total_qty -
+                                        ((item?.unit_price *
+                                          item?.special_discount) /
+                                          100) *
+                                          item?.booked_total_qty
+                                    }}
+                                  </td>
+                                  <!--Net.Amt -->
                                 </tr>
                                 <tr>
                                   <td class="border-0"></td>
@@ -110,7 +182,9 @@
                                   <td class="border-0"></td>
                                   <td class="border-0"></td>
                                   <td><strong>Gross PKR.</strong></td>
-                                  <td><strong>93312.00</strong></td>
+                                  <td>
+                                    <strong>{{ totalGrossAmt }}</strong>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td class="border-0"></td>
@@ -123,7 +197,12 @@
                                   <td class="border-0"></td>
                                   <td class="border-0"></td>
                                   <td><strong>Discount PKR.</strong></td>
-                                  <td><strong>-11664.00</strong></td>
+                                  <td>
+                                    <strong>
+                                      <!-- t.o + dist disc% + spc dist + b dist -->
+                                      -{{ totalDiscount }}</strong
+                                    >
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td class="border-0"></td>
@@ -149,7 +228,9 @@
                                   <td class="border-0"></td>
                                   <td class="border-0"></td>
                                   <td><strong>Tax PKR.</strong></td>
-                                  <td><strong>0.00</strong></td>
+                                  <td>
+                                    <strong>{{ totalTax }}</strong>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td class="border-0"></td>
@@ -169,7 +250,7 @@
                                   <td
                                     style="background-color: #000; color: #fff"
                                   >
-                                    <strong>81648.00</strong>
+                                    <strong>{{ totalPkr }}</strong>
                                   </td>
                                 </tr>
                               </tbody>

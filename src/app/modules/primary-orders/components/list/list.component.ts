@@ -19,6 +19,12 @@ export class ListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   selectedOrders: Array<any> = [];
   orderDetial: any = null;
+  order: any = null;
+  totalGrossAmt = 0.0;
+  totalDiscount = 0.0;
+  totalTax = 0.0;
+  totalPkr = 0.0;
+  frienghtPrice = 0.0;
   constructor(
     // private generalDataService: GeneralDataService,
     private primaryOrderService: PrimaryOrdersService,
@@ -45,13 +51,46 @@ export class ListComponent implements OnInit {
     // alert(id);
     this.primaryOrderService.getOderDetailById(id).subscribe((res) => {
       this.orderDetial = null;
+      this.order = null;
       {
-        this.orderDetial = res.data;
-        console.log(this.orderDetial);
+        this.orderDetial = { ...res.data };
+        this.order = { ...res.data.order };
+        console.log(this.order);
+        console.log(this.orderDetial.content);
+        this.setOrderTotals();
       }
     });
   }
 
+  getTotalDiscount(item: any): number {
+    return (
+      this.getTradeOfferDiscount(item) +
+      this.getDistributorDiscount(item) +
+      this.getSpecialDiscount(item) +
+      this.getBookDiscount(item)
+    );
+  }
+
+  getTradeOfferDiscount(item: any): number {
+    return item?.scheme_id !== 0
+      ? item?.booked_total_qty *
+          ((item?.booked_total_qty * item?.unit_price) /
+            item?.itemscheme_min_quantity +
+            item?.scheme_quantity_free)
+      : 0;
+  }
+  getDistributorDiscount(item: any): number {
+    return (this.totalGrossAmt * item?.distributor_discount) / 100;
+  }
+  getSpecialDiscount(item: any): number {
+    return (
+      ((item?.special_discount * item?.unit_price) / 100) *
+      item?.special_discount
+    );
+  }
+  getBookDiscount(item: any): number {
+    return item?.booker_discount * item?.booked_total_qty;
+  }
   getAllSalesMen(): void {
     // this.generalDataService.getAllSalesMen().subscribe(res => {
     //     if (res.status === 200) {
@@ -149,5 +188,20 @@ export class ListComponent implements OnInit {
 
   closeDetailsModal(): void {
     document.body.classList.remove('no-scroll');
+  }
+  setOrderTotals() {
+    const length = this.orderDetial.content.length;
+    for (let i = 0; i < length; i++) {
+      this.totalGrossAmt +=
+        this.orderDetial.content[i].unit_price *
+        this.orderDetial.content[i].booked_total_qty;
+      this.totalDiscount += this.getTotalDiscount(this.orderDetial.content[i]);
+      this.totalTax += this.orderDetial.content[i].tax_amount;
+    }
+    this.totalPkr =
+      this.totalGrossAmt -
+      this.totalDiscount +
+      this.totalTax +
+      this.frienghtPrice;
   }
 }
