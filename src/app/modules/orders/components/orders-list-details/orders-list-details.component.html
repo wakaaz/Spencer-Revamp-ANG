@@ -1,92 +1,143 @@
-<div class="modal fade" style="overflow-y: auto;" [ngClass]="showDetails ? 'show active' : ''" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-full modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="showDetails = false;closeDetailsModal()" style="font-size:30px; outline: none;">×</button>
-            </div>
-            <div class="modal-body p-0">
-                <div class="container">
-                    <div class="row">
-                        <div *ngIf="!loading" class="col-12">
-                            <div class="card">
-                                <div class="p-10" style="border-bottom: solid 2px #000">
-                                    <div class="row m-0">
-                                        <div class="col-8 OrderLogo">
-                                            <img src="assets/images/sell-360.svg" alt="" />
-                                        </div>
-                                        <div class="col-4 ord-no">
-                                            Order # <strong>{{orderDetail?.retailer_detail?.id}}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="body" style="padding:15px 20px">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-body">
-                                                <div class="row OrderInfo">
+<div
+  class="modal fade"
+  style="overflow-y: auto"
+  [ngClass]="showDetails ? 'show active' : ''"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-full modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="showDetails = false; closeDetailsModal()"
+          style="font-size: 30px; outline: none"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="container">
+          <div class="row">
+            <div *ngIf="!loading" class="col-12">
+              <div class="card">
+                <div class="p-10" style="border-bottom: solid 2px #000">
+                  <div class="row m-0">
+                    <div class="col-8 OrderLogo">
+                      <img src="assets/images/sell-360.svg" alt="" />
+                    </div>
+                    <div class="col-4 ord-no">
+                      Order #
+                      <strong>{{ orderDetail?.retailer_detail?.id }}</strong>
+                    </div>
+                  </div>
+                </div>
+                <div class="body" style="padding: 15px 20px">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-body">
+                        <div class="row OrderInfo">
+                          <div class="col-md-9">
+                            <span>Retailer Name: </span>
+                            <strong>
+                              {{
+                                orderDetail?.retailer_detail.retailer_name
+                              }} </strong
+                            ><br />
+                            <span>Phone No: </span>
+                            <strong>
+                              {{
+                                orderDetail?.retailer_detail.retailer_phone
+                              }} </strong
+                            ><br />
+                            <span>Location: </span>
+                            <strong>
+                              {{
+                                orderDetail?.retailer_detail.retailer_address
+                              }}
+                            </strong>
+                          </div>
 
-                                                    <div class="col-md-9">
-                                                        <span>Retailer Name: </span> <strong>
-                                                            {{orderDetail?.retailer_detail.retailer_name}}
-                                                            </strong><br>
-                                                        <span>Phone No: </span> <strong>
-                                                            {{orderDetail?.retailer_detail.retailer_phone}}
-                                                        </strong><br>
-                                                        <span>Location: </span> <strong>
-                                                            {{orderDetail?.retailer_detail.retailer_address}}
-                                                        </strong>
-                                                    </div>
+                          <div class="col-md-3 p-0">
+                            <span>Status: </span>
+                            <strong>
+                              {{ orderDetail?.retailer_detail.status }} </strong
+                            ><br />
+                            <span>Booking Date: </span>
+                            <strong>
+                              {{
+                                orderDetail?.retailer_detail.order_date
+                              }} </strong
+                            ><br />
+                            <span>Employee: </span>
+                            <strong>
+                              {{ orderDetail?.retailer_detail.employee_name }}
+                            </strong>
+                          </div>
+                        </div>
 
-                                                    <div class="col-md-3 p-0">
-                                                        <span>Status: </span> <strong>
-                                                            {{orderDetail?.retailer_detail.status}}
-                                                        </strong><br>
-                                                        <span>Booking Date: </span> <strong>
-                                                            {{orderDetail?.retailer_detail.order_date}}
-                                                        </strong><br>
-                                                        <span>Employee: </span> <strong>
-                                                            {{orderDetail?.retailer_detail.employee_name}}
-                                                        </strong>
-                                                    </div>
+                        <div class="seprator-block"></div>
 
-                                                </div>
-
-
-
-                                                <div class="seprator-block"></div>
-
-                                                <div class="Order-Detail-table mt-30">
-
-
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th><strong>Code</strong></th>
-                                                                <th><strong>Product Name</strong></th>
-                                                                <th><strong>CTN</strong></th>
-                                                                <th><strong>BOX/PCS</strong></th>
-                                                                <th><strong>T.P</strong></th>
-                                                                <th><strong>GR Amt</strong></th>
-                                                                <th><strong>T.O</strong></th>
-                                                                <th><strong>T.Disc</strong></th>
-                                                                <th><strong>SPC.Disc</strong></th>
-                                                                <th><strong>Net.Amt</strong></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="order_items_body">
-                                                            <tr *ngFor="let item of orderDetail?.order_detail">
-                                                                <td>{{item.item_sku}}</td>
-                                                                <td>{{item.item_name}}</td>
-                                                                <td>{{item.parent_qty}}</td>
-                                                                <td>{{item.child_qty}}</td>
-                                                                <td>{{item.original_price}}</td>
-                                                                <td>{{(item.original_price * item.quantity) | decimal}}</td>
-                                                                <td>{{(item.scheme_discount * item.quantity) | number: '1.2-2'}}</td>
-                                                                <td>{{(item.merchant_discount_pkr * item.quantity) | number: '1.2-2'}}</td>
-                                                                <td>{{(item.special_discount * item.quantity) | number: '1.2-2'}}</td>
-                                                                <td>{{item.final_price | number: '1.2-2'}}</td>
-                                                            </tr>
-                                                            <!-- <tr>
+                        <div class="Order-Detail-table mt-30">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th><strong>Code</strong></th>
+                                <th><strong>Product Name</strong></th>
+                                <th><strong>CTN</strong></th>
+                                <th><strong>BOX/PCS</strong></th>
+                                <th><strong>T.P</strong></th>
+                                <th><strong>GR Amt</strong></th>
+                                <th><strong>T.O</strong></th>
+                                <th><strong>T.Disc</strong></th>
+                                <th><strong>SPC.Disc</strong></th>
+                                <th><strong>Net.Amt</strong></th>
+                              </tr>
+                            </thead>
+                            <tbody class="order_items_body">
+                              <tr
+                                *ngFor="let item of orderDetail?.order_detail"
+                              >
+                                <td>{{ item.item_sku }}</td>
+                                <td>{{ item.item_name }}</td>
+                                <td>{{ item.parent_qty }}</td>
+                                <td>{{ item.child_qty }}</td>
+                                <td>{{ item.original_price }}</td>
+                                <td>
+                                  {{
+                                    item.original_price * item.quantity
+                                      | decimal
+                                  }}
+                                </td>
+                                <td>
+                                  {{
+                                    item.scheme_discount * item.quantity
+                                      | number: "1.2-2"
+                                  }}
+                                </td>
+                                <td>
+                                  {{
+                                    item.merchant_discount_pkr * item.quantity
+                                      | number: "1.2-2"
+                                  }}
+                                </td>
+                                <td>
+                                  {{
+                                    item.special_discount * item.quantity
+                                      | number: "1.2-2"
+                                  }}
+                                </td>
+                                <td>
+                                  {{ item.final_price | number: "1.2-2" }}
+                                </td>
+                              </tr>
+                              <!-- <tr>
                                                                 <td class="border-0"></td>
                                                                 <td class="border-0"></td>
                                                                 <td class="border-0"></td>
@@ -98,119 +149,137 @@
                                                                 <td><strong>Subtotal PKR.</strong></td>
                                                                 <td><strong>{{orderDetail?.subTotal | number: '1.2-2'}}</strong></td>
                                                             </tr> -->
-                                                            <tr>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td><strong>Total Discount PKR.</strong></td>
-                                                                <td><strong>{{orderDetail?.totalDiscount | decimal}}</strong></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td class="border-0"></td>
-                                                                <td style="background-color:#000; color:#fff">
-                                                                    <strong>Total PKR.</strong>
-                                                                </td>
-                                                                <td style="background-color:#000; color:#fff">
-                                                                    <strong>{{orderDetail?.retailer_detail?.order_total | number: '1.2-2'}}</strong>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                              <tr>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td><strong>Total Discount PKR.</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.totalDiscount | decimal
+                                  }}</strong>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td style="background-color: #000; color: #fff">
+                                  <strong>Total PKR.</strong>
+                                </td>
+                                <td style="background-color: #000; color: #fff">
+                                  <strong>{{
+                                    orderDetail?.retailer_detail?.order_total
+                                      | number: "1.2-2"
+                                  }}</strong>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
 
-                                                    <div class="clearfix"></div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          <div class="clearfix"></div>
                         </div>
-                        <div *ngIf="loading" class="col-12">
-                            <app-loader-white></app-loader-white>
-                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
+            <div *ngIf="loading" class="col-12">
+              <app-loader-white></app-loader-white>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- <div class="modal-footer button-list">
+      <!-- <div class="modal-footer button-list">
                 <button type="button" class="btn btn-primary btn-outline"><i class="fa fa-file-pdf"> </i> <span> Save
                         PDF</span> </button> <button type="button" class="btn btn-primary btn-outline"> <i
                         class="fa fa-envelope"> </i> <span> Send Email</span> </button> <button type="button"
                     class="btn btn-primary btn-outline"><i class="fa fa-print"></i> <span> Print</span> </button>
 
             </div> -->
-        </div>
     </div>
+  </div>
 </div>
 
 <div *ngIf="!showDetails" class="container">
-
-    <div class="row mt-2 mb-2">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <h2 class="_head01">Orders <span> Management</span></h2>
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <ol class="breadcrumb">
-                <li><a routerLink="/orders"><span>Orders</span></a></li>
-                <li><span>List</span></li>
-            </ol>
-        </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <h2 class="_head01">Orders <span> Management</span></h2>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <h2>Booked Order <span> Detail</span>
-                        <div class="_list-total">{{orders.length || 0}}</div>
-                    </h2>
-                </div>
-                <div class="body">
-                    <table *ngIf="!loading" datatable [dtOptions]="dtOptions" class="table table-hover dt-responsive nowrap" id="example" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Retailer</th>
-                                <th>Channel</th>
-                                <th>Orders Booker</th>
-                                <th>Order Total</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let order of orders">
-                                <td>{{order.date}}</td>
-                                <td>{{order.retailer}}</td>
-                                <td>{{order.channel}} </td>
-                                <td>{{order.emp_name}}</td>
-                                <td>{{order.order_total | number: '1.2-2'}}</td>
-                                <td><button (click)="showDetails = true;openDetailsModal(order.id)" class="btn btn-default btn-line mb-0">Detail</button></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <div *ngIf="loading" class="col-12">
-                        <app-loader-white></app-loader-white>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <ol class="breadcrumb">
+        <li>
+          <a routerLink="/orders"><span>Orders</span></a>
+        </li>
+        <li><span>List</span></li>
+      </ol>
     </div>
+  </div>
 
-
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <h2>
+            Booked Order <span> Detail</span>
+            <div class="_list-total">{{ orders.length || 0 }}</div>
+          </h2>
+        </div>
+        <div class="body">
+          <table
+            *ngIf="!loading"
+            datatable
+            [dtOptions]="dtOptions"
+            class="table table-hover dt-responsive nowrap"
+            id="example"
+            style="width: 100%"
+          >
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Retailer</th>
+                <th>Channel</th>
+                <th>Orders Booker</th>
+                <th>Order Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td>{{ order.date }}</td>
+                <td>{{ order.retailer }}</td>
+                <td>{{ order.channel }}</td>
+                <td>{{ order.emp_name }}</td>
+                <td>{{ order.order_total | number: "1.2-2" }}</td>
+                <td>
+                  <button
+                    (click)="showDetails = true; openDetailsModal(order.id)"
+                    class="btn btn-default btn-line mb-0"
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="loading" class="col-12">
+            <app-loader-white></app-loader-white>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -124,10 +124,17 @@
                                     }}
                                   </td>
                                   <!--T.O -->
-                                  <td>{{ item?.distributor_discount }}</td>
+                                  <td>
+                                    {{
+                                      item?.distributor_discount
+                                        | number: "1.2-2"
+                                    }}
+                                  </td>
                                   <!-- DIST.Disc % -->
                                   <td>
-                                    {{ item?.special_discount }}
+                                    {{
+                                      item?.special_discount | number: "1.2-2"
+                                    }}
                                   </td>
                                   <!--SPC.DIST% -->
                                   <td>
@@ -345,7 +352,12 @@
                                 Detail
                               </button>
                               <button class="btn btn-default">Dispatch</button>
-                              <button class="btn btn-default">Edit</button>
+                              <button
+                                class="btn btn-default"
+                                [routerLink]="['edit', order.id]"
+                              >
+                                Edit
+                              </button>
                             </td>
                           </tr>
                         </tbody>

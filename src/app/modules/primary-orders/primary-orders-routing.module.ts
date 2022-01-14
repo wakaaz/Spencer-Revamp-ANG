@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { EditOrderComponent } from './components/edit-order/edit-order.component';
 import { ListComponent } from './components/list/list.component';
-import { PrimaryOrdersListComponent } from './components/primary-orders/primary-orders.component';
+import { PrimaryOrdersComponent } from './primary-orders.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PrimaryOrdersListComponent,
+    component: PrimaryOrdersComponent,
     children: [
       {
         path: '',
         pathMatch: 'full',
         component: ListComponent,
       },
-      //   {
-      //     path: 'order-list-details/:employeeId/:date',
-      //     pathMatch: 'full',
-      //     component: OrdersListDetailsComponent
-      //   },
+      {
+        path: 'edit/:orderId',
+        pathMatch: 'full',
+        component: EditOrderComponent,
+      },
       //   {
       //     path: 'dispatch-orders',
       //     pathMatch: 'full',

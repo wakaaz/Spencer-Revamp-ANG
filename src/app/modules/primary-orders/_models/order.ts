@@ -1,0 +1,29 @@
+export interface PrimaryOrder {
+  id: number;
+  approved: boolean;
+  area_name: string;
+  booker_lats: number;
+  booker_longs: number;
+  booking_area: number;
+  booking_region: number;
+  booking_territory: number;
+  catalogue_id: number;
+  city_name: number;
+  date: Date;
+  dist_discount: number;
+  distributor_address: number;
+  distributor_id: number;
+  distributor_name: number;
+  distributor_phone: number;
+  distributor_poc_phone: number;
+  employee_id: number;
+  employee_name: string;
+  frieght_price: number;
+  order_total: number;
+  order_total_without_frieght_price: number;
+  region_name: string;
+  remarks: string;
+  status: string;
+  territory_name: string;
+  within_radius: number;
+}

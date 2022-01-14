@@ -1,10 +1,24 @@
-<div class="modal fade" id="billsModalCounterSale" tabindex="-1" role="dialog" aria-labelledby="billsModalCounterSaleLabel"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  id="billsModalCounterSale"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="billsModalCounterSaleLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content top_border">
       <div class="modal-header">
-        <h5 class="modal-title" id="billsModalCounterSaleLabel">Print bill for this order<span></span></h5>
-        <button type="button" id="close-bills" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="billsModalCounterSaleLabel">
+          Print bill for this order<span></span>
+        </h5>
+        <button
+          type="button"
+          id="close-bills"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -25,627 +39,1070 @@
         </div>
         <div class="row print-icon-div pb-0">
           <div class="col-6 pl-0">
-            <a (click)="getBills('A4')"><img class="print-icon" src="assets/images/a4.svg" alt="">
-              <strong>A4 Portrait
-                Paper</strong></a>
+            <a (click)="getBills('A4')"
+              ><img class="print-icon" src="assets/images/a4.svg" alt="" />
+              <strong>A4 Portrait Paper</strong></a
+            >
           </div>
           <div class="col-6 pr-0">
-            <a (click)="getBills('A5')"><img class="print-icon" src="assets/images/a5.svg" alt="">
-              <strong>A5 Landscape
-                Paper</strong></a>
+            <a (click)="getBills('A5')"
+              ><img class="print-icon" src="assets/images/a5.svg" alt="" />
+              <strong>A5 Landscape Paper</strong></a
+            >
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
 <!-- Unit, Quantity and Trade Offer of Products -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content  top_border">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Product <span> Detail</span></h5>
-                <button type="button" class="close dont-close-products" data-dismiss="modal"
-                    (click)="closeQuantityModal($event)" aria-label="Close"> <span class="dont-close-products" aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div *ngIf="selectedProduct.hasOwnProperty('quantity')" class="modal-body AddDetailPR">
-                <div class="row">
-                    <div class="col-md-4 pt-7 mb-15">Add Quantity:</div>
-                    <div class="col-md-8 mb-15">
-                        <input type="text" class="form-control" placeholder="" (keyup)="setQuantity(selectedProduct)"
-                            required (keydown)="isNumber($event, 'quantity')" [(ngModel)]="selectedProduct.stockQty"
-                            #selectedQty="ngModel" style="font-size:13px">
-                        <span *ngIf="selectedQty.errors?.required && isAdded" class="input-error">
-                            Please add Quantity!
-                        </span>
-                        <span *ngIf="+selectedProduct.stockQty === 0 && isAdded && !selectedQty.errors?.required"
-                            class="input-error">
-                            Quantity should be greater than 0!
-                        </span>
-                    </div>
-                    <div class="col-md-4 pt-7 mb-15">Unit:</div>
-                    <div class="col-md-8 mb-15">
-                        {{selectedProduct.unit_name}}
-                        <!-- <select class="custom-select custom-select-sm" [(ngModel)]="selectedProduct.pref_id"
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content top_border">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Product <span> Detail</span>
+        </h5>
+        <button
+          type="button"
+          class="close dont-close-products"
+          data-dismiss="modal"
+          (click)="closeQuantityModal($event)"
+          aria-label="Close"
+        >
+          <span class="dont-close-products" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div
+        *ngIf="selectedProduct.hasOwnProperty('quantity')"
+        class="modal-body AddDetailPR"
+      >
+        <div class="row">
+          <div class="col-md-4 pt-7 mb-15">Add Quantity:</div>
+          <div class="col-md-8 mb-15">
+            <input
+              type="text"
+              class="form-control"
+              placeholder=""
+              (keyup)="setQuantity(selectedProduct)"
+              required
+              (keydown)="isNumber($event, 'quantity')"
+              [(ngModel)]="selectedProduct.stockQty"
+              #selectedQty="ngModel"
+              style="font-size: 13px"
+            />
+            <span
+              *ngIf="selectedQty.errors?.required && isAdded"
+              class="input-error"
+            >
+              Please add Quantity!
+            </span>
+            <span
+              *ngIf="
+                +selectedProduct.stockQty === 0 &&
+                isAdded &&
+                !selectedQty.errors?.required
+              "
+              class="input-error"
+            >
+              Quantity should be greater than 0!
+            </span>
+          </div>
+          <div class="col-md-4 pt-7 mb-15">Unit:</div>
+          <div class="col-md-8 mb-15">
+            {{ selectedProduct.unit_name }}
+            <!-- <select class="custom-select custom-select-sm" [(ngModel)]="selectedProduct.pref_id"
                             name="prefrences" (change)="setPrefrence($event.target.value, selectedProduct)"
                             #selectedPrefs="ngModel">
                             <option [value]="null" disbaled>Select Unit</option>
                             <option *ngFor="let unit of selectedProduct.units" [value]="unit.pref_id">{{unit.unit_name}}
                             </option>
                         </select> -->
-                        <!-- <span *ngIf="selectedProduct.pref_id === null && isAdded" class="input-error">
+            <!-- <span *ngIf="selectedProduct.pref_id === null && isAdded" class="input-error">
                             Please select a Unit!
                         </span>
                         <span *ngIf="alreadyAdded && selectedProduct.pref_id !== null" class="input-error">
                             Selected Unit already added please change unit or update the quantity in the list!
                         </span> -->
-                    </div>
-                    <div class="col-md-4" *ngIf="selectedProduct.schemes.length" style="padding-top: 2px">Trade Offer:
-                    </div>
-                    <div class="col-md-8">
-                        <div *ngFor="let scheme of selectedProduct.schemes;let i=index">
-                            <div class="custom-control custom-radio">
-                                <input [(ngModel)]="selectedProduct.selectedScheme"
-                                    (click)="selectedProduct.pref_id && selectedProduct.stockQty && calculateProductDiscounts(selectedProduct, scheme)"
-                                    class="custom-control-input" type="radio" name="AssignCatalogue"
-                                    id="byTerritory-{{i}}" [value]="scheme">
-                                <label class="custom-control-label font13" for="byTerritory-{{i}}"
-                                    style="line-height:25px;">{{scheme.title}}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div
+            class="col-md-4"
+            *ngIf="selectedProduct.schemes.length"
+            style="padding-top: 2px"
+          >
+            Trade Offer:
+          </div>
+          <div class="col-md-8">
+            <div *ngFor="let scheme of selectedProduct.schemes; let i = index">
+              <div class="custom-control custom-radio">
+                <input
+                  [(ngModel)]="selectedProduct.selectedScheme"
+                  (click)="
+                    selectedProduct.pref_id &&
+                      selectedProduct.stockQty &&
+                      calculateProductDiscounts(selectedProduct, scheme)
+                  "
+                  class="custom-control-input"
+                  type="radio"
+                  name="AssignCatalogue"
+                  id="byTerritory-{{ i }}"
+                  [value]="scheme"
+                />
+                <label
+                  class="custom-control-label font13"
+                  for="byTerritory-{{ i }}"
+                  style="line-height: 25px"
+                  >{{ scheme.title }}</label
+                >
+              </div>
             </div>
-            <div class="modal-footer border-0" style="background-color: #f6f6f6">
-                <button type="submit" class="btn btn-primary dont-close-products"
-                    (click)="addProductToOrder()">Confirm</button>
-                <button type="button" id="pl-qty-close" class="btn btn-cancel dont-close-products" data-dismiss="modal"
-                    (click)="closeQuantityModal($event)" aria-label="Close">Cancel</button>
-            </div>
+          </div>
         </div>
+      </div>
+      <div class="modal-footer border-0" style="background-color: #f6f6f6">
+        <button
+          type="submit"
+          class="btn btn-primary dont-close-products"
+          (click)="addProductToOrder()"
+        >
+          Confirm
+        </button>
+        <button
+          type="button"
+          id="pl-qty-close"
+          class="btn btn-cancel dont-close-products"
+          data-dismiss="modal"
+          (click)="closeQuantityModal($event)"
+          aria-label="Close"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Credit and Cheque info -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content top_border">
-            <div *ngIf="!isCredit" class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add <span> Cheque Information</span></h5>
-                <button type="button" (click)="paymentCancelled()" class="close" data-dismiss="modal"
-                    aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div
+  class="modal fade"
+  id="exampleModal2"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content top_border">
+      <div *ngIf="!isCredit" class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Add <span> Cheque Information</span>
+        </h5>
+        <button
+          type="button"
+          (click)="paymentCancelled()"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div *ngIf="!isCredit" class="col-12">
+        <div id="floating-label" class="form-wrap p-0">
+          <div class="row pt-10">
+            <div class="col-4">
+              <div class="custom-control custom-radio">
+                <input
+                  class="custom-control-input"
+                  type="radio"
+                  [(ngModel)]="paymentTypeCheque"
+                  (click)="
+                    chequeAmount = null;
+                    currentFullPayment('Cheque Payment', 'Credit')
+                  "
+                  name="payment"
+                  id="payment1"
+                  value="full"
+                />
+                <label
+                  class="custom-control-label"
+                  style="font-size: 13px; line-height: 25px"
+                  for="payment1"
+                  >Full Amount</label
+                >
+              </div>
             </div>
-
-            <div *ngIf="!isCredit" class="col-12">
-                <div id="floating-label" class="form-wrap p-0">
-                    <div class="row pt-10">
-                        <div class="col-4">
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" [(ngModel)]="paymentTypeCheque"
-                                    (click)="chequeAmount=null;currentFullPayment('Cheque Payment', 'Credit')" name="payment"
-                                    id="payment1" value='full'>
-                                <label class="custom-control-label" style="font-size: 13px; line-height:25px"
-                                    for="payment1">Full Amount</label>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="custom-control custom-radio">
-                                <input (click)="setPartial('Cheque Payment')" class="custom-control-input" type="radio"
-                                    [(ngModel)]="paymentTypeCheque" name="payment" id="payment2" value='partial'>
-                                <label class="custom-control-label" style="font-size: 13px; line-height:25px"
-                                    for="payment2">Partial Amount</label>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div *ngIf="paymentTypeCheque === '' && isAdded" class="col-12 input-error">
-                        Please select a payment method!
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 PT-10">
-                            <div class="form-group">
-                                <label class="control-label mb-10">Cheque Number*</label>
-                                <input type="text" id="chequeNum" name="cheque_num" (focus)="focused($event)" required
-                                    (blur)="left($event)" [(ngModel)]="chequeNumber" #chequNo="ngModel"
-                                    autocomplete="off" class="form-control cheque_num">
-                            </div>
-                            <span *ngIf="chequNo.errors?.required && isAdded" class="input-error">
-                                Please add Cheque Number!
-                            </span>
-                        </div>
-                        <div class="col-md-6 PT-10">
-                            <div class="form-group focused">
-                                <label class="control-label mb-10">Date*</label>
-                                <input type="date" id="datepicker" (focus)="focused($event)" required placeholder=""
-                                    autocomplete="off" (blur)="left($event)" name="payment_date"
-                                    [(ngModel)]="paymentDate" #payDate="ngModel" class="form-control cheque_date">
-                            </div>
-                            <span *ngIf="paymentDate === '  ' && isAdded" class="input-error">
-                                Please add Payment Date!
-                            </span>
-                        </div>
-                        <div class="col-md-6 PT-5">
-                            <div class="form-group">
-                                <label class="control-label mb-10">Bank Name*</label>
-                                <input type="text" name="cheque_bank_name" id="chequeBankName" (focus)="focused($event)"
-                                    required (blur)="left($event)" [(ngModel)]="bankName" #bank_Name="ngModel"
-                                    autocomplete="off" class="form-control cheque_bank_name">
-                            </div>
-                            <span *ngIf="bank_Name.errors?.required && isAdded" class="input-error">
-                                Please add Bank Name!
-                            </span>
-                        </div>
-                        <div *ngIf="paymentTypeCheque !== 'full'" class="col-md-6 PT-5">
-                            <div class="form-group">
-                                <label class="control-label mb-10">Total Amount*</label>
-                                <input type="number" min="0" [max]="cash?.amount_received" name="cheque_amount"
-                                    (focus)="focused($event)" required (blur)="left($event)" [(ngModel)]="chequeAmount"
-                                    #cheqAmount="ngModel" id="Amount1" autocomplete="off"
-                                    class="form-control cheque_amount">
-                            </div>
-                            <span *ngIf="cheqAmount.errors?.required && isAdded" class="input-error">
-                                Please add Total Amount!
-                            </span>
-                            <span *ngIf="+chequeAmount === 0 && isAdded"
-                                class="input-error">
-                                Zero value not allowed
-                            </span>
-                            <span
-                                *ngIf="!cheqAmount.errors?.required && chequeAmount > cash?.amount_received && isAdded"
-                                class="input-error">
-                                Amount should not be greater than {{cash?.amount_received | number: '1.2-2'}}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-4">
+              <div class="custom-control custom-radio">
+                <input
+                  (click)="setPartial('Cheque Payment')"
+                  class="custom-control-input"
+                  type="radio"
+                  [(ngModel)]="paymentTypeCheque"
+                  name="payment"
+                  id="payment2"
+                  value="partial"
+                />
+                <label
+                  class="custom-control-label"
+                  style="font-size: 13px; line-height: 25px"
+                  for="payment2"
+                  >Partial Amount</label
+                >
+              </div>
             </div>
-            <div *ngIf="isCredit" class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add <span>Credit Information</span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+          </div>
+          <div
+            *ngIf="paymentTypeCheque === '' && isAdded"
+            class="col-12 input-error"
+          >
+            Please select a payment method!
+          </div>
 
-            <div *ngIf="isCredit" id="floating-label" class="form-wrap p-0">
-                <div class="col-12">
-                    <div class="row pt-10">
-                        <div class="col-6">
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input" [(ngModel)]="paymentTypeCredit" type="radio"
-                                    (click)="creditAmount=null;currentFullPayment('Credit', 'Cheque payment')" name="payment" id="Amount1"
-                                    value='full'>
-                                <label class="custom-control-label" style="font-size: 13px; line-height: 25px"
-                                    for="Amount1">Full Amount</label>
-                            </div>
-                            <span *ngIf="paymentTypeCredit === '' && isAdded" class="input-error">
-                                Please select a payment method!
-                            </span>
-                        </div>
-                        <div class="col-6">
-                            <div class="custom-control custom-radio">
-                                <input (click)="setPartial('Credit')" class="custom-control-input"
-                                    [(ngModel)]="paymentTypeCredit" type="radio" name="payment" id="Amount2"
-                                    value='partial'>
-                                <label class="custom-control-label" style="font-size: 13px; line-height: 25px"
-                                    for="Amount2">Partial Amount</label>
-                            </div>
-                        </div>
-                        <div *ngIf="paymentTypeCredit !== 'full'" class="col-md-6 PT-10">
-                            <div class="form-group">
-                                <label class="control-label mb-10">Amount*</label>
-                                <input type="number" min="0" [max]="cash?.amount_received" name="cheque_amount"
-                                    (focus)="focused($event)" required (blur)="left($event)" [(ngModel)]="creditAmount"
-                                    #credAmount="ngModel" autocomplete="off" class="form-control cheque_amount">
-                            </div>
-                            <span *ngIf="credAmount.errors?.required && isAdded" class="input-error">
-                                Please add Total Amount!
-                            </span>
-                            <span *ngIf="+creditAmount === 0 && isAdded"
-                                class="input-error">
-                                Zero value not allowed
-                            </span>
-                            <span
-                                *ngIf="!credAmount.errors?.required && +creditAmount > cash?.amount_received && isAdded"
-                                class="input-error">
-                                Amount should not be greater than {{cash?.amount_received}}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+          <div class="row">
+            <div class="col-md-6 PT-10">
+              <div class="form-group">
+                <label class="control-label mb-10">Cheque Number*</label>
+                <input
+                  type="text"
+                  id="chequeNum"
+                  name="cheque_num"
+                  (focus)="focused($event)"
+                  required
+                  (blur)="left($event)"
+                  [(ngModel)]="chequeNumber"
+                  #chequNo="ngModel"
+                  autocomplete="off"
+                  class="form-control cheque_num"
+                />
+              </div>
+              <span
+                *ngIf="chequNo.errors?.required && isAdded"
+                class="input-error"
+              >
+                Please add Cheque Number!
+              </span>
             </div>
-
-            <div *ngIf="(paymentTypeCheque === 'partial' && paymentTypeCredit === 'full') || (paymentTypeCheque === 'full' && paymentTypeCredit === 'partial')"
-                class="form-wrap p-10">
-                <h5 class="input-error">You have to choose "Partial Amount" to use both Credit and Cheque Payment!</h5>
+            <div class="col-md-6 PT-10">
+              <div class="form-group focused">
+                <label class="control-label mb-10">Date*</label>
+                <input
+                  type="date"
+                  id="datepicker"
+                  (focus)="focused($event)"
+                  required
+                  placeholder=""
+                  autocomplete="off"
+                  (blur)="left($event)"
+                  name="payment_date"
+                  [(ngModel)]="paymentDate"
+                  #payDate="ngModel"
+                  class="form-control cheque_date"
+                />
+              </div>
+              <span *ngIf="paymentDate === '  ' && isAdded" class="input-error">
+                Please add Payment Date!
+              </span>
             </div>
-
-
-            <div class="modal-footer border-0">
-                <button type="submit" [disabled]="(paymentTypeCheque === 'partial' && paymentTypeCredit === 'full') || (paymentTypeCheque === 'full' && paymentTypeCredit === 'partial')"
-                    class="btn btn-primary" (click)="addPaymentMethod()">Add</button>
-                <button type="button" id="close-payment-modal" (click)="paymentCancelled()" class="btn btn-cancel"
-                    data-dismiss="modal" aria-label="Close">Cancel</button>
+            <div class="col-md-6 PT-5">
+              <div class="form-group">
+                <label class="control-label mb-10">Bank Name*</label>
+                <input
+                  type="text"
+                  name="cheque_bank_name"
+                  id="chequeBankName"
+                  (focus)="focused($event)"
+                  required
+                  (blur)="left($event)"
+                  [(ngModel)]="bankName"
+                  #bank_Name="ngModel"
+                  autocomplete="off"
+                  class="form-control cheque_bank_name"
+                />
+              </div>
+              <span
+                *ngIf="bank_Name.errors?.required && isAdded"
+                class="input-error"
+              >
+                Please add Bank Name!
+              </span>
             </div>
+            <div *ngIf="paymentTypeCheque !== 'full'" class="col-md-6 PT-5">
+              <div class="form-group">
+                <label class="control-label mb-10">Total Amount*</label>
+                <input
+                  type="number"
+                  min="0"
+                  [max]="cash?.amount_received"
+                  name="cheque_amount"
+                  (focus)="focused($event)"
+                  required
+                  (blur)="left($event)"
+                  [(ngModel)]="chequeAmount"
+                  #cheqAmount="ngModel"
+                  id="Amount1"
+                  autocomplete="off"
+                  class="form-control cheque_amount"
+                />
+              </div>
+              <span
+                *ngIf="cheqAmount.errors?.required && isAdded"
+                class="input-error"
+              >
+                Please add Total Amount!
+              </span>
+              <span *ngIf="+chequeAmount === 0 && isAdded" class="input-error">
+                Zero value not allowed
+              </span>
+              <span
+                *ngIf="
+                  !cheqAmount.errors?.required &&
+                  chequeAmount > cash?.amount_received &&
+                  isAdded
+                "
+                class="input-error"
+              >
+                Amount should not be greater than
+                {{ cash?.amount_received | number: "1.2-2" }}
+              </span>
+            </div>
+          </div>
         </div>
+      </div>
+      <div *ngIf="isCredit" class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Add <span>Credit Information</span>
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div *ngIf="isCredit" id="floating-label" class="form-wrap p-0">
+        <div class="col-12">
+          <div class="row pt-10">
+            <div class="col-6">
+              <div class="custom-control custom-radio">
+                <input
+                  class="custom-control-input"
+                  [(ngModel)]="paymentTypeCredit"
+                  type="radio"
+                  (click)="
+                    creditAmount = null;
+                    currentFullPayment('Credit', 'Cheque payment')
+                  "
+                  name="payment"
+                  id="Amount1"
+                  value="full"
+                />
+                <label
+                  class="custom-control-label"
+                  style="font-size: 13px; line-height: 25px"
+                  for="Amount1"
+                  >Full Amount</label
+                >
+              </div>
+              <span
+                *ngIf="paymentTypeCredit === '' && isAdded"
+                class="input-error"
+              >
+                Please select a payment method!
+              </span>
+            </div>
+            <div class="col-6">
+              <div class="custom-control custom-radio">
+                <input
+                  (click)="setPartial('Credit')"
+                  class="custom-control-input"
+                  [(ngModel)]="paymentTypeCredit"
+                  type="radio"
+                  name="payment"
+                  id="Amount2"
+                  value="partial"
+                />
+                <label
+                  class="custom-control-label"
+                  style="font-size: 13px; line-height: 25px"
+                  for="Amount2"
+                  >Partial Amount</label
+                >
+              </div>
+            </div>
+            <div *ngIf="paymentTypeCredit !== 'full'" class="col-md-6 PT-10">
+              <div class="form-group">
+                <label class="control-label mb-10">Amount*</label>
+                <input
+                  type="number"
+                  min="0"
+                  [max]="cash?.amount_received"
+                  name="cheque_amount"
+                  (focus)="focused($event)"
+                  required
+                  (blur)="left($event)"
+                  [(ngModel)]="creditAmount"
+                  #credAmount="ngModel"
+                  autocomplete="off"
+                  class="form-control cheque_amount"
+                />
+              </div>
+              <span
+                *ngIf="credAmount.errors?.required && isAdded"
+                class="input-error"
+              >
+                Please add Total Amount!
+              </span>
+              <span *ngIf="+creditAmount === 0 && isAdded" class="input-error">
+                Zero value not allowed
+              </span>
+              <span
+                *ngIf="
+                  !credAmount.errors?.required &&
+                  +creditAmount > cash?.amount_received &&
+                  isAdded
+                "
+                class="input-error"
+              >
+                Amount should not be greater than {{ cash?.amount_received }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="
+          (paymentTypeCheque === 'partial' && paymentTypeCredit === 'full') ||
+          (paymentTypeCheque === 'full' && paymentTypeCredit === 'partial')
+        "
+        class="form-wrap p-10"
+      >
+        <h5 class="input-error">
+          You have to choose "Partial Amount" to use both Credit and Cheque
+          Payment!
+        </h5>
+      </div>
+
+      <div class="modal-footer border-0">
+        <button
+          type="submit"
+          [disabled]="
+            (paymentTypeCheque === 'partial' && paymentTypeCredit === 'full') ||
+            (paymentTypeCheque === 'full' && paymentTypeCredit === 'partial')
+          "
+          class="btn btn-primary"
+          (click)="addPaymentMethod()"
+        >
+          Add
+        </button>
+        <button
+          type="button"
+          id="close-payment-modal"
+          (click)="paymentCancelled()"
+          class="btn btn-cancel"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Products Listing -->
-<div id="product-cl-sec" (clickOutside)="clickedOutSide($event)" [ngClass]="showProducts ? 'active' : ''"> <a
-        id="pl-close" (click)="closeProductsList()" class="close-btn-pl"></a>
-    <div class="pro-header-text">Add <span>Product</span></div>
-    <div class="se_cus-type form-wrap p-15">
-        <div class="row">
-            <div class="col-12">
-                <div class="productSearch"><i class="fa fa-search"></i>
-                    <input type="text" class="form-control" id="" [(ngModel)]="productSearchText"
-                        (keyup)="searchProduct()" placeholder="Search">
-                </div>
-            </div>
+<div
+  id="product-cl-sec"
+  (clickOutside)="clickedOutSide($event)"
+  [ngClass]="showProducts ? 'active' : ''"
+>
+  <a id="pl-close" (click)="closeProductsList()" class="close-btn-pl"></a>
+  <div class="pro-header-text">Add <span>Product</span></div>
+  <div class="se_cus-type form-wrap p-15">
+    <div class="row">
+      <div class="col-12">
+        <div class="productSearch">
+          <i class="fa fa-search"></i>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            [(ngModel)]="productSearchText"
+            (keyup)="searchProduct()"
+            placeholder="Search"
+          />
         </div>
+      </div>
     </div>
-    <div class="pc-cartlist">
-        <div class="overflow-plist">
-            <div class="plist-content">
-                <div class="_left-filter pt-0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card top_border p-15">
-                                    <table *ngIf="!loadingProducts" class="AddProductTable" width="100%">
-                                        <tbody>
-                                            <tr *ngFor="let product of dispProducts; let i=index">
-                                                <td>
-                                                    <div class="ProListDiv">
-                                                        <div *ngIf="product.schemes?.length" class="lab-promotion">
-                                                            Scheme</div>
-                                                        <img class="PrList_img" src="{{product.thumbnail}}" alt="" />
-                                                        <div class="PR_Name">{{product.item_name}}</div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <button *ngIf="!product.isAdded" data-toggle="modal" data-target="#exampleModal"
-                                                        class="btn btn-default mb-0 dont-close-quantity"
-                                                        (click)="openQuantityModal(product)">Add</button>
-                                                    <button *ngIf="product.isAdded"
-                                                        class="btn btn-default mb-0 red-bg dont-close-product"
-                                                        (click)="removeProductFromOrder(product)">Remove</button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="col-md-12 loader" *ngIf="loadingProducts">
-                                        <h2 class="loading">Loading Products...</h2>
-                                    </div>
-                                </div>
+  </div>
+  <div class="pc-cartlist">
+    <div class="overflow-plist">
+      <div class="plist-content">
+        <div class="_left-filter pt-0">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <div class="card top_border p-15">
+                  <table
+                    *ngIf="!loadingProducts"
+                    class="AddProductTable"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr *ngFor="let product of dispProducts; let i = index">
+                        <td>
+                          <div class="ProListDiv">
+                            <div
+                              *ngIf="product.schemes?.length"
+                              class="lab-promotion"
+                            >
+                              Scheme
                             </div>
-                        </div>
-                    </div>
+                            <img
+                              class="PrList_img"
+                              src="{{ product.thumbnail }}"
+                              alt=""
+                            />
+                            <div class="PR_Name">{{ product.item_name }}</div>
+                          </div>
+                        </td>
+                        <td>
+                          <button
+                            *ngIf="!product.isAdded"
+                            data-toggle="modal"
+                            data-target="#exampleModal"
+                            class="btn btn-default mb-0 dont-close-quantity"
+                            (click)="openQuantityModal(product)"
+                          >
+                            Add
+                          </button>
+                          <button
+                            *ngIf="product.isAdded"
+                            class="btn btn-default mb-0 red-bg dont-close-product"
+                            (click)="removeProductFromOrder(product)"
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="col-md-12 loader" *ngIf="loadingProducts">
+                    <h2 class="loading">Loading Products...</h2>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="_cl-bottom">
-        <!-- <button type="submit" class="btn btn-primary mr-2">Add</button> -->
-        <button id="pl-prod-close" type="butotn" (click)="closeProductsList()"
-            class="btn btn-cancel mr-2">Cancel</button>
-    </div>
+  </div>
+  <div class="_cl-bottom">
+    <!-- <button type="submit" class="btn btn-primary mr-2">Add</button> -->
+    <button
+      id="pl-prod-close"
+      type="butotn"
+      (click)="closeProductsList()"
+      class="btn btn-cancel mr-2"
+    >
+      Cancel
+    </button>
+  </div>
 </div>
-
 
 <!-- Counter Sale -->
 <div id="counter-sale" class="container _order-container">
-  <button data-toggle="modal" data-target="#billsModalCounterSale" id="billsPrintPaperModalTrigger" class="btn btn-default mb-0" hidden>Bill</button>
-    <div class="row mt-2 mb-2">
-        <div class="col-md-12">
-            <h2 class="_head01 float-left">New <span>Order</span></h2>
-        </div>
-
+  <button
+    data-toggle="modal"
+    data-target="#billsModalCounterSale"
+    id="billsPrintPaperModalTrigger"
+    class="btn btn-default mb-0"
+    hidden
+  >
+    Bill
+  </button>
+  <div class="row mt-2 mb-2">
+    <div class="col-md-12">
+      <h2 class="_head01 float-left">New <span>Order</span></h2>
     </div>
+  </div>
 
-    <div class="row mt-2">
-        <div class="col-md-12">
-            <div class="card p-20 top_border mb-3 _INV-h">
-                <div class="row _add-customer">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="_sa-customer">
-                                <div class="form-s2">
-                                    <ng-select [multiple]="false" class="formselect" [(ngModel)]="selectedEmployee"
-                                        (change)="getRoutes()" placeholder="Select Employee">
-                                        <ng-option disabled>Select Employee</ng-option>
-                                        <ng-option *ngFor="let orderBooker of orderBookers"
-                                            [value]="orderBooker.employee_id">{{orderBooker.employee_first_name +' '+
-                                            orderBooker.employee_last_name}}</ng-option>
-                                    </ng-select>
-                                </div>
-                            </div>
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <div class="card p-20 top_border mb-3 _INV-h">
+        <div class="row _add-customer">
+          <div class="col-12">
+            <div class="row">
+              <div class="_sa-customer">
+                <div class="form-s2">
+                  <ng-select
+                    [multiple]="false"
+                    class="formselect"
+                    [(ngModel)]="selectedEmployee"
+                    (change)="getRoutes()"
+                    placeholder="Select Employee"
+                  >
+                    <ng-option disabled>Select Employee</ng-option>
+                    <ng-option
+                      *ngFor="let orderBooker of orderBookers"
+                      [value]="orderBooker.employee_id"
+                      >{{
+                        orderBooker.employee_first_name +
+                          " " +
+                          orderBooker.employee_last_name
+                      }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+              </div>
 
-                            <div class="_sa-customer">
-                                <div class="form-s2">
-                                    <ng-select [multiple]="false" class="formselect" [(ngModel)]="selectedRoute"
-                                        (change)="getRetailerByRoute()" placeholder="Select Route">
-                                        <ng-option *ngIf="!selectedEmployee" disabled>Select Employee First</ng-option>
-                                        <ng-option *ngIf="selectedEmployee" disabled>Select Route</ng-option>
-                                        <ng-option *ngFor="let route of routes" [value]="route.route_id">{{route.name}}
-                                        </ng-option>
-                                    </ng-select>
-                                </div>
-                            </div>
+              <div class="_sa-customer">
+                <div class="form-s2">
+                  <ng-select
+                    [multiple]="false"
+                    class="formselect"
+                    [(ngModel)]="selectedRoute"
+                    (change)="getRetailerByRoute()"
+                    placeholder="Select Route"
+                  >
+                    <ng-option *ngIf="!selectedEmployee" disabled
+                      >Select Employee First</ng-option
+                    >
+                    <ng-option *ngIf="selectedEmployee" disabled
+                      >Select Route</ng-option
+                    >
+                    <ng-option
+                      *ngFor="let route of routes"
+                      [value]="route.route_id"
+                      >{{ route.name }}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
 
-                            <div class="_sa-customer">
-                                <div class="form-s2">
-                                    <ng-select [multiple]="false" class="formselect" [(ngModel)]="selectedRetailer"
-                                        (change)="getDiscountSlabs()" placeholder="Select Retailer">
-                                        <ng-option disabled *ngIf="!selectedRoute">Select Route First</ng-option>
-                                        <ng-option disabled *ngIf="selectedRoute">Select Retailer</ng-option>
-                                        <ng-option *ngFor="let retailer of retailers" [value]="retailer">
-                                            {{retailer.retailer_name}}</ng-option>
-                                    </ng-select>
-                                </div>
-                            </div>
+              <div class="_sa-customer">
+                <div class="form-s2">
+                  <ng-select
+                    [multiple]="false"
+                    class="formselect"
+                    [(ngModel)]="selectedRetailer"
+                    (change)="getDiscountSlabs()"
+                    placeholder="Select Retailer"
+                  >
+                    <ng-option disabled *ngIf="!selectedRoute"
+                      >Select Route First</ng-option
+                    >
+                    <ng-option disabled *ngIf="selectedRoute"
+                      >Select Retailer</ng-option
+                    >
+                    <ng-option
+                      *ngFor="let retailer of retailers"
+                      [value]="retailer"
+                    >
+                      {{ retailer.retailer_name }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+              </div>
 
-                            <button id="productlist01" (click)="showProductsList($event)"
-                                class="btn btn-primary ml-15">Add Product</button>
+              <button
+                id="productlist01"
+                (click)="showProductsList($event)"
+                class="btn btn-primary ml-15"
+              >
+                Add Product
+              </button>
+            </div>
 
-                        </div>
+            <div class="_cut-detail">
+              <div class="row">
+                <div class="col-md-6">
+                  <strong>Retailer Name: &nbsp; </strong>
+                  {{ selectedRetailer?.retailer_name || "--" }}
+                </div>
+                <div class="col-md-6">
+                  <strong>Channel Type: &nbsp; </strong>
+                  {{ selectedRetailer?.type || "--" }}
+                  {{
+                    selectedRetailer &&
+                      " (" + selectedRetailer?.segment_name + ")"
+                  }}
+                </div>
+                <div class="col-md-6">
+                  <strong>Location: &nbsp; </strong>
+                  {{ selectedRetailer?.loc || "--" }}
+                </div>
+                <div class="col-md-6">
+                  <strong>Territory: &nbsp; </strong>
+                  {{ selectedRetailer?.territory || "--" }}
+                </div>
+              </div>
+            </div>
 
-                        <div class="_cut-detail">
-                            <div class="row">
-                                <div class="col-md-6"><strong>Retailer Name: &nbsp; </strong>
-                                    {{selectedRetailer?.retailer_name || '--'}}
-                                </div>
-                                <div class="col-md-6"><strong>Channel Type: &nbsp; </strong> {{selectedRetailer?.type ||
-                                    '--'}} {{selectedRetailer && ' ('+ selectedRetailer?.segment_name+')'}}</div>
-                                <div class="col-md-6"><strong>Location: &nbsp; </strong> {{selectedRetailer?.loc ||
-                                    '--'}}</div>
-                                <div class="col-md-6"><strong>Territory: &nbsp; </strong> {{selectedRetailer?.territory
-                                    || '--'}}</div>
-                            </div>
-                        </div>
+            <div class="_add-product">
+              <div class="row AP_heading">
+                <div class="addItemCell PL-5">Product Name</div>
+                <div class="addItemCell unit-w">Unit</div>
 
-                        <div class="_add-product">
-                            <div class="row AP_heading">
-                                <div class="addItemCell PL-5">Product Name</div>
-                                <div class="addItemCell unit-w">Unit</div>
+                <div class="addItemCell2">QTY.</div>
+                <div class="addItemCell2">T.P</div>
+                <div class="addItemCell2">T.O</div>
+                <div class="addItemCell2">T. Dis. (%)</div>
+                <div class="addItemCell2">S. Disc.</div>
+                <div class="addItemCell2">E. Disc.</div>
+                <div class="addItemCell2">Tax</div>
+                <div class="addItemCell3">Net Amount</div>
+              </div>
 
-                                <div class="addItemCell2">QTY.</div>
-                                <div class="addItemCell2">T.P</div>
-                                <div class="addItemCell2">T.O </div>
-                                <div class="addItemCell2">T. Dis. (%)</div>
-                                <div class="addItemCell2">S. Disc.</div>
-                                <div class="addItemCell2">E. Disc.</div>
-                                <div class="addItemCell2">Tax</div>
-                                <div class="addItemCell3">Net Amount</div>
-                            </div>
+              <div
+                *ngFor="let product of selectedProducts; let ind = index"
+                class="row _row-product"
+              >
+                <a class="dd-handle dd3-handle swap-div"></a>
 
+                <div class="col-12 p-0">
+                  <div class="addItemCell PL-5">
+                    <div class="_emp-sele _product-name">
+                      {{ product.item_name }}
+                    </div>
+                  </div>
 
-                            <div *ngFor="let product of selectedProducts;let ind=index" class="row _row-product">
-                                <a class="dd-handle dd3-handle swap-div"></a>
-
-                                <div class="col-12 p-0">
-                                    <div class="addItemCell PL-5">
-                                        <div class="_emp-sele _product-name">
-                                            {{product.item_name}}
-                                        </div>
-                                    </div>
-
-                                    <div class="addItemCell unit-w">
-                                        <div class="addItemCell2 _h25">
-                                            {{product.unit_name}}
-                                            <!-- <ng-select [multiple]="false" class="formselect"
+                  <div class="addItemCell unit-w">
+                    <div class="addItemCell2 _h25">
+                      {{ product.unit_name }}
+                      <!-- <ng-select [multiple]="false" class="formselect"
                                                 [(ngModel)]="product.pref_id" (change)="setPrefrence($event, product)">
                                                 <ng-option [value]="null" disabled>Select Unit</ng-option>
                                                 <ng-option *ngFor="let unit of product.units" value="{{unit.pref_id}}">
                                                     {{unit.unit_name}}</ng-option>
                                             </ng-select> -->
-                                        </div>
-                                    </div>
+                    </div>
+                  </div>
 
-                                    <div class="addItemCell2 _h25"><input class="addItemCell2_input" type="text"
-                                            [disabled]="isChequeAdded || isCreditAdded"
-                                            (keyup)="setQuantity(product)" (keydown)="isNumber($event, 'quantity')"
-                                            placeholder="0" [(ngModel)]="product.stockQty" style="font-size: 13px">
-                                    </div>
-                                    <div class="addItemCell2 _h25">{{product.item_trade_price}}</div>
-                                    <div class="addItemCell2 _h25">{{(+product.stockQty * product.scheme_discount) || 0.00 | number: '1.2-2'}}
-                                    </div>
-                                    <div class="addItemCell2 _h25">{{ product.trade_discount || 0 }}%
-                                        ({{+product.stockQty * product.trade_discount_pkr | number: '1.2-2' }})
-                                    </div>
-                                    <div class="addItemCell2 _h25">{{ +product.stockQty * product.special_discount || 0.00 | number:'1.2-2'}}</div>
-                                    <div class="addItemCell2 _h25"><input [readonly]="isCreditAdded || isChequeAdded || +product.stockQty < 1" class="addItemCell2_input" type="text"
-                                            placeholder="0" [(ngModel)]="product.extra_discount"
-                                            (keyup)="calculateExtraDiscount(product)" (keydown)="isNumber($event)"
-                                            style="font-size: 13px"></div>
-                                    <div class="addItemCell2 _h25">{{product.tax_amount_pkr || 0.00 | number: '1.2-2'}}
-                                    </div>
-                                    <div class="addItemCell3 _h25">{{product.net_amount || 0.00 | number: '1.2-2'}}
-                                    </div>
-                                    <a [disabled]="isChequeAdded || isCreditAdded" (click)="removeProductFromOrder(product, ind)" class="btn _order-del"
-                                        title="Delete"><i class="fa fa-trash-alt"></i></a>
-                                </div>
-                            </div>
+                  <div class="addItemCell2 _h25">
+                    <input
+                      class="addItemCell2_input"
+                      type="text"
+                      [disabled]="isChequeAdded || isCreditAdded"
+                      (keyup)="setQuantity(product)"
+                      (keydown)="isNumber($event, 'quantity')"
+                      placeholder="0"
+                      [(ngModel)]="product.stockQty"
+                      style="font-size: 13px"
+                    />
+                  </div>
+                  <div class="addItemCell2 _h25">
+                    {{ product.item_trade_price }}
+                  </div>
+                  <div class="addItemCell2 _h25">
+                    {{
+                      +product.stockQty * product.scheme_discount || 0.0
+                        | number: "1.2-2"
+                    }}
+                  </div>
+                  <div class="addItemCell2 _h25">
+                    {{ product.trade_discount || 0 }}% ({{
+                      +product.stockQty * product.trade_discount_pkr
+                        | number: "1.2-2"
+                    }})
+                  </div>
+                  <div class="addItemCell2 _h25">
+                    {{
+                      +product.stockQty * product.special_discount || 0.0
+                        | number: "1.2-2"
+                    }}
+                  </div>
+                  <div class="addItemCell2 _h25">
+                    <input
+                      [readonly]="
+                        isCreditAdded || isChequeAdded || +product.stockQty < 1
+                      "
+                      class="addItemCell2_input"
+                      type="text"
+                      placeholder="0"
+                      [(ngModel)]="product.extra_discount"
+                      (keyup)="calculateExtraDiscount(product)"
+                      (keydown)="isNumber($event)"
+                      style="font-size: 13px"
+                    />
+                  </div>
+                  <div class="addItemCell2 _h25">
+                    {{ product.tax_amount_pkr || 0.0 | number: "1.2-2" }}
+                  </div>
+                  <div class="addItemCell3 _h25">
+                    {{ product.net_amount || 0.0 | number: "1.2-2" }}
+                  </div>
+                  <a
+                    [disabled]="isChequeAdded || isCreditAdded"
+                    (click)="removeProductFromOrder(product, ind)"
+                    class="btn _order-del"
+                    title="Delete"
+                    ><i class="fa fa-trash-alt"></i
+                  ></a>
+                </div>
+              </div>
 
-                            <div *ngIf="!selectedProducts.length" class="row _row-product">
-                                <h6 class="no-data">Add products to counter sale...</h6>
-                            </div>
+              <div *ngIf="!selectedProducts.length" class="row _row-product">
+                <h6 class="no-data">Add products to counter sale...</h6>
+              </div>
 
-                            <div class="row _totalBar _totalBar2">
-                                <div class="addItemCell _h25 PL-5">Total Items</div>
-                                <div class="addItemCell _h25 unit-w">{{selectedProducts.length}}</div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t">Gross Amount:</div>
-                                <div class="addItemCell3 _h25">{{grossAmount | number: '1.2-2'}}</div>
-                            </div>
+              <div class="row _totalBar _totalBar2">
+                <div class="addItemCell _h25 PL-5">Total Items</div>
+                <div class="addItemCell _h25 unit-w">
+                  {{ selectedProducts.length }}
+                </div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">Gross Amount:</div>
+                <div class="addItemCell3 _h25">
+                  {{ grossAmount | number: "1.2-2" }}
+                </div>
+              </div>
 
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t">Trade Offer:</div>
-                                <div class="addItemCell3 _h25">{{tradeOffer | number: '1.2-2'}}</div>
-                            </div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">Trade Offer:</div>
+                <div class="addItemCell3 _h25">
+                  {{ tradeOffer | number: "1.2-2" }}
+                </div>
+              </div>
 
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t">Trade Discount:</div>
-                                <div class="addItemCell3 _h25">{{tradeDiscount | number: '1.2-2'}}</div>
-                            </div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">Trade Discount:</div>
+                <div class="addItemCell3 _h25">
+                  {{ tradeDiscount | number: "1.2-2" }}
+                </div>
+              </div>
 
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t">Special Discount:</div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">Special Discount:</div>
 
-                                <div class="addItemCell3 _h25">{{specialDiscount | number: '1.2-2'}}</div>
-                            </div>
+                <div class="addItemCell3 _h25">
+                  {{ specialDiscount | number: "1.2-2" }}
+                </div>
+              </div>
 
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">Extra Discount:</div>
 
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t">Extra Discount:</div>
+                <div class="addItemCell3 _h25">
+                  {{ extraDiscount | number: "1.2-2" }}
+                </div>
+              </div>
 
-                                <div class="addItemCell3 _h25">{{extraDiscount | number: '1.2-2'}}</div>
-                            </div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">Tax:</div>
 
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t">Tax:</div>
+                <div class="addItemCell3 _h25">{{ tax | number: "1.2-2" }}</div>
+              </div>
 
-                                <div class="addItemCell3 _h25">{{tax | number: '1.2-2'}}</div>
-                            </div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">
+                  <strong>Total Amount Due:</strong>
+                </div>
 
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t"><strong>Total Amount Due:</strong></div>
+                <div
+                  class="addItemCell3 _h25"
+                  style="font-size: 18px; color: #0038ba"
+                >
+                  {{ dueAmount | number: "1.2-2" }}
+                </div>
+              </div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">
+                  <strong>Cash:</strong>
+                </div>
 
-                                <div class="addItemCell3 _h25" style="font-size: 18px; color: #0038ba">
-                                    {{dueAmount | number: '1.2-2'}}
-                                </div>
-                            </div>
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t"><strong>Cash:</strong></div>
+                <div
+                  class="addItemCell3 _h25"
+                  style="font-size: 18px; color: #0038ba"
+                >
+                  {{ cash?.amount_received || 0 | number: "1.2-2" }}
+                </div>
+              </div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">
+                  <strong>Cheque Payment:</strong>
+                </div>
 
-                                <div class="addItemCell3 _h25" style="font-size: 18px; color: #0038ba">
-                                    {{cash?.amount_received || 0 | number: '1.2-2'}}
-                                </div>
-                            </div>
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t"><strong>Cheque Payment:</strong></div>
+                <div
+                  class="addItemCell3 _h25"
+                  style="font-size: 18px; color: #0038ba"
+                >
+                  {{ cheque?.amount_received || 0 | number: "1.2-2" }}
+                </div>
+              </div>
+              <div class="row _totalBar2">
+                <div class="addItemCell _h25 PL-5"></div>
+                <div class="addItemCell _h25 unit-w"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25"></div>
+                <div class="addItemCell2 _h25 width-t">
+                  <strong>Credited Amount:</strong>
+                </div>
 
-                                <div class="addItemCell3 _h25" style="font-size: 18px; color: #0038ba">
-                                    {{cheque?.amount_received || 0 | number: '1.2-2'}}
-                                </div>
-                            </div>
-                            <div class="row _totalBar2">
-                                <div class="addItemCell _h25 PL-5"></div>
-                                <div class="addItemCell _h25 unit-w"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25"></div>
-                                <div class="addItemCell2 _h25 width-t"><strong>Credited Amount:</strong></div>
-
-                                <div class="addItemCell3 _h25" style="font-size: 18px; color: #0038ba">
-                                    {{credit?.amount_received || 0 | number: '1.2-2'}}
-                                </div>
-                            </div>
-                            <!-- <div class="row _notesTER">
+                <div
+                  class="addItemCell3 _h25"
+                  style="font-size: 18px; color: #0038ba"
+                >
+                  {{ credit?.amount_received || 0 | number: "1.2-2" }}
+                </div>
+              </div>
+              <!-- <div class="row _notesTER">
                                 <div class="col-md-12">
                                     Notes
                                     <textarea class="textarea-NOTES" rows='1' name="notes-input" [(ngModel)]="notes"
                                         placeholder="Enter Notes" style="font-size: 13px"></textarea>
                                 </div>
                             </div> -->
-                        </div>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
-        <div class="Action_bottom">
-            <div class="container-fluid p-0">
-                <div class="align-right">
-                    <button *ngIf="isOrdering" type="submit" class="btn btn-primary mr-2" disabled>
-                        <div class="spinner-border text-light" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </button>
-                    <button *ngIf="!isOrdering" type="submit" class="btn btn-primary btn-cancel mr-2" [routerLink]="['/home']">Cancel</button>
-                    <button *ngIf="!isOrdering" class="btn btn-primary" (click)="setOrderFields()">Save Order</button>
-
-                    <button *ngIf="!isOrdering && !isChequeAdded" class="btn btn-primary float-left mr-2"
-                        (click)="isCredit = false;isFullyPaymentAdded('Cheque Payment')">Add Cheque</button>
-                    <button *ngIf="!isOrdering && isChequeAdded" class="btn btn-primary float-left mr-2 red-bg"
-                        (click)="removeCheque()">Remove Cheque</button>
-                    <button *ngIf="!isOrdering && !isCreditAdded" class="btn btn-primary float-left"
-                        (click)="isCredit = true;isFullyPaymentAdded('Credit')">Add Credit</button>
-                    <button *ngIf="!isOrdering && isCreditAdded" class="btn btn-primary float-left red-bg"
-                        (click)="removeCredit()">Remove Credit</button>
-                    <button *ngIf="!isOrdering" id="open-modal-payment" style="display: none;" data-toggle="modal"
-                        data-target="#exampleModal2">Show Modal</button>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="Action_bottom">
+      <div class="container-fluid p-0">
+        <div class="align-right">
+          <button
+            *ngIf="isOrdering"
+            type="submit"
+            class="btn btn-primary mr-2"
+            disabled
+          >
+            <div class="spinner-border text-light" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+          <button
+            *ngIf="!isOrdering"
+            type="submit"
+            class="btn btn-primary btn-cancel mr-2"
+            [routerLink]="['/home']"
+          >
+            Cancel
+          </button>
+          <button
+            *ngIf="!isOrdering"
+            class="btn btn-primary"
+            (click)="setOrderFields()"
+          >
+            Save Order
+          </button>
+
+          <button
+            *ngIf="!isOrdering && !isChequeAdded"
+            class="btn btn-primary float-left mr-2"
+            (click)="isCredit = false; isFullyPaymentAdded('Cheque Payment')"
+          >
+            Add Cheque
+          </button>
+          <button
+            *ngIf="!isOrdering && isChequeAdded"
+            class="btn btn-primary float-left mr-2 red-bg"
+            (click)="removeCheque()"
+          >
+            Remove Cheque
+          </button>
+          <button
+            *ngIf="!isOrdering && !isCreditAdded"
+            class="btn btn-primary float-left"
+            (click)="isCredit = true; isFullyPaymentAdded('Credit')"
+          >
+            Add Credit
+          </button>
+          <button
+            *ngIf="!isOrdering && isCreditAdded"
+            class="btn btn-primary float-left red-bg"
+            (click)="removeCredit()"
+          >
+            Remove Credit
+          </button>
+          <button
+            *ngIf="!isOrdering"
+            id="open-modal-payment"
+            style="display: none"
+            data-toggle="modal"
+            data-target="#exampleModal2"
+          >
+            Show Modal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

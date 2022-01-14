@@ -1,0 +1,332 @@
+<div id="blureEffct" class="container-fluid">
+  <div class="overlay-blure"></div>
+  <div class="container">
+    <div class="row mt-2 mb-3">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <h2 class="_head01">Order <span> Management</span></h2>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <ol class="breadcrumb">
+          <li>
+            <a href="#"><span>Order Management</span></a>
+          </li>
+          <li><span>Edit</span></li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="header">
+            <h2>Edit <span> Order</span></h2>
+          </div>
+          <div class="body PT-15">
+            <div id="floating-label">
+              <div class="form-wrap p-0">
+                <div class="topstats">
+                  <div class="row">
+                    <div class="col-2 pr-0">
+                      <div class="gary-box">
+                        <strong>Date:</strong>
+                        <span class="execution_date">{{ order.date }}</span>
+                      </div>
+                    </div>
+                    <div class="col-4 pr-0">
+                      <div class="gary-box">
+                        <strong>Distributor:</strong>
+                        <span class="execution_date">{{
+                          order.distributor_name
+                        }}</span>
+                      </div>
+                    </div>
+                    <div class="col-3 pr-0">
+                      <div class="gary-box">
+                        <strong>Employee:</strong>
+                        <span class="execution_date">{{
+                          order.employee_name
+                        }}</span>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <button
+                        id="productlist01"
+                        type="submit"
+                        class="btn btn-primary w-100 PT-5 PB-5"
+                      >
+                        Add Product
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <hr class="mt-5" />
+                </div>
+                <div class="col-md-12">
+                  <table
+                    class="table table-hover dt-responsive nowrap"
+                    id="example"
+                    style="width: 100%"
+                  >
+                    <thead>
+                      <tr>
+                        <th>SKU</th>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>T.P</th>
+                        <th>GR.Amt</th>
+                        <th>T.O</th>
+                        <th>Dist.Disc%</th>
+                        <th>Spec.Disc%</th>
+                        <th>E.Disc.Amt</th>
+                        <th>Tax</th>
+                        <th>Total Bill</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tfoot
+                      style="
+                        background: linear-gradient(
+                          0deg,
+                          #f6f6f6 0%,
+                          #f6f6f6 100%
+                        );
+                        font-size: 14px;
+                      "
+                    >
+                      <tr>
+                        <th>Total items:</th>
+                        <th class="order_total_items">0</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Gross Amount.</th>
+                        <th class="order_gross_amount">60,340.00</th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Order Discount.</th>
+                        <th class="order_total_discount">7,542.50</th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Subtotal PKR.</th>
+                        <th class="order_sub_total">52,797.50</th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Frieght Price .</th>
+                        <th>
+                          <input
+                            type="text"
+                            min="0"
+                            class="itemQTY frieght_price"
+                            onkeyup="isNumber(event)"
+                            value="0"
+                          />
+                        </th>
+                        <th></th>
+                      </tr>
+
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Subtotal PKR.</th>
+                        <th class="order_sub_total_af_FP">52,797.50</th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Tax.</th>
+                        <th class="order_tax">0.00</th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Total PKR.</th>
+                        <th class="order_grand_total">52,797.50</th>
+                        <th></th>
+                      </tr>
+                    </tfoot>
+
+                    <tbody>
+                      <tr *ngFor="let item of orderContent; let index = index">
+                        <!-- sku -->
+                        <td>{{ item.sku }}</td>
+                        <!-- item name -->
+                        <td>{{ item.item_name }}</td>
+                        <!-- Quantity -->
+                        <td>
+                          <input
+                            type="number"
+                            min="1"
+                            placeholder="Quanity"
+                            class="itemQTY"
+                            [(ngModel)]="item.booked_total_qty"
+                          />
+                        </td>
+                        <!-- T.P -->
+                        <td>{{ item.unit_price | number: "1.2-2" }}</td>
+                        <!-- GR.Amt -->
+                        <td>
+                          {{
+                            +item.booked_total_qty * item.unit_price
+                              | number: "1.2-2"
+                          }}
+                        </td>
+                        <!-- T.O -->
+                        <td>
+                          {{
+                            (item.scheme_id && item.scheme_id !== 0
+                              ? item.booked_total_qty *
+                                ((item.booked_total_qty * item?.unit_price) /
+                                  item?.scheme_min_quantity +
+                                  item?.scheme_quantity_free)
+                              : 0
+                            ) | number: "1.2-2"
+                          }}
+                        </td>
+                        <!-- Dist.Disc% -->
+                        <td>
+                          {{ item?.distributor_discount | number: "1.2-2" }}
+                        </td>
+                        <!-- Spec.Disc% -->
+                        <td>{{ item.special_discount }}</td>
+                        <!-- E.Disc.Amt -->
+                        <td>
+                          <input
+                            type="number"
+                            placeholder="0"
+                            min="0"
+                            [(ngModel)]="item.booker_discount"
+                            class="itemQTY"
+                            (ngModelChange)="onExtraDiscountChange(index)"
+                          />
+                        </td>
+                        <!-- Tax -->
+                        <td>
+                          {{
+                            item?.booked_total_qty *
+                              ((item?.unit_price * item?.tax_amount) / 100)
+                              | number: "1.2-2"
+                          }}
+                        </td>
+                        <!-- Total Bill -->
+                        <td>
+                          {{
+                            item.booked_total_qty * item.unit_price -
+                              (item.scheme_id && item.scheme_id !== 0
+                                ? item.booked_total_qty *
+                                  ((item.booked_total_qty * item.unit_price) /
+                                    item.scheme_min_quantity +
+                                    item.scheme_quantity_free)
+                                : 0) -
+                              0 -
+                              ((item.unit_price * item.distributor_discount) /
+                                100) *
+                                item.booked_total_qty -
+                              ((item.unit_price * item.special_discount) /
+                                100) *
+                                item.booked_total_qty
+                          }}
+                        </td>
+                        <td>
+                          <button type="button" class="btn smBTN red-bg mb-0">
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="col-md-12 p-0">
+                    <div
+                      style="
+                        background-color: #f6f6f6;
+                        padding: 15px;
+                        margin-top: 15px;
+                        margin-bottom: 0px;
+                        text-align: center;
+                        margin-bottom: 1px;
+                      "
+                    >
+                      <button type="submit" class="btn btn-primary mr-2">
+                        Save Order
+                      </button>
+                      <button type="submit" class="btn btn-cancel mr-2">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="sticky-footer">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        2019 Sell3sixty All rights reserved
+      </div>
+    </div>
+  </footer>
+</div>

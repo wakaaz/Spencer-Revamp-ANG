@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
   template: `<router-outlet></router-outlet>`,
   styleUrls: [],
 })
-export class OrdersComponent {
+export class PrimaryOrdersComponent {
   constructor() {}
 }
