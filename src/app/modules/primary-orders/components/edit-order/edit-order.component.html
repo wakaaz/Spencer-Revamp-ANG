@@ -1,4 +1,248 @@
-<div id="blureEffct" class="container-fluid">
+<!-- Unit, Quantity and Trade Offer of Products -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content top_border">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Product <span> Detail</span>
+        </h5>
+        <button
+          type="button"
+          class="close dont-close-products"
+          data-dismiss="modal"
+          (click)="closeQuantityModal($event)"
+          aria-label="Close"
+        >
+          <span class="dont-close-products" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div
+        *ngIf="selectedProduct?.parent?.hasOwnProperty('quantity')"
+        class="modal-body AddDetailPR"
+      >
+        <div class="row">
+          <div class="col-md-4 pt-7 mb-15">Add Quantity:</div>
+          <div class="col-md-8 mb-15">
+            <input
+              type="text"
+              class="form-control"
+              placeholder=""
+              (keyup)="setQuantity(selectedProduct)"
+              required
+              (keydown)="isNumber($event, 'quantity')"
+              [(ngModel)]="selectedProduct.stockQty"
+              #selectedQty="ngModel"
+              placeholder="0"
+              style="font-size: 13px"
+            />
+            <span
+              *ngIf="selectedQty.errors?.required && isAdded"
+              class="input-error"
+            >
+              Please add Quantity!
+            </span>
+            <span
+              *ngIf="
+                +selectedProduct.stockQty === 0 &&
+                isAdded &&
+                !selectedQty.errors?.required
+              "
+              class="input-error"
+            >
+              Quantity should be greater than 0!
+            </span>
+          </div>
+          <div class="col-md-4 pt-7 mb-15">Unit:</div>
+          <div class="col-md-8 mb-15">
+            {{ selectedProduct.unit_name }}
+            <!-- <select class="custom-select custom-select-sm" [(ngModel)]="selectedProduct.pref_id"
+                            name="prefrences" (change)="setPrefrence($event.target.value, selectedProduct)"
+                            #selectedPrefs="ngModel">
+                            <option [value]="null" disbaled>Select Unit</option>
+                            <option *ngFor="let unit of selectedProduct.units" [value]="unit.pref_id">{{unit.unit_name}}
+                            </option>
+                        </select> -->
+            <!-- <span *ngIf="selectedProduct.pref_id === null && isAdded" class="input-error">
+                            Please select a Unit!
+                        </span>
+                        <span *ngIf="alreadyAdded && selectedProduct.pref_id !== null" class="input-error">
+                            Selected Unit already added please change unit or update the quantity in the list!
+                        </span> -->
+          </div>
+          <div
+            class="col-md-4"
+            *ngIf="selectedProduct.schemes.length"
+            style="padding-top: 2px"
+          >
+            Trade Offer:
+          </div>
+          <div class="col-md-8">
+            <div *ngFor="let scheme of selectedProduct.schemes; let i = index">
+              <div class="custom-control custom-radio">
+                <input
+                  [(ngModel)]="selectedProduct.selectedScheme"
+                  (click)="
+                    selectedProduct.pref_id &&
+                      selectedProduct.stockQty &&
+                      calculateProductDiscounts(selectedProduct, scheme)
+                  "
+                  [disabled]="
+                    !selectedProduct.stockQty || +selectedProduct.stockQty <= 0
+                  "
+                  class="custom-control-input"
+                  type="radio"
+                  name="AssignCatalogue"
+                  id="byTerritory-{{ i }}"
+                  [value]="scheme"
+                />
+                <label
+                  class="custom-control-label font13"
+                  for="byTerritory-{{ i }}"
+                  style="line-height: 25px"
+                  >{{ scheme.title }}</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-0" style="background-color: #f6f6f6">
+        <button
+          type="button"
+          id="pl-qty-close"
+          class="btn btn-primary"
+          data-dismiss="modal"
+          (click)="addProductToOrder($event)"
+          aria-label="Close"
+          [disabled]="
+            !selectedProduct.stockQty || selectedProduct.stockQty <= 0
+          "
+        >
+          Confirm
+        </button>
+        <button
+          type="button"
+          id="pl-qty-close"
+          class="btn btn-cancel dont-close-products"
+          data-dismiss="modal"
+          (click)="closeQuantityModal($event)"
+          aria-label="Close"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Products Listing -->
+<div
+  id="product-cl-sec"
+  (clickOutside)="clickedOutSide($event)"
+  [ngClass]="showProducts ? 'active' : ''"
+>
+  <a id="pl-close" (click)="closeProductsList()" class="close-btn-pl"></a>
+  <div class="pro-header-text">Add <span>Product</span></div>
+  <div class="se_cus-type form-wrap p-15">
+    <div class="row">
+      <div class="col-12">
+        <div class="productSearch">
+          <i class="fa fa-search"></i>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            [(ngModel)]="productSearchText"
+            (keyup)="searchProduct()"
+            placeholder="Search"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pc-cartlist">
+    <div class="overflow-plist">
+      <div class="plist-content">
+        <div class="_left-filter pt-0">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <div class="card top_border p-15">
+                  <table
+                    *ngIf="!loadingProducts"
+                    class="AddProductTable"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr *ngFor="let product of dispProducts; let i = index">
+                        <td>
+                          <div class="ProListDiv">
+                            <div
+                              *ngIf="product.schemes?.length"
+                              class="lab-promotion"
+                            >
+                              Scheme
+                            </div>
+                            <img
+                              class="PrList_img"
+                              src="{{ product.thumbnail }}"
+                              alt=""
+                            />
+                            <div class="PR_Name">{{ product.item_name }}</div>
+                          </div>
+                        </td>
+                        <td>
+                          <button
+                            *ngIf="!product.isAdded"
+                            data-toggle="modal"
+                            data-target="#exampleModal"
+                            class="btn btn-default mb-0 dont-close-quantity"
+                            (click)="openQuantityModal(product)"
+                          >
+                            Add
+                          </button>
+                          <button
+                            *ngIf="product.isAdded"
+                            class="btn btn-default mb-0 red-bg"
+                            (click)="removeProductFromOrder(product)"
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="col-md-12 loader" *ngIf="loadingProducts">
+                    <h2 class="loading">Loading Products...</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="_cl-bottom">
+    <!-- <button type="submit" class="btn btn-primary mr-2">Add</button> -->
+    <button
+      id="pl-prod-close"
+      type="butotn"
+      (click)="closeProductsList()"
+      class="btn btn-cancel mr-2"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
+
+<div id="blureEffct-1" class="container-fluid">
   <div class="overlay-blure"></div>
   <div class="container">
     <div class="row mt-2 mb-3">
@@ -28,14 +272,14 @@
                     <div class="col-2 pr-0">
                       <div class="gary-box">
                         <strong>Date:</strong>
-                        <span class="execution_date">{{ order.date }}</span>
+                        <span class="execution_date">{{ order?.date }}</span>
                       </div>
                     </div>
                     <div class="col-4 pr-0">
                       <div class="gary-box">
                         <strong>Distributor:</strong>
                         <span class="execution_date">{{
-                          order.distributor_name
+                          order?.distributor_name
                         }}</span>
                       </div>
                     </div>
@@ -43,7 +287,7 @@
                       <div class="gary-box">
                         <strong>Employee:</strong>
                         <span class="execution_date">{{
-                          order.employee_name
+                          order?.employee_name
                         }}</span>
                       </div>
                     </div>
@@ -52,6 +296,7 @@
                         id="productlist01"
                         type="submit"
                         class="btn btn-primary w-100 PT-5 PB-5"
+                        (click)="showProductsList($event)"
                       >
                         Add Product
                       </button>
@@ -209,7 +454,7 @@
                     <tbody>
                       <tr *ngFor="let item of orderContent; let index = index">
                         <!-- sku -->
-                        <td>{{ item.sku }}</td>
+                        <td>{{ item.item_sku }}</td>
                         <!-- item name -->
                         <td>{{ item.item_name }}</td>
                         <!-- Quantity -->
@@ -219,73 +464,43 @@
                             min="1"
                             placeholder="Quanity"
                             class="itemQTY"
-                            [(ngModel)]="item.booked_total_qty"
+                            [(ngModel)]="item.parent_qty_sold"
                           />
                         </td>
                         <!-- T.P -->
-                        <td>{{ item.unit_price | number: "1.2-2" }}</td>
+                        <td>{{ item.parent_tp | number: "1.2-2" }}</td>
                         <!-- GR.Amt -->
                         <td>
-                          {{
-                            +item.booked_total_qty * item.unit_price
-                              | number: "1.2-2"
-                          }}
+                          {{ item.grossPrice | number: "1.2-2" }}
                         </td>
                         <!-- T.O -->
                         <td>
-                          {{
-                            (item.scheme_id && item.scheme_id !== 0
-                              ? item.booked_total_qty *
-                                ((item.booked_total_qty * item?.unit_price) /
-                                  item?.scheme_min_quantity +
-                                  item?.scheme_quantity_free)
-                              : 0
-                            ) | number: "1.2-2"
-                          }}
+                          {{ item.tradeOffer | number: "1.2-2" }}
                         </td>
                         <!-- Dist.Disc% -->
                         <td>
-                          {{ item?.distributor_discount | number: "1.2-2" }}
+                          {{ item.distributorDiscount | number: "1.2-2" }}
                         </td>
                         <!-- Spec.Disc% -->
-                        <td>{{ item.special_discount }}</td>
+                        <td>{{ item.specialDiscount }}</td>
                         <!-- E.Disc.Amt -->
                         <td>
                           <input
                             type="number"
                             placeholder="0"
                             min="0"
+                            max="{{ item.maxBookerDiscount }}"
                             [(ngModel)]="item.booker_discount"
                             class="itemQTY"
-                            (ngModelChange)="onExtraDiscountChange(index)"
                           />
                         </td>
                         <!-- Tax -->
                         <td>
-                          {{
-                            item?.booked_total_qty *
-                              ((item?.unit_price * item?.tax_amount) / 100)
-                              | number: "1.2-2"
-                          }}
+                          {{ item.tax | number: "1.2-2" }}
                         </td>
                         <!-- Total Bill -->
                         <td>
-                          {{
-                            item.booked_total_qty * item.unit_price -
-                              (item.scheme_id && item.scheme_id !== 0
-                                ? item.booked_total_qty *
-                                  ((item.booked_total_qty * item.unit_price) /
-                                    item.scheme_min_quantity +
-                                    item.scheme_quantity_free)
-                                : 0) -
-                              0 -
-                              ((item.unit_price * item.distributor_discount) /
-                                100) *
-                                item.booked_total_qty -
-                              ((item.unit_price * item.special_discount) /
-                                100) *
-                                item.booked_total_qty
-                          }}
+                          {{ item.totalBill | number: "1.2-2" }}
                         </td>
                         <td>
                           <button type="button" class="btn smBTN red-bg mb-0">
@@ -322,11 +537,4 @@
       </div>
     </div>
   </div>
-  <footer class="sticky-footer">
-    <div class="container my-auto">
-      <div class="copyright text-center my-auto">
-        2019 Sell3sixty All rights reserved
-      </div>
-    </div>
-  </footer>
 </div>

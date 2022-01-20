@@ -10,6 +10,7 @@ export const API_URLS = {
   // Orders
   COMPLETED_ORDERS_LOAD_SHEETS: '/getCompletedOrdersLoadSheetWise',
   COUNTER_SALE_DATA: '/counterSaleData',
+  GET_PRODUCTS_META_DATA: '/fetch-order-meta-data',
   ADD_COUNTER_SALE: '/saveOrder/counter',
   PENDING_APPROVAL_ORDERS: '/orders-list/pending-approval',
   PENDING_ORDERS: '/orders-list/pending',

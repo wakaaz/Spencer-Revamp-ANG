@@ -11,12 +11,14 @@ import { PrimaryOrdersService } from './services/primary-orders.service';
 import { EditOrderComponent } from './components/edit-order/edit-order.component';
 import { PrimaryOrdersComponent } from './primary-orders.component';
 import { OrdersService } from '../orders/services/orders.service';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [PrimaryOrdersComponent, ListComponent, EditOrderComponent],
   imports: [
     CommonModule,
     PrimaryOrdersRoutingModule,
+    ClickOutsideModule,
     FormsModule,
     DataTablesModule,
     SharedModule,
