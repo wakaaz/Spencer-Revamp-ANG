@@ -20,6 +20,9 @@ export class PrimaryOrdersService {
   public setOrderItemDtos(primaryOrderItems: IPrimaryOrderItem[]) {
     this._orderItemDtos.next(this.getOrderItemsDto(primaryOrderItems));
   }
+  public pushOrderItemDtos(primaryOrderItems: IPrimaryOrderItem[]) {
+    this._orderItemDtos.next(this.getOrderItemsDto(primaryOrderItems));
+  }
   getPendingOrdersList(): Observable<any> {
     return this.baseService.get(API_URLS.PENDING_ORDERS);
   }

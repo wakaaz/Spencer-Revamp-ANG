@@ -1,3 +1,5 @@
+import { FREE_PRODUCT_RULES, SCHEME_RULES } from '../constants/schemes.constant';
+
 class Utility {
   // @param tradePrice => 1 quanity Price
   // @param totalQuanity => total item qty
@@ -7,8 +9,59 @@ class Utility {
   ): number {
     return tradePrice * totalQuanity;
   }
-  public static calTradeOfferPrice(): number {
-    return 0;
+  public static calTradeOfferPrice(
+    schemeType: string,
+    schemeMinQty: number,
+    schemeFreeQty: number,
+    totalBookedQuantity: number,
+    schemeDiscountAmount: number,
+    schemeRuleName: string,
+    grossPrice: number,
+    tradePrice: number,
+  ): number {
+    let schemeDiscountedAmount: number;
+    switch (schemeType) {
+      case SCHEME_RULES.DOTP:
+        schemeDiscountedAmount = this.applyDOTPScheme(
+          schemeMinQty,
+          totalBookedQuantity,
+          schemeDiscountAmount,
+        );
+        break;
+      case SCHEME_RULES.FREE_PRODUCT:
+        switch (schemeRuleName) {
+          case FREE_PRODUCT_RULES.DISCOUNT_ON_TRADE_PRICE 
+            schemeDiscountedAmount = this.applyFreeProductDiscountOnTradePrice(schemeMinQty, schemeFreeQty, grossPrice, tradePrice, totalBookedQuantity);
+            break;
+          default:
+            break;
+        }
+      default:
+        break;
+    }
+    return schemeDiscountedAmount;
+  }
+
+  static applyFreeProductDiscountOnTradePrice(
+    minQuantity: number,
+    freeQunatity: number,
+    grossPrice: number,
+    tradePrice: number,
+    totalBookedQuantity: number,
+  ): number {
+    const discount: number = tradePrice -  (grossPrice / (minQuantity + freeQunatity));
+    const schemeDiscountAmount: number = discount * totalBookedQuantity; 
+    return schemeDiscountAmount;
+  }
+
+  // calc trade on trade price discount
+  private static applyDOTPScheme(
+    schemeMinQty: number,
+    totalBookedQuantity: number,
+    schemeDiscountAmount: number
+  ): number {
+    const quanitySchemeable: number = totalBookedQuantity / schemeMinQty;
+    return parseInt(quanitySchemeable.toString()) * schemeDiscountAmount;
   }
 
   // distributorDiscountPercentage = distributor disocunt in percentage
@@ -35,7 +88,9 @@ class Utility {
     extraOrbookerDiscount: number,
     totalBookedQuantity: number
   ): number {
-    return extraOrbookerDiscount * totalBookedQuantity;
+    return extraOrbookerDiscount
+      ? extraOrbookerDiscount
+      : 0 * totalBookedQuantity;
   }
 
   // tax in percentage

@@ -13,6 +13,15 @@ export const freeProductsRules = {
 
 export const SCHEME_RULES = {
   FREE_PRODUCT: 'free_product',
+  DOTP: 'dotp', // Discount on trade price
+};
+
+export const FREE_PRODUCT_RULES = {
+  DISCOUNT_ON_TRADE_PRICE: 'Discount on Trade Price',
+  DISCOUNT_ON_HALF_QUANTITY: 'Discount on half quantity',
+  DISCOUNT_ON_MINIMUM_QUANTITY_RESTRICTION:
+    'Discount on Minimum quantity restriction',
+  FREE_PRODUCTS: 'Free products',
 };
 
 /** Discount Implementation Rules For Free Products */

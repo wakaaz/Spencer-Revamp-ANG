@@ -3,7 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Toaster, ToasterService } from 'src/app/core/services/toaster.service';
 import { PrimaryOrdersService } from '../../services/primary-orders.service';
 import { PrimaryOrder } from '../../_models/order';
-import { IPrimaryOrderItem, PrimaryOrderItem } from '../../_models/orderItems';
+import {
+  getNewPrimaryOderItem,
+  IPrimaryOrderItem,
+  PrimaryOrderItem,
+} from '../../_models/orderItems';
 import {
   freeProductsRules,
   schemes,
@@ -221,6 +225,7 @@ export class EditOrderComponent implements OnInit {
 
   //#region  add prioduct to order
   addProductToOrder(event: Event): void {
+    this.orderContent.push(getNewPrimaryOderItem(this.selectedProduct));
     if (
       this.selectedProduct.selectedScheme &&
       !this.selectedProduct.selectedScheme.applied
