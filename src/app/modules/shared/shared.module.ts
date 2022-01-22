@@ -9,7 +9,7 @@ import { OrderItemsListComponent } from './components/order-items/order-items.co
 import { ProductsRightPanelComponent } from './components/product-right-panel/product-right-panel.compoent';
 import { RetailerSubListComponent } from './components/retailer-sub-listing/retailer-sub-listing.component';
 import { ReturnedProductsComponent } from './components/returned-products/returned-products.component';
-import { Decimal } from './pipes/Decimal.pipe';
+import { Decimal } from './pipes/decimal.pipe';
 import { PipeModule } from './pipes/pipe.module';
 import { DataService, GeneralDataService } from './services';
 

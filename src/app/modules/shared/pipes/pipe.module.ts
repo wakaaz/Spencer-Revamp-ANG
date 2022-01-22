@@ -1,6 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Decimal } from './Decimal.pipe';
+import { Decimal } from './decimal.pipe';
 
 @NgModule({
     imports: [],
