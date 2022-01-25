@@ -1,4 +1,6 @@
-export interface PrimaryOrder {
+import { PrimaryOrderItem } from './orderItems';
+
+export interface IPrimaryOrder {
   id: number;
   approved: boolean;
   area_name: string;
@@ -26,4 +28,95 @@ export interface PrimaryOrder {
   status: string;
   territory_name: string;
   within_radius: number;
+}
+
+export class PrimaryOrder {
+  private _id: number;
+  public get id(): number {
+    return this._id;
+  }
+  public set id(v: number) {
+    this._id = v;
+  }
+
+  private _orderContent: PrimaryOrderItem[];
+  public get orderContent(): PrimaryOrderItem[] {
+    return this._orderContent;
+  }
+  public set orderContent(v: PrimaryOrderItem[]) {
+    this._orderContent = v;
+  }
+
+  private _frieght_price: number;
+  public get frieght_price(): number {
+    return this._frieght_price || 0;
+  }
+  public set frieght_price(v: number) {
+    this._frieght_price = v;
+  }
+
+  private _date: Date;
+  public get date(): Date {
+    return this._date;
+  }
+  public set date(v: Date) {
+    this._date = v;
+  }
+
+  private _distributor_name: string;
+  public get distributor_name(): string {
+    return this._distributor_name;
+  }
+  public set distributor_name(v: string) {
+    this._distributor_name = v;
+  }
+
+  private _employee_name: string;
+  public get employee_name(): string {
+    return this._employee_name;
+  }
+  public set employee_name(v: string) {
+    this._employee_name = v;
+  }
+
+  //#region getter props for calc
+  public get grossPrice(): number {
+    return this._orderContent
+      ? this.orderContent.reduce((a: any, b: any) => a + b.grossPrice, 0)
+      : 0;
+  }
+
+  public get discount(): number {
+    let discount: number = 0;
+    if (this._orderContent) {
+      const tradeDiscount = this.getDiscountByField('tradeOffer');
+      const distDiscount = this.getDiscountByField('distributorDiscount');
+      const speacialDiscount = this.getDiscountByField('specialDiscount');
+      const bookerDiscount = this.getDiscountByField('extraDiscount');
+      discount =
+        tradeDiscount + distDiscount + speacialDiscount + bookerDiscount;
+    }
+    return discount;
+  }
+  public get subTotal(): number {
+    return this.grossPrice - this.discount;
+  }
+
+  public get tax(): number {
+    return this.orderContent ? this.getDiscountByField('tax') : 0;
+  }
+  public get subTotalPlusFrieghtPrice(): number {
+    return this.subTotal + this.frieght_price;
+  }
+
+  public get total(): number {
+    return this.subTotal + this.tax;
+  }
+  //#endregion
+
+  //#region  priavte cal function for this class
+  private getDiscountByField(field: string) {
+    return this.orderContent.reduce((a: any, b: any) => a + b[field], 0);
+  }
+  //#endregion
 }

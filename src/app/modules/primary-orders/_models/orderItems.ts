@@ -1,4 +1,7 @@
-import { SCHEME_RULES } from 'src/app/core/constants/schemes.constant';
+import {
+  FREE_PRODUCT_RULES,
+  SCHEME_RULES,
+} from 'src/app/core/constants/schemes.constant';
 import Utility from 'src/app/core/utility/orderCalculation';
 
 export interface IPrimaryOrderItem {
@@ -106,7 +109,7 @@ export function setPrimarOrderItem(
 }
 
 //#endregion
-
+// TODO:CODE CLEAN
 export function getNewPrimaryOderItem(selectedProduct: any): PrimaryOrderItem {
   const primOrderItem = new PrimaryOrderItem();
   primOrderItem.brand_id = selectedProduct.brand_id;
@@ -150,6 +153,7 @@ export function getNewPrimaryOderItem(selectedProduct: any): PrimaryOrderItem {
     primOrderItem.scheme_quantity_free =
       selectedProduct.selectedScheme.quantity_free;
     primOrderItem.scheme_rule = selectedProduct.selectedScheme.scheme_rule;
+    primOrderItem.rule_name = selectedProduct.selectedScheme.rule_name;
     primOrderItem.scheme_type = selectedProduct.selectedScheme.scheme_type;
     primOrderItem.gift_value = selectedProduct.selectedScheme.gift_value;
   }
@@ -189,14 +193,37 @@ export class PrimaryOrderItem implements IPrimaryOrderItem {
     return Utility.calGrossAmount(this.parent_tp, this.parent_qty_sold);
   }
   public get tradeOffer(): number {
-    return this.scheme_id
-      ? Utility.calTradeOfferPrice(
-          this.scheme_type,
-          this.scheme_min_quantity,
-          this.parent_qty_sold,
-          this.scheme_discount_on_tp
-        )
-      : 0;
+    if (this.scheme_id && this.rule_name !== FREE_PRODUCT_RULES.FREE_PRODUCTS) {
+      return Utility.calTradeOfferPrice(
+        this.scheme_type,
+        this.scheme_min_quantity,
+        this._scheme_quantity_free,
+        this.parent_qty_sold,
+        this.scheme_discount_on_tp,
+        this.rule_name,
+        this.grossPrice,
+        this.parent_tp
+      );
+    } else {
+      return 0;
+    }
+  }
+
+  public get schemeFreeProdsCount(): number {
+    if (this.scheme_id && this.rule_name === FREE_PRODUCT_RULES.FREE_PRODUCTS) {
+      return Utility.calTradeOfferPrice(
+        this.scheme_type,
+        this.scheme_min_quantity,
+        this._scheme_quantity_free,
+        this.parent_qty_sold,
+        this.scheme_discount_on_tp,
+        this.rule_name,
+        this.grossPrice,
+        this.parent_tp
+      );
+    } else {
+      return 0;
+    }
   }
 
   public get distributorDiscount(): number {
@@ -488,6 +515,14 @@ export class PrimaryOrderItem implements IPrimaryOrderItem {
   }
   public set scheme_rule(v: number) {
     this._scheme_rule = v || 0;
+  }
+
+  private _rule_name: string;
+  public get rule_name(): string {
+    return this._rule_name;
+  }
+  public set rule_name(v: string) {
+    this._rule_name = v;
   }
 
   private _scheme_type: string;

@@ -39,7 +39,7 @@
 				  <div class="row">
 					<div class="col-12 position-relative" style="background-image: url(assets/images/kpi-achive-img.jpg); background-position:bottom right; background-repeat:no-repeat">						
 					  <h2 class="card-heading">Today's <span>Booking</span></h2>
-					  <div class="total-amount" style="border-bottom:solid 1px #e1e1e1"><span>Rs.</span> {{homeReport.today_sale | decimal}}</div>
+					  <div class="total-amount" style="border-bottom:solid 1px #e1e1e1"><span>Rs.</span> {{homeReport?.today_sale | decimal}}</div>
 					</div>
 					<div class="col unit-v pr-0">Pending Sale<span><small>Rs.</small> {{homeReport.pending_sale | decimal}} </span></div>
 					<div class="col unit-v pr-0">Spot Sale<span><small>Rs.</small> {{homeReport.spot_sale | decimal}}</span></div>

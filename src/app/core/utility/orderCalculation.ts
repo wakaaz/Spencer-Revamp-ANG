@@ -1,4 +1,7 @@
-import { FREE_PRODUCT_RULES, SCHEME_RULES } from '../constants/schemes.constant';
+import {
+  FREE_PRODUCT_RULES,
+  SCHEME_RULES,
+} from '../constants/schemes.constant';
 
 class Utility {
   // @param tradePrice => 1 quanity Price
@@ -17,7 +20,7 @@ class Utility {
     schemeDiscountAmount: number,
     schemeRuleName: string,
     grossPrice: number,
-    tradePrice: number,
+    tradePrice: number
   ): number {
     let schemeDiscountedAmount: number;
     switch (schemeType) {
@@ -25,13 +28,45 @@ class Utility {
         schemeDiscountedAmount = this.applyDOTPScheme(
           schemeMinQty,
           totalBookedQuantity,
-          schemeDiscountAmount,
+          schemeDiscountAmount
         );
         break;
       case SCHEME_RULES.FREE_PRODUCT:
         switch (schemeRuleName) {
-          case FREE_PRODUCT_RULES.DISCOUNT_ON_TRADE_PRICE 
-            schemeDiscountedAmount = this.applyFreeProductDiscountOnTradePrice(schemeMinQty, schemeFreeQty, grossPrice, tradePrice, totalBookedQuantity);
+          case FREE_PRODUCT_RULES.DISCOUNT_ON_TRADE_PRICE:
+            schemeDiscountedAmount = this.applyFreeProductDiscountOnTradePrice(
+              schemeMinQty,
+              schemeFreeQty,
+              grossPrice,
+              tradePrice,
+              totalBookedQuantity
+            );
+            break;
+          case FREE_PRODUCT_RULES.DISCOUNT_ON_HALF_QUANTITY:
+            schemeDiscountedAmount =
+              this.applyFreeProductDiscountOnHalfQuantity(
+                schemeMinQty,
+                schemeFreeQty,
+                tradePrice,
+                totalBookedQuantity
+              );
+            break;
+          case FREE_PRODUCT_RULES.DISCOUNT_ON_MINIMUM_QUANTITY_RESTRICTION:
+            schemeDiscountedAmount =
+              this.applyFreeProductDiscountOnMinQuantityRes(
+                schemeMinQty,
+                schemeFreeQty,
+                tradePrice,
+                totalBookedQuantity
+              );
+            break;
+          case FREE_PRODUCT_RULES.FREE_PRODUCTS:
+            schemeDiscountedAmount =
+              this.applyFreeProductMustProdDiscountOnMinQuantity(
+                schemeMinQty,
+                schemeFreeQty,
+                totalBookedQuantity
+              );
             break;
           default:
             break;
@@ -41,17 +76,94 @@ class Utility {
     }
     return schemeDiscountedAmount;
   }
+  static applyFreeProductMustProdDiscountOnMinQuantity(
+    schemeMinQty: number,
+    schemeFreeQty: number,
+    totalBookedQuantity: number
+  ): number {
+    const schemeAbleQuantity: number = parseInt(
+      (totalBookedQuantity / schemeMinQty).toString()
+    );
+    return this.multiply(schemeFreeQty, schemeAbleQuantity);
+  }
+
+  // Discount on minimumQuantityRestriction
+  static applyFreeProductDiscountOnMinQuantityRes(
+    schemeMinQty: number,
+    schemeFreeQty: number,
+    tradePrice: number,
+    totalBookedQuantity: number
+  ): number {
+    const discountOnUnitQty: number = this.getDiscountOnUnitQty(
+      tradePrice,
+      schemeMinQty,
+      schemeFreeQty
+    );
+    const discountableQty: number =
+      schemeMinQty * parseInt((totalBookedQuantity / schemeMinQty).toString());
+    const schemeDiscountAmount = this.multiply(
+      discountOnUnitQty,
+      discountableQty
+    );
+    return schemeDiscountAmount;
+  }
+
+  // only apply to multiples of minSchemeQty/2
+  static applyFreeProductDiscountOnHalfQuantity(
+    schemeMinQty: number,
+    schemeFreeQty: number,
+    tradePrice: number,
+    totalBookedQuantity: number
+  ): number {
+    const discountOnUnitQty: number = this.getDiscountOnUnitQty(
+      tradePrice,
+      schemeMinQty,
+      schemeFreeQty
+    );
+    const discountOnHalfQty = schemeMinQty / 2; // half sheme Qty
+    const halfDiscount = discountOnUnitQty / 2;
+    const discountableQty: number =
+      discountOnHalfQty *
+      parseInt((totalBookedQuantity / discountOnHalfQty).toString());
+    const schemeDiscountAmount = this.multiply(halfDiscount, discountableQty);
+    return schemeDiscountAmount;
+  }
 
   static applyFreeProductDiscountOnTradePrice(
     minQuantity: number,
     freeQunatity: number,
     grossPrice: number,
     tradePrice: number,
-    totalBookedQuantity: number,
+    totalBookedQuantity: number
   ): number {
-    const discount: number = tradePrice -  (grossPrice / (minQuantity + freeQunatity));
-    const schemeDiscountAmount: number = discount * totalBookedQuantity; 
+    const discountOnUnitQty: number = this.getDiscountOnUnitQty(
+      tradePrice,
+      minQuantity,
+      freeQunatity
+    );
+    const schemeDiscountAmount: number = this.multiply(
+      discountOnUnitQty,
+      totalBookedQuantity
+    );
     return schemeDiscountAmount;
+  }
+
+  // calc discount on unit quantity
+  private static getDiscountOnUnitQty(
+    tradePrice: number,
+    minQuantity: number,
+    freeQunatity: number
+  ): number {
+    return (
+      tradePrice -
+      this.calGrossAmount(tradePrice, minQuantity) /
+        (minQuantity + freeQunatity)
+    );
+  }
+
+  // calc miultiply two values
+  private static multiply(fristValue: number, secondvalue: number): number {
+    return fristValue * secondvalue;
   }
 
   // calc trade on trade price discount

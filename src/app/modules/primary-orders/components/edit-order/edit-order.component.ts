@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Toaster, ToasterService } from 'src/app/core/services/toaster.service';
 import { PrimaryOrdersService } from '../../services/primary-orders.service';
-import { PrimaryOrder } from '../../_models/order';
+import { IPrimaryOrder, PrimaryOrder } from '../../_models/order';
 import {
   getNewPrimaryOderItem,
   IPrimaryOrderItem,
@@ -24,7 +24,7 @@ export class EditOrderComponent implements OnInit {
   //#region Fields and Construct on int
   order: PrimaryOrder;
   orderItemDtos: IOrderItemDto[];
-  orderContent: PrimaryOrderItem[];
+  // orderContent: PrimaryOrderItem[];
   showProducts = false;
   dispProducts: Array<any> = [];
   selectedProductsIds: Array<any> = [];
@@ -48,22 +48,28 @@ export class EditOrderComponent implements OnInit {
     public primarySrvc: PrimaryOrdersService,
     private toastService: ToasterService,
     private dataService: DataService
-  ) {}
+  ) {
+    this.order = new PrimaryOrder();
+  }
 
   ngOnInit(): void {
     const orderId = this.actr.snapshot.params.orderId;
     this.getOrderbyOrderId(orderId);
-    this.getProductsMetaData();
   }
 
   //#region get order by orderId
 
   getOrderbyOrderId(orderId: number) {
     this.primarySrvc.getOderDetailById(orderId).subscribe((x: any) => {
-      this.order = { ...x.data.order };
-      this.orderContent = this.primarySrvc.getPrimaryOrderItem([
+      const orderRes = { ...x.data.order };
+      this.order.distributor_name = orderRes.distributor_name;
+      this.order.employee_name = orderRes.employee_name;
+      this.order.date = orderRes.date;
+      this.order.id = orderRes.id;
+      this.order.orderContent = this.primarySrvc.getPrimaryOrderItem([
         ...x.data.content,
       ]);
+      this.getProductsMetaData();
 
       //   this.primarySrvc.setOrderItemDtos([...this.orderContent]);
       //   console.log('ordercontent => ', this.orderContent[0]);
@@ -80,32 +86,32 @@ export class EditOrderComponent implements OnInit {
 
   //#region on extra disount change event
   onExtraDiscountChange(index: number): void {
-    if (this.orderContent[index].booker_discount <= 0) {
-      return;
-    }
-    const netAmmount =
-      this.orderContent[index].booked_total_qty *
-        this.orderContent[index].unit_price -
-      (this.orderContent[index].scheme_id &&
-      this.orderContent[index].scheme_id !== 0
-        ? this.orderContent[index].booked_total_qty *
-          ((this.orderContent[index].booked_total_qty *
-            this.orderContent[index].unit_price) /
-            this.orderContent[index].scheme_min_quantity +
-            this.orderContent[index].scheme_quantity_free)
-        : 0) -
-      0 -
-      ((this.orderContent[index].unit_price *
-        this.orderContent[index].distributor_discount) /
-        100) *
-        this.orderContent[index].booked_total_qty -
-      ((this.orderContent[index].unit_price *
-        this.orderContent[index].special_discount) /
-        100) *
-        this.orderContent[index].booked_total_qty;
-    if (this.orderContent[index].booker_discount >= netAmmount) {
-      this.orderContent[index].booker_discount = 0;
-    }
+    // if (this.orderContent[index].booker_discount <= 0) {
+    //   return;
+    // }
+    // const netAmmount =
+    //   this.orderContent[index].booked_total_qty *
+    //     this.orderContent[index].unit_price -
+    //   (this.orderContent[index].scheme_id &&
+    //   this.orderContent[index].scheme_id !== 0
+    //     ? this.orderContent[index].booked_total_qty *
+    //       ((this.orderContent[index].booked_total_qty *
+    //         this.orderContent[index].unit_price) /
+    //         this.orderContent[index].scheme_min_quantity +
+    //         this.orderContent[index].scheme_quantity_free)
+    //     : 0) -
+    //   0 -
+    //   ((this.orderContent[index].unit_price *
+    //     this.orderContent[index].distributor_discount) /
+    //     100) *
+    //     this.orderContent[index].booked_total_qty -
+    //   ((this.orderContent[index].unit_price *
+    //     this.orderContent[index].special_discount) /
+    //     100) *
+    //     this.orderContent[index].booked_total_qty;
+    // if (this.orderContent[index].booker_discount >= netAmmount) {
+    //   this.orderContent[index].booker_discount = 0;
+    // }
   }
   //#endregion
 
@@ -146,18 +152,27 @@ export class EditOrderComponent implements OnInit {
     this.loadingProducts = true;
     this.primarySrvc.getProductsMetaData().subscribe(
       (res: any) => {
-        this.loadingProducts = false;
         if (res.status === 200) {
-          this.allProducts = res.data.inventory.map((pr) => {
-            pr.net_amount = 0.0;
-            pr.isAdded = false;
-            return pr;
-          });
+          for (let i = 0; i < this.order.orderContent.length; i++) {
+            this.allProducts = res.data.inventory.map((pr) => {
+              if (this.order.orderContent[i].item_id === pr.item_id) {
+                pr.isAdded = true;
+              } else {
+                pr.isAdded = false;
+              }
+              pr.net_amount = 0.0;
+              console.log(i);
+              return pr;
+            });
+            console.log(this.allProducts.length);
+          }
+
           this.specialDiscounts = res.data.special_discount;
           // this.prefrences = res.data.prefs;
           this.dispProducts = [...this.allProducts];
           this.subInventory = res.data.sub_inventory;
           this.tradeoffers = res.data.tradeoffers;
+          this.loadingProducts = false;
         } else {
           const toast: Toaster = {
             type: 'error',
@@ -223,56 +238,71 @@ export class EditOrderComponent implements OnInit {
   }
   //#endregion
 
-  //#region  add prioduct to order
-  addProductToOrder(event: Event): void {
-    this.orderContent.push(getNewPrimaryOderItem(this.selectedProduct));
-    if (
-      this.selectedProduct.selectedScheme &&
-      !this.selectedProduct.selectedScheme.applied
-    ) {
-      this.dataService.schemeCannotApplied();
-      return;
-    }
-    this.isAdded = true;
-    if (+this.selectedProduct.stockQty > 0 && this.selectedProduct.pref_id) {
-      const pr = this.selectedProducts.find(
-        (x) =>
-          x.item_id === this.selectedProduct.item_id &&
-          x.pref_id === this.selectedProduct.pref_id
-      );
-      if (pr) {
-        this.alreadyAdded = true;
-      } else {
-        this.alreadyAdded = false;
-        this.showQuantityModal = false;
-        this.allProducts = this.allProducts.map((prod) => {
-          if (prod.item_id === this.selectedProduct.item_id) {
-            prod.isAdded = true;
-          }
-          return prod;
-        });
-        this.dispProducts = this.dispProducts.map((prod) => {
-          if (prod.item_id === this.selectedProduct.item_id) {
-            prod.isAdded = true;
-          }
-          return prod;
-        });
-        this.selectedProduct.isAdded = true;
-        // this.orderContent.push(
-        //   this.getOrderContentItem({ ...this.selectedProduct })
-        // );
-        console.log('selc prod => ', this.selectedProduct);
-        this.selectedProducts.push(this.selectedProduct);
-        if (!this.selectedProductsIds.includes(this.selectedProduct.item_id)) {
-          this.selectedProductsIds.push(this.selectedProduct.item_id);
-        }
-        // this.calculateTotalBill();
-        // this.applySlabOnAllProducts();
-        // document.getElementById('pl-qty-close').click();
-        this.isAdded = false;
-        // this.closeQuantityModal(event);
+  //#region isAdded true or false for the display Product
+  displayProductsIsAddedStatus(value: boolean = false, itemId: number = 0) {
+    const dispProductsLength = this.dispProducts.length;
+    for (let i = 0; i < dispProductsLength; i++) {
+      if (this.dispProducts[i].item_id === itemId) {
+        this.dispProducts[i].isAdded = value;
+        break;
       }
     }
+  }
+  //#endregion
+
+  //#region  add prioduct to order
+  addProductToOrder(event: Event): void {
+    this.order.orderContent.push(getNewPrimaryOderItem(this.selectedProduct));
+    this.displayProductsIsAddedStatus(true, this.selectedProduct.item_id);
+    this.showQuantityModal = false;
+    // if (
+    //   this.selectedProduct.selectedScheme &&
+    //   !this.selectedProduct.selectedScheme.applied
+    // ) {
+    //   this.dataService.schemeCannotApplied();
+    //   return;
+    // }
+
+    // this.isAdded = true;
+    // if (+this.selectedProduct.stockQty > 0 && this.selectedProduct.pref_id) {
+    //   const pr = this.selectedProducts.find(
+    //     (x) =>
+    //       x.item_id === this.selectedProduct.item_id &&
+    //       x.pref_id === this.selectedProduct.pref_id
+    //   );
+    //   if (pr) {
+    //     this.alreadyAdded = true;
+    //   } else {
+    //     this.alreadyAdded = false;
+    //     this.showQuantityModal = false;
+    //     this.allProducts = this.allProducts.map((prod) => {
+    //       if (prod.item_id === this.selectedProduct.item_id) {
+    //         prod.isAdded = true;
+    //       }
+    //       return prod;
+    //     });
+    //     this.dispProducts = this.dispProducts.map((prod) => {
+    //       if (prod.item_id === this.selectedProduct.item_id) {
+    //         prod.isAdded = true;
+    //       }
+    //       return prod;
+    //     });
+    //     this.selectedProduct.isAdded = true;
+    //     // this.orderContent.push(
+    //     //   this.getOrderContentItem({ ...this.selectedProduct })
+    //     // );
+    //     console.log('selc prod => ', this.selectedProduct);
+    //     this.selectedProducts.push(this.selectedProduct);
+    //     if (!this.selectedProductsIds.includes(this.selectedProduct.item_id)) {
+    //       this.selectedProductsIds.push(this.selectedProduct.item_id);
+    //     }
+    //     // this.calculateTotalBill();
+    //     // this.applySlabOnAllProducts();
+    //     // document.getElementById('pl-qty-close').click();
+    //     this.isAdded = false;
+    //     // this.closeQuantityModal(event);
+    //   }
+    // }
   }
   //#endregion
 
@@ -533,5 +563,16 @@ export class EditOrderComponent implements OnInit {
       product.tax_amount_pkr = 0;
     }
   }
+  //#endregion
+
+  //#region deleteOrderItem
+  deleteOrderItem(itemId: number) {
+    this.order.orderContent = this.order.orderContent.filter(
+      (item) => item.item_id !== itemId
+    );
+
+    this.displayProductsIsAddedStatus(false, itemId);
+  }
+
   //#endregion
 }

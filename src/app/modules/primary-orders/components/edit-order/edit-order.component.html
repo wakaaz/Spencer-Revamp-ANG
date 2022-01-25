@@ -210,7 +210,7 @@
                           <button
                             *ngIf="product.isAdded"
                             class="btn btn-default mb-0 red-bg"
-                            (click)="removeProductFromOrder(product)"
+                            (click)="deleteOrderItem(product.item_id)"
                           >
                             Remove
                           </button>
@@ -272,14 +272,14 @@
                     <div class="col-2 pr-0">
                       <div class="gary-box">
                         <strong>Date:</strong>
-                        <span class="execution_date">{{ order?.date }}</span>
+                        <span class="execution_date">{{ order.date }}</span>
                       </div>
                     </div>
                     <div class="col-4 pr-0">
                       <div class="gary-box">
                         <strong>Distributor:</strong>
                         <span class="execution_date">{{
-                          order?.distributor_name
+                          order.distributor_name
                         }}</span>
                       </div>
                     </div>
@@ -287,7 +287,7 @@
                       <div class="gary-box">
                         <strong>Employee:</strong>
                         <span class="execution_date">{{
-                          order?.employee_name
+                          order.employee_name
                         }}</span>
                       </div>
                     </div>
@@ -324,8 +324,8 @@
                         <th>GR.Amt</th>
                         <th>T.O</th>
                         <th>Dist.Disc%</th>
-                        <th>Spec.Disc%</th>
-                        <th>E.Disc.Amt</th>
+                        <th>Spec.Disc</th>
+                        <th>B.Disc.Amt</th>
                         <th>Tax</th>
                         <th>Total Bill</th>
                         <th>Action</th>
@@ -344,7 +344,11 @@
                     >
                       <tr>
                         <th>Total items:</th>
-                        <th class="order_total_items">0</th>
+                        <th class="order_total_items">
+                          {{
+                            order.orderContent ? order.orderContent.length : 0
+                          }}
+                        </th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -353,7 +357,9 @@
                         <th></th>
                         <th></th>
                         <th>Gross Amount.</th>
-                        <th class="order_gross_amount">60,340.00</th>
+                        <th class="order_gross_amount">
+                          {{ order.grossPrice | number: "1.2-2" }}
+                        </th>
                         <th></th>
                       </tr>
                       <tr>
@@ -367,7 +373,9 @@
                         <th></th>
                         <th></th>
                         <th>Order Discount.</th>
-                        <th class="order_total_discount">7,542.50</th>
+                        <th class="order_total_discount">
+                          - {{ order.discount | number: "1.2-2" }}
+                        </th>
                         <th></th>
                       </tr>
                       <tr>
@@ -381,7 +389,9 @@
                         <th></th>
                         <th></th>
                         <th>Subtotal PKR.</th>
-                        <th class="order_sub_total">52,797.50</th>
+                        <th class="order_sub_total">
+                          {{ order.subTotal | number: "1.2-2" }}
+                        </th>
                         <th></th>
                       </tr>
                       <tr>
@@ -394,13 +404,14 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th>Frieght Price .</th>
+                        <th>Frieght Price.</th>
                         <th>
                           <input
-                            type="text"
+                            type="number"
                             min="0"
                             class="itemQTY frieght_price"
                             onkeyup="isNumber(event)"
+                            [(ngModel)]="order.frieght_price"
                             value="0"
                           />
                         </th>
@@ -418,7 +429,9 @@
                         <th></th>
                         <th></th>
                         <th>Subtotal PKR.</th>
-                        <th class="order_sub_total_af_FP">52,797.50</th>
+                        <th class="order_sub_total_af_FP">
+                          {{ order.subTotalPlusFrieghtPrice | number: "1.2-2" }}
+                        </th>
                         <th></th>
                       </tr>
                       <tr>
@@ -432,7 +445,9 @@
                         <th></th>
                         <th></th>
                         <th>Tax.</th>
-                        <th class="order_tax">0.00</th>
+                        <th class="order_tax">
+                          + {{ order.tax | number: "1.2-2" }}
+                        </th>
                         <th></th>
                       </tr>
                       <tr>
@@ -446,13 +461,20 @@
                         <th></th>
                         <th></th>
                         <th>Total PKR.</th>
-                        <th class="order_grand_total">52,797.50</th>
+                        <th class="order_grand_total">
+                          {{ order.total | number: "1.2-2" }}
+                        </th>
                         <th></th>
                       </tr>
                     </tfoot>
 
                     <tbody>
-                      <tr *ngFor="let item of orderContent; let index = index">
+                      <tr
+                        *ngFor="
+                          let item of order.orderContent;
+                          let index = index
+                        "
+                      >
                         <!-- sku -->
                         <td>{{ item.item_sku }}</td>
                         <!-- item name -->
@@ -466,6 +488,12 @@
                             class="itemQTY"
                             [(ngModel)]="item.parent_qty_sold"
                           />
+
+                          {{
+                            item.schemeFreeProdsCount
+                              ? "+" + item.schemeFreeProdsCount
+                              : ""
+                          }}
                         </td>
                         <!-- T.P -->
                         <td>{{ item.parent_tp | number: "1.2-2" }}</td>
@@ -503,7 +531,11 @@
                           {{ item.totalBill | number: "1.2-2" }}
                         </td>
                         <td>
-                          <button type="button" class="btn smBTN red-bg mb-0">
+                          <button
+                            type="button"
+                            (click)="deleteOrderItem(item.item_id)"
+                            class="btn smBTN red-bg mb-0"
+                          >
                             Delete
                           </button>
                         </td>

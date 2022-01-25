@@ -29,7 +29,7 @@ export class OrderItemDto implements IOrderItemDto {
     this.quantity = this.orderItem.parent_qty_sold;
     this.tp = this.orderItem.parent_tp;
     this.grossPrice = Utility.calGrossAmount(this.tp, this.quantity);
-    this.tradeOffer = Utility.calTradeOfferPrice();
+    // this.tradeOffer = Utility.calTradeOfferPrice();
     this.distributorDiscount = Utility.calDistributorDiscount(
       this.orderItem.distributor_discount,
       this.tp,
