@@ -79,6 +79,30 @@ export class PrimaryOrder {
     this._employee_name = v;
   }
 
+  private _distributor_phone: string;
+  public get distributor_phone(): string {
+    return this._distributor_phone;
+  }
+  public set distributor_phone(v: string) {
+    this._distributor_phone = v;
+  }
+
+  private _distributor_address: string;
+  public get distributor_address(): string {
+    return this._distributor_address;
+  }
+  public set distributor_address(v: string) {
+    this._distributor_address = v;
+  }
+
+  private _status: string;
+  public get status(): string {
+    return this._status;
+  }
+  public set status(v: string) {
+    this._status = v;
+  }
+
   //#region getter props for calc
   public get grossPrice(): number {
     return this._orderContent

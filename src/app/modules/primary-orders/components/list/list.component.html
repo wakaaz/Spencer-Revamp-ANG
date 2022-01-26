@@ -43,35 +43,33 @@
                           <div class="col-md-9">
                             <span>Dist Name: </span>
                             <strong class="retailer_name">{{
-                              order?.distributor_name
+                              order.distributor_name
                             }}</strong
                             ><br />
                             <span>Phone No: </span>
                             <strong class="retailer_phone">{{
-                              order?.distributor_phone
+                              order.distributor_phone
                             }}</strong
                             ><br />
                             <span>Location: </span>
                             <strong class="retailer_location">{{
-                              order?.distributor_address
+                              order.distributor_address
                             }}</strong>
                           </div>
 
                           <div class="col-md-3 p-0">
                             <span>Status: </span>
                             <strong class="status">
-                              {{
-                                order?.status ? order?.status : "--"
-                              }} </strong
+                              {{ order.status ? order?.status : "--" }} </strong
                             ><br />
                             <span>Booking Date: </span>
                             <strong class="booking_date">{{
-                              order?.date
+                              order.date
                             }}</strong
                             ><br />
                             <span>Employee: </span>
                             <strong class="employee_name">{{
-                              order?.employee_name
+                              order.employee_name
                             }}</strong>
                           </div>
                         </div>
@@ -90,91 +88,64 @@
                                   <th><strong>GR Amt</strong></th>
                                   <th><strong>T.O</strong></th>
                                   <th><strong>Dist.Disc%</strong></th>
-                                  <th><strong>SPC.Disc%</strong></th>
+                                  <th><strong>SPC.Disc</strong></th>
                                   <th><strong>B.Disc</strong></th>
                                   <th><strong>Tax</strong></th>
                                   <th><strong>Net.Amt</strong></th>
                                 </tr>
                               </thead>
                               <tbody class="order_items_body">
-                                <tr *ngFor="let item of orderDetial?.content">
-                                  <td>{{ item?.item_sku }}</td>
+                                <tr *ngFor="let item of order.orderContent">
+                                  <td>{{ item.item_sku }}</td>
                                   <!--Code -->
                                   <td>{{ item.item_name }}</td>
                                   <!--Product Name -->
-                                  <td>{{ item?.booked_total_qty }}</td>
+                                  <td>
+                                    {{ item.parent_qty_sold }}
+                                    {{
+                                      item.schemeFreeProdsCount
+                                        ? "+" + item.schemeFreeProdsCount
+                                        : ""
+                                    }}
+                                  </td>
                                   <!--Qty -->
-                                  <td>{{ item?.unit_price }}</td>
+                                  <td>
+                                    {{ item.parent_tp | number: "1.2-2" }}
+                                  </td>
                                   <!--T.P -->
                                   <td>
-                                    {{
-                                      item?.booked_total_qty * item?.unit_price
-                                    }}
+                                    {{ item.grossPrice | number: "1.2-2" }}
                                   </td>
                                   <!-- GR Amt -->
                                   <td>
-                                    {{
-                                      item?.scheme_id !== 0
-                                        ? item?.booked_total_qty *
-                                          ((item?.booked_total_qty *
-                                            item?.unit_price) /
-                                            item?.scheme_min_quantity +
-                                            item?.scheme_quantity_free)
-                                        : "0.00"
-                                    }}
+                                    {{ item.tradeOffer | number: "1.2-2" }}
                                   </td>
                                   <!--T.O -->
                                   <td>
                                     {{
-                                      item?.distributor_discount
+                                      item.distributor_discount
                                         | number: "1.2-2"
                                     }}
                                   </td>
                                   <!-- DIST.Disc % -->
                                   <td>
                                     {{
-                                      item?.special_discount | number: "1.2-2"
+                                      item?.specialDiscount | number: "1.2-2"
                                     }}
                                   </td>
-                                  <!--SPC.DIST% -->
+                                  <!--SPC.DIST -->
                                   <td>
-                                    {{
-                                      item?.booker_discount *
-                                        item?.booked_total_qty
-                                    }}
+                                    {{ item.booker_discount }}
                                   </td>
                                   <!--B.Disc -->
                                   <td>
-                                    {{
-                                      item?.booked_total_qty *
-                                        ((item?.unit_price * item?.tax_amount) /
-                                          100)
-                                    }}
+                                    {{ item.tax_amount | number: "1.2-2" }}
                                   </td>
                                   <!--Tax -->
                                   <td>
                                     <!-- gross amt - trade offer - trade discount - 
                                       speacial discount - extra discount -->
-                                    {{
-                                      item?.booked_total_qty *
-                                        item?.unit_price -
-                                        (item?.scheme_id !== 0
-                                          ? item?.booked_total_qty *
-                                            ((item?.booked_total_qty *
-                                              item?.unit_price) /
-                                              scheme_min_quantity +
-                                              scheme_quantity_free)
-                                          : 0) -
-                                        0 -
-                                        ((item?.unit_price *
-                                          item?.distributor_discount) /
-                                          100) *
-                                          item?.booked_total_qty -
-                                        ((item?.unit_price *
-                                          item?.special_discount) /
-                                          100) *
-                                          item?.booked_total_qty
-                                    }}
+                                    {{ item.totalBill | number: "1.2-2" }}
                                   </td>
                                   <!--Net.Amt -->
                                 </tr>
@@ -190,7 +161,9 @@
                                   <td class="border-0"></td>
                                   <td><strong>Gross PKR.</strong></td>
                                   <td>
-                                    <strong>{{ totalGrossAmt }}</strong>
+                                    <strong>{{
+                                      order.grossPrice | number: "1.2-2"
+                                    }}</strong>
                                   </td>
                                 </tr>
                                 <tr>
@@ -207,7 +180,10 @@
                                   <td>
                                     <strong>
                                       <!-- t.o + dist disc% + spc dist + b dist -->
-                                      -{{ totalDiscount }}</strong
+                                      -
+                                      {{
+                                        order.discount | number: "1.2-2"
+                                      }}</strong
                                     >
                                   </td>
                                 </tr>
@@ -222,7 +198,11 @@
                                   <td class="border-0"></td>
                                   <td class="border-0"></td>
                                   <td><strong>Frieght Price PKR.</strong></td>
-                                  <td><strong>0.00</strong></td>
+                                  <td>
+                                    <strong>
+                                      + {{ order.frieght_price }}</strong
+                                    >
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td class="border-0"></td>
@@ -236,7 +216,10 @@
                                   <td class="border-0"></td>
                                   <td><strong>Tax PKR.</strong></td>
                                   <td>
-                                    <strong>{{ totalTax }}</strong>
+                                    <strong
+                                      >+
+                                      {{ order.tax | number: "1.2-2" }}</strong
+                                    >
                                   </td>
                                 </tr>
                                 <tr>
@@ -257,7 +240,9 @@
                                   <td
                                     style="background-color: #000; color: #fff"
                                   >
-                                    <strong>{{ totalPkr }}</strong>
+                                    <strong>{{
+                                      order.total | number: "1.2-2"
+                                    }}</strong>
                                   </td>
                                 </tr>
                               </tbody>

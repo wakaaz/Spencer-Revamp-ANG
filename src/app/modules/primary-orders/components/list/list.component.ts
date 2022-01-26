@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { PrimaryOrdersService } from '../../services/primary-orders.service';
+import { PrimaryOrder } from '../../_models/order';
 
 @Component({
   selector: 'app-list',
@@ -19,7 +20,7 @@ export class ListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   selectedOrders: Array<any> = [];
   orderDetial: any = null;
-  order: any = null;
+  order: PrimaryOrder;
   totalGrossAmt = 0.0;
   totalDiscount = 0.0;
   totalTax = 0.0;
@@ -50,13 +51,26 @@ export class ListComponent implements OnInit {
   onOrderDetail(id: number) {
     // alert(id);
     this.primaryOrderService.getOderDetailById(id).subscribe((res) => {
-      this.orderDetial = null;
-      this.order = null;
+      this.order = new PrimaryOrder();
       {
-        this.orderDetial = { ...res.data };
-        this.order = { ...res.data.order };
-        console.log(this.order);
-        console.log(this.orderDetial.content);
+        const orderRes = { ...res.data.order };
+        this.order.distributor_name = orderRes.distributor_name;
+        this.order.employee_name = orderRes.employee_name;
+        this.order.date = orderRes.date;
+        this.order.id = orderRes.id;
+        this.order.distributor_phone = orderRes.distributor_phone;
+        this.order.distributor_address = orderRes.distributor_address;
+        this.order.status = orderRes.status;
+        this.order.date = orderRes.date;
+        this.order.employee_name = orderRes.employee_name;
+        this.order.frieght_price = orderRes.frieght_price;
+        this.order.orderContent = this.primaryOrderService.getPrimaryOrderItem([
+          ...res.data.content,
+        ]);
+        // this.orderDetial = { ...res.data };
+        // this.order = { ...res.data.order };
+        // console.log(this.order);
+        // console.log(this.orderDetial.content);
         this.setOrderTotals();
       }
     });

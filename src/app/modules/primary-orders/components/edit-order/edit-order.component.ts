@@ -68,12 +68,12 @@ export class EditOrderComponent implements OnInit {
       this.order.employee_name = orderRes.employee_name;
       this.order.date = orderRes.date;
       this.order.id = orderRes.id;
+      this.order.frieght_price = orderRes.frieght_price;
       this.order.orderContent = this.primarySrvc.getPrimaryOrderItem([
         ...x.data.content,
       ]);
       this.getProductsMetaData();
       this.loading = false;
-      console.log('thos.loading => ', this.loading);
       //   this.primarySrvc.setOrderItemDtos([...this.orderContent]);
       //   console.log('ordercontent => ', this.orderContent[0]);
       // });
