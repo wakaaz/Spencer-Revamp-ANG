@@ -242,7 +242,7 @@
   </div>
 </div>
 
-<div id="blureEffct-1" class="container-fluid">
+<div id="blureEffct-1" class="container-fluid" *ngIf="!loading">
   <div class="overlay-blure"></div>
   <div class="container">
     <div class="row mt-2 mb-3">
@@ -406,11 +406,11 @@
                         <th></th>
                         <th>Frieght Price.</th>
                         <th>
+                          <!-- onkeyup="isNumber(event)" -->
                           <input
                             type="number"
                             min="0"
                             class="itemQTY frieght_price"
-                            onkeyup="isNumber(event)"
                             [(ngModel)]="order.frieght_price"
                             value="0"
                           />
@@ -524,7 +524,7 @@
                         </td>
                         <!-- Tax -->
                         <td>
-                          {{ item.tax | number: "1.2-2" }}
+                          {{ item.tax_amount | number: "1.2-2" }}
                         </td>
                         <!-- Total Bill -->
                         <td>
@@ -553,10 +553,14 @@
                         margin-bottom: 1px;
                       "
                     >
-                      <button type="submit" class="btn btn-primary mr-2">
+                      <button
+                        type="button"
+                        (click)="saveOrder()"
+                        class="btn btn-primary mr-2"
+                      >
                         Save Order
                       </button>
-                      <button type="submit" class="btn btn-cancel mr-2">
+                      <button type="button" class="btn btn-cancel mr-2">
                         Cancel
                       </button>
                     </div>

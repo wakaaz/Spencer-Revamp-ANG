@@ -43,6 +43,7 @@ export class EditOrderComponent implements OnInit {
   grossAmount: number;
   isAdded: boolean = false;
   alreadyAdded: boolean = false;
+  loading: boolean = false;
   constructor(
     private actr: ActivatedRoute,
     public primarySrvc: PrimaryOrdersService,
@@ -53,6 +54,7 @@ export class EditOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     const orderId = this.actr.snapshot.params.orderId;
     this.getOrderbyOrderId(orderId);
   }
@@ -70,7 +72,8 @@ export class EditOrderComponent implements OnInit {
         ...x.data.content,
       ]);
       this.getProductsMetaData();
-
+      this.loading = false;
+      console.log('thos.loading => ', this.loading);
       //   this.primarySrvc.setOrderItemDtos([...this.orderContent]);
       //   console.log('ordercontent => ', this.orderContent[0]);
       // });
@@ -572,6 +575,21 @@ export class EditOrderComponent implements OnInit {
     );
 
     this.displayProductsIsAddedStatus(false, itemId);
+  }
+
+  //#endregion
+
+  //#region saveOrder()
+
+  saveOrder(): void {
+    this.primarySrvc.updateOrder(this.order).subscribe(
+      (x) => {
+        console.log('output', x);
+      },
+      (error) => {
+        console.log('error =>>>>>>>>>>>>>>> ', error);
+      }
+    );
   }
 
   //#endregion

@@ -6,11 +6,9 @@ import { ProductService } from '../product.service';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css']
+  styleUrls: ['./product-detail.component.css'],
 })
-
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-
   dtOptions: DataTables.Settings = {};
   productId: number;
   product: any;
@@ -21,13 +19,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private toastService: ToasterService,
-  ) {
-  }
+    private toastService: ToasterService
+  ) {}
 
   ngOnInit(): void {
     this.dtOptions = {
-      pagingType: 'simple_numbers'
+      pagingType: 'simple_numbers',
     };
     this.productId = +this.route.snapshot.paramMap.get('id');
     this.getProduct();
@@ -35,25 +32,27 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   getProduct(): void {
     this.loader = true;
-    debugger;
-    this.productService.getProduct(this.productId).subscribe(res => {
-      this.loader = false;
-      if (res.status === 200) {
-        this.product = res.data;
-        this.activeSlide = 0;
-        this.startSlider();
+    this.productService.getProduct(this.productId).subscribe(
+      (res) => {
+        this.loader = false;
+        if (res.status === 200) {
+          this.product = res.data;
+          this.activeSlide = 0;
+          this.startSlider();
+        }
+      },
+      (error) => {
+        this.loader = false;
+        if (error.status !== 1 && error.status !== 401) {
+          this.toastService.showToaster({
+            title: 'Error:',
+            message: 'Something went wrong while fetching product detail!',
+            type: 'error',
+          });
+          console.log('error :>> ', error);
+        }
       }
-    }, error => {
-      this.loader = false;
-      if (error.status !== 1 && error.status !== 401) {
-        this.toastService.showToaster({
-          title: 'Error:',
-          message: 'Something went wrong while fetching product detail!',
-          type: 'error'
-        });
-        console.log('error :>> ', error);
-      }
-    });
+    );
   }
 
   startSlider(): void {
@@ -76,5 +75,4 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sliderInterval = null;
   }
-
 }

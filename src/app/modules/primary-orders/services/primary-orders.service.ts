@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { API_URLS } from 'src/app/core/constants/api-urls.constants';
 import { HttpBaseService } from 'src/app/core/services/http.service';
-import { IOrderItemDto, OrderItemDto } from '../_models/orderItemDtos';
+import { OrderItemDto } from '../_models/orderItemDtos';
+import { PrimaryOrder } from '../_models/order';
 import {
   IPrimaryOrderItem,
   PrimaryOrderItem,
   setPrimarOrderItem,
 } from '../_models/orderItems';
+import {
+  getNewOrderContentObject,
+  IupdateOrdercontent,
+  UpdateOrder,
+} from '../_models/updateOrder';
 
 @Injectable()
 export class PrimaryOrdersService {
@@ -34,7 +40,28 @@ export class PrimaryOrdersService {
     return this.baseService.get(API_URLS.GET_PRODUCTS_META_DATA);
   }
 
+  updateOrder(primaryOrder: PrimaryOrder): Observable<any> {
+    const order = this.getOrderModel(primaryOrder);
+    return this.baseService.put(
+      `${API_URLS.UPDATE_PRIMARY_ORDER}${primaryOrder.id}`,
+      order
+    );
+  }
+
   //#region order client side functions
+
+  getOrderModel(primaryOrder: PrimaryOrder): UpdateOrder {
+    const order: UpdateOrder = new UpdateOrder();
+    order.frieght_price = primaryOrder.frieght_price;
+    order.order_content = new Array<IupdateOrdercontent>();
+    const LENGHT = primaryOrder.orderContent.length;
+    for (let i = 0; i < LENGHT; i++) {
+      order.order_content.push(
+        getNewOrderContentObject(primaryOrder.orderContent[i])
+      );
+    }
+    return order;
+  }
 
   getPrimaryOrderItem(items: IPrimaryOrderItem[]): PrimaryOrderItem[] {
     const length = items.length;

@@ -14,6 +14,7 @@ export const API_URLS = {
   ADD_COUNTER_SALE: '/saveOrder/counter',
   PENDING_APPROVAL_ORDERS: '/orders-list/pending-approval',
   PENDING_ORDERS: '/orders-list/pending',
+  UPDATE_PRIMARY_ORDER: '/update-order/',
   FETCH_ORDER_BY_ID: '/fetch-order-data/',
   SAVE_DISPATCH: '/saveOrder/dispatch',
   SAVE_EXECUTION: '/saveOrder/execution',

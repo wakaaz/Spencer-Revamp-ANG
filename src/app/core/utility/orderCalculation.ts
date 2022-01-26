@@ -201,8 +201,8 @@ class Utility {
     totalBookedQuantity: number
   ): number {
     return extraOrbookerDiscount
-      ? extraOrbookerDiscount
-      : 0 * totalBookedQuantity;
+      ? extraOrbookerDiscount * totalBookedQuantity
+      : 0;
   }
 
   // tax in percentage
