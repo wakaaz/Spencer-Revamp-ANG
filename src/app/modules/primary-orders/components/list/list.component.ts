@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  PRIMARY_ORDER,
+  PRIMARY_ORDER_API_STATUS,
+  PRIMARY_ORDER_API_STATUS_UPDATE,
+} from 'src/app/core/constants/primary-orders-parms.constants';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { PrimaryOrdersService } from '../../services/primary-orders.service';
 import { PrimaryOrder } from '../../_models/order';
@@ -8,7 +14,12 @@ import { PrimaryOrder } from '../../_models/order';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
+  readonly PRIMARY_ORDER_CONST = PRIMARY_ORDER;
+  readonly PRIMARY_ORDER_STATUS_UPDATE = PRIMARY_ORDER_API_STATUS_UPDATE;
+  orderStatus: string;
+  confirmDeleteOrderID: number;
+  orderStatusAPI: string;
   selectedOrderBooker: number;
   showDetailsPopup: boolean;
   submitted: boolean;
@@ -27,12 +38,37 @@ export class ListComponent implements OnInit {
   totalPkr = 0.0;
   frienghtPrice = 0.0;
   constructor(
-    // private generalDataService: GeneralDataService,
     private primaryOrderService: PrimaryOrdersService,
-    private toastService: ToasterService
-  ) {}
+    private toastService: ToasterService,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe((param) => {
+      this.orderStatus = param.status;
+      switch (this.orderStatus) {
+        case PRIMARY_ORDER.BOOKED:
+          this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.BOOKED;
+          break;
+        case PRIMARY_ORDER.PROCESSED:
+          this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.PROCESSED;
+          break;
+        case PRIMARY_ORDER.EXECUTE:
+          this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.EXECUTE;
+          break;
+        case PRIMARY_ORDER.COMPLETED:
+          this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.COMPLETED;
+          break;
+        case PRIMARY_ORDER.CANCELED:
+          this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.CANCELED;
+          break;
+        default:
+          break;
+      }
+      this.onInit();
+    });
+  }
 
-  ngOnInit(): void {
+  onInit(): void {
+    // console.log(this.route.snapshot.params.status);
     this.byOrderBooker = true;
     this.dtOptions = {
       pagingType: 'simple_numbers',
@@ -41,15 +77,17 @@ export class ListComponent implements OnInit {
   }
   getPendingOrders() {
     this.loading = true;
-    this.primaryOrderService.getPendingOrdersList().subscribe((x) => {
-      console.log('x => ', x.data);
-      this.primaryOrders = [...x.data];
-      this.loading = false;
-    });
+    this.primaryOrderService
+      .getPendingOrdersList(this.orderStatusAPI)
+      .subscribe((x) => {
+        console.log('x => ', x.data);
+        this.primaryOrders = [...x.data];
+        this.loading = false;
+      });
   }
 
   onOrderDetail(id: number) {
-    // alert(id);
+    this.loading = true;
     this.primaryOrderService.getOderDetailById(id).subscribe((res) => {
       this.order = new PrimaryOrder();
       {
@@ -67,11 +105,7 @@ export class ListComponent implements OnInit {
         this.order.orderContent = this.primaryOrderService.getPrimaryOrderItem([
           ...res.data.content,
         ]);
-        // this.orderDetial = { ...res.data };
-        // this.order = { ...res.data.order };
-        // console.log(this.order);
-        // console.log(this.orderDetial.content);
-        this.setOrderTotals();
+        this.loading = false;
       }
     });
   }
@@ -105,41 +139,6 @@ export class ListComponent implements OnInit {
   getBookDiscount(item: any): number {
     return item?.booker_discount * item?.booked_total_qty;
   }
-  getAllSalesMen(): void {
-    // this.generalDataService.getAllSalesMen().subscribe(res => {
-    //     if (res.status === 200) {
-    //         this.salesMen = res.data;
-    //     }
-    // }, error => {
-    //     if (error.status !== 401 && error.status !== 1) {
-    //         this.toastService.showToaster({
-    //             title: 'Error:',
-    //             message: 'Salesmen not fetched, try again later.',
-    //             type: 'error'
-    //         });
-    //     }
-    // });
-  }
-
-  getNewOrders(): void {
-    // this.loading = true;
-    // this.ordersService.getNewOrders().subscribe(res => {
-    //     this.loading = false;
-    //     if (res.status === 200) {
-    //         this.orders = res.data;
-    //     }
-    // }, error => {
-    //     this.loading = false;
-    //     if (error.status !== 401 && error.status !== 1) {
-    //         this.toastService.showToaster({
-    //             title: 'Error:',
-    //             message: 'New Orders not fetched, try again later.',
-    //             type: 'error'
-    //         });
-    //     }
-    //     scrollTo(0, 0);
-    // });
-  }
 
   addOrderToAssignment(order: any): void {
     this.selectedOrders = this.selectedOrders.filter(
@@ -154,48 +153,6 @@ export class ListComponent implements OnInit {
     this.selectedOrders.push(assignment);
   }
 
-  assignSaleman(): void {
-    // if (this.selectedOrders.length) {
-    //     const assigned = {
-    //         salesman: this.selectedOrders.map(x => {
-    //             const { sales_man, employee_id, date } = x;
-    //             return { sales_man, employee_id, date };
-    //         })
-    //     };
-    //     this.loading = true;
-    //     this.ordersService.assignSalesMan(assigned).subscribe(res => {
-    //         if (res.status) {
-    //             this.toastService.showToaster({
-    //                 title: 'Salesman Assigned:',
-    //                 message: 'Salesmen assigned to selected order.',
-    //                 type: 'success'
-    //             });
-    //             this.selectedOrders.forEach(order => {
-    //                 this.orders = this.orders.filter(ordr => ordr.id !== order.id);
-    //             });
-    //             this.loading = false;
-    //             this.selectedOrders = [];
-    //           }
-    //     }, error => {
-    //         this.loading = false;
-    //         if (error.status !== 401 && error.status !== 1) {
-    //             this.toastService.showToaster({
-    //                 title: 'Error:',
-    //                 message: 'Salesmen assignment is not working at the moment, try again later.',
-    //                 type: 'error'
-    //             });
-    //         }
-    //         scrollTo(0, 0);
-    //     });
-    // } else {
-    //     this.toastService.showToaster({
-    //         title: 'Error:',
-    //         message: 'Please select saleman to assign orders!',
-    //         type: 'error'
-    //     });
-    // }
-  }
-
   openDetailsModal(order: any): void {
     document.body.classList.add('no-scroll');
   }
@@ -203,19 +160,19 @@ export class ListComponent implements OnInit {
   closeDetailsModal(): void {
     document.body.classList.remove('no-scroll');
   }
-  setOrderTotals() {
-    const length = this.orderDetial.content.length;
-    for (let i = 0; i < length; i++) {
-      this.totalGrossAmt +=
-        this.orderDetial.content[i].unit_price *
-        this.orderDetial.content[i].booked_total_qty;
-      this.totalDiscount += this.getTotalDiscount(this.orderDetial.content[i]);
-      this.totalTax += this.orderDetial.content[i].tax_amount;
-    }
-    this.totalPkr =
-      this.totalGrossAmt -
-      this.totalDiscount +
-      this.totalTax +
-      this.frienghtPrice;
+  onUpdateOrderStatus(id: number, status: string) {
+    this.loading = true;
+    this.primaryOrderService.updateOrderStatus(id, status).subscribe(
+      (res) => {
+        this.onInit();
+      },
+      (err) => {
+        console.log('err => ', err);
+      }
+    );
+  }
+
+  onConfirmationDelete(orderId: number) {
+    this.confirmDeleteOrderID = orderId;
   }
 }

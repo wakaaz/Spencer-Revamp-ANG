@@ -242,7 +242,7 @@
   </div>
 </div>
 
-<div id="blureEffct-1" class="container-fluid" *ngIf="!loading">
+<div id="blureEffct-1" class="container-fluid">
   <div class="overlay-blure"></div>
   <div class="container">
     <div class="row mt-2 mb-3">
@@ -265,7 +265,10 @@
             <h2>Edit <span> Order</span></h2>
           </div>
           <div class="body PT-15">
-            <div id="floating-label">
+            <div *ngIf="loading" class="col-md-12">
+              <app-loader-white></app-loader-white>
+            </div>
+            <div id="floating-label" *ngIf="!loading">
               <div class="form-wrap p-0">
                 <div class="topstats">
                   <div class="row">
@@ -558,9 +561,19 @@
                         (click)="saveOrder()"
                         class="btn btn-primary mr-2"
                       >
-                        Save Order
+                        <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          *ngIf="saving"
+                        ></span>
+                        {{ saving ? "Updateing" : "Save Order" }}
                       </button>
-                      <button type="button" class="btn btn-cancel mr-2">
+                      <button
+                        type="button"
+                        [routerLink]="['/primaryOrders']"
+                        class="btn btn-cancel mr-2"
+                      >
                         Cancel
                       </button>
                     </div>

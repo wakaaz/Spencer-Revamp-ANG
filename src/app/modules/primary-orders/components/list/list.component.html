@@ -1,3 +1,60 @@
+// cancel order yes no confirmation
+<div
+  class="modal fade"
+  id="cancelYesNo"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="cancelYesNoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content top-borderRed">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancelYesNoLabel">Delete <span></span></h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <strong>Are you sure you want to cancel this Order?</strong>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="
+            onUpdateOrderStatus(
+              confirmDeleteOrderID,
+              PRIMARY_ORDER_STATUS_UPDATE.CANCELED
+            )
+          "
+        >
+          Yes
+        </button>
+        <button
+          type="submit"
+          class="btn btn-cancel"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Order details Popup -->
 <div
   class="modal fade"
@@ -24,7 +81,10 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <div class="card" *ngIf="order">
+              <!-- <div *ngIf="loading" class="col-md-12">
+                <app-loader-white></app-loader-white>
+              </div> -->
+              <div class="card" *ngIf="!loading && order">
                 <div class="p-10" style="border-bottom: solid 2px #000">
                   <div class="row m-0">
                     <div class="col-8 OrderLogo">
@@ -286,7 +346,9 @@
             <li>
               <a href="#"><span>Order Management</span></a>
             </li>
-            <li><span>Booked Orders</span></li>
+            <li>
+              <span>{{ orderStatus | titlecase }} Orders</span>
+            </li>
           </ol>
         </div>
       </div>
@@ -294,7 +356,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="header">
-              <h2>Booked <span> Orders List</span></h2>
+              <h2>{{ orderStatus | titlecase }} <span> Orders List</span></h2>
             </div>
             <div class="body PT-15">
               <div id="floating-label">
@@ -336,12 +398,76 @@
                               >
                                 Detail
                               </button>
-                              <button class="btn btn-default">Dispatch</button>
+                              <button
+                                *ngIf="
+                                  PRIMARY_ORDER_CONST.BOOKED === orderStatus
+                                "
+                                (click)="
+                                  onUpdateOrderStatus(
+                                    order.id,
+                                    PRIMARY_ORDER_STATUS_UPDATE.PROCESSED
+                                  )
+                                "
+                                class="btn btn-default"
+                              >
+                                Process
+                              </button>
+
+                              <button
+                                *ngIf="
+                                  PRIMARY_ORDER_CONST.PROCESSED === orderStatus
+                                "
+                                class="btn btn-default"
+                                (click)="
+                                  onUpdateOrderStatus(
+                                    order.id,
+                                    PRIMARY_ORDER_STATUS_UPDATE.EXECUTE
+                                  )
+                                "
+                              >
+                                Execute
+                              </button>
+                              <button
+                                *ngIf="
+                                  PRIMARY_ORDER_CONST.EXECUTE === orderStatus
+                                "
+                                (click)="
+                                  onUpdateOrderStatus(
+                                    order.id,
+                                    PRIMARY_ORDER_STATUS_UPDATE.COMPLETED
+                                  )
+                                "
+                                class="btn btn-default"
+                              >
+                                Complete
+                              </button>
                               <button
                                 class="btn btn-default"
+                                *ngIf="
+                                  !(
+                                    PRIMARY_ORDER_CONST.COMPLETED ===
+                                      orderStatus ||
+                                    PRIMARY_ORDER_CONST.CANCELED === orderStatus
+                                  )
+                                "
                                 [routerLink]="['edit', order.id]"
                               >
                                 Edit
+                              </button>
+                              <button
+                                class="btn btn-default"
+                                *ngIf="
+                                  !(
+                                    PRIMARY_ORDER_CONST.COMPLETED ===
+                                      orderStatus ||
+                                    PRIMARY_ORDER_CONST.CANCELED === orderStatus
+                                  )
+                                "
+                                data-toggle="modal"
+                                data-target="#cancelYesNo"
+                                (click)="onConfirmationDelete(order.id)"
+                              >
+                                Cancel
                               </button>
                             </td>
                           </tr>

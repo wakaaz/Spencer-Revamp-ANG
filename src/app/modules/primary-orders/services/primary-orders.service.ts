@@ -29,8 +29,8 @@ export class PrimaryOrdersService {
   public pushOrderItemDtos(primaryOrderItems: IPrimaryOrderItem[]) {
     this._orderItemDtos.next(this.getOrderItemsDto(primaryOrderItems));
   }
-  getPendingOrdersList(): Observable<any> {
-    return this.baseService.get(API_URLS.PENDING_ORDERS);
+  getPendingOrdersList(orderStatus: string): Observable<any> {
+    return this.baseService.get(API_URLS.PENDING_ORDERS + orderStatus);
   }
   getOderDetailById(id: number): Observable<any> {
     return this.baseService.get(API_URLS.FETCH_ORDER_BY_ID + id);
@@ -38,6 +38,12 @@ export class PrimaryOrdersService {
 
   getProductsMetaData(): Observable<any> {
     return this.baseService.get(API_URLS.GET_PRODUCTS_META_DATA);
+  }
+
+  updateOrderStatus(orderId: number, orderStatus: string): Observable<any> {
+    return this.baseService.put(`${API_URLS.UPDATE_ORDER_STATUS}${orderId}`, {
+      status: orderStatus,
+    });
   }
 
   updateOrder(primaryOrder: PrimaryOrder): Observable<any> {

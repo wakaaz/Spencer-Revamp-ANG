@@ -10,12 +10,12 @@ const routes: Routes = [
     component: PrimaryOrdersComponent,
     children: [
       {
-        path: '',
+        path: ':status',
         pathMatch: 'full',
         component: ListComponent,
       },
       {
-        path: 'edit/:orderId',
+        path: ':status/edit/:orderId',
         pathMatch: 'full',
         component: EditOrderComponent,
       },

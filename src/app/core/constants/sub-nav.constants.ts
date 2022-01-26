@@ -1,3 +1,5 @@
+import { PRIMARY_ORDER } from './primary-orders-parms.constants';
+
 export const ordersSubMenu = {
   title: 'Orders',
   subMenu: [
@@ -40,27 +42,28 @@ export const primaryOrderSubMenu = {
   subMenu: [
     {
       title: 'Booked',
-      link: '/primaryOrders',
+      link: `/primaryOrders/${PRIMARY_ORDER.BOOKED}`,
       icon: '/assets/images/dispatched-order.svg',
+      queryParams: { order: 'booked' },
     },
     {
       title: 'Process',
-      link: '/processOrders',
+      link: `/primaryOrders/${PRIMARY_ORDER.PROCESSED}`,
       icon: '/assets/images/dispatched-order.svg',
     },
     {
-      title: 'Execute',
-      link: '/executeOrders',
+      title: 'Executed',
+      link: `/primaryOrders/${PRIMARY_ORDER.EXECUTE}`,
       icon: '/assets/images/dispatched-order.svg',
     },
     {
       title: 'Completed',
-      link: '/completedOrders',
+      link: `/primaryOrders/${PRIMARY_ORDER.COMPLETED}`,
       icon: '/assets/images/dispatched-order.svg',
     },
     {
-      title: 'Canceled',
-      link: '/canceledOrders',
+      title: 'Cancelled',
+      link: `/primaryOrders/${PRIMARY_ORDER.CANCELED}`,
       icon: '/assets/images/dispatched-order.svg',
     },
   ],
