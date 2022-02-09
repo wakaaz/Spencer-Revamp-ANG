@@ -134,7 +134,7 @@ export class PrimaryOrder {
   }
 
   public get total(): number {
-    return this.subTotal + this.tax;
+    return this.subTotalPlusFrieghtPrice + this.tax;
   }
   //#endregion
 

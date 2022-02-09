@@ -72,12 +72,10 @@ const routes: Routes = [
       import('./modules/payment/payment.module').then((m) => m.PaymentModule),
   },
 
-  // {
-  //   path: '',
-  //   canActivate: [AuthGuard],
-  //   redirectTo: 'home',
-  //   pathMatch: 'full',
-  // },
+  {
+    path: '**',
+    redirectTo: 'home',
+  },
 ];
 
 @NgModule({
