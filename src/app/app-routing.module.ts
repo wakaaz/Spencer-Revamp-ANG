@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuard } from './core/guard/auth.guard';
 
 const routes: Routes = [
@@ -71,14 +71,22 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/payment/payment.module').then((m) => m.PaymentModule),
   },
-  {
-    path: '**',
-    redirectTo: 'home',
-  },
+
+  // {
+  //   path: '',
+  //   canActivate: [AuthGuard],
+  //   redirectTo: 'home',
+  //   pathMatch: 'full',
+  // },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      preloadingStrategy: PreloadAllModules,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

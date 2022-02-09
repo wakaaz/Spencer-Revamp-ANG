@@ -47,7 +47,7 @@ export const primaryOrderSubMenu = {
       queryParams: { order: 'booked' },
     },
     {
-      title: 'Process',
+      title: 'Processed',
       link: `/primaryOrders/${PRIMARY_ORDER.PROCESSED}`,
       icon: '/assets/images/dispatched-order.svg',
     },

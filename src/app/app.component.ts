@@ -45,9 +45,10 @@ export class AppComponent {
       : false;
     if (!this.isLoggedIn) {
       this.router.navigateByUrl('/login');
-    } else if (location.pathname === '/') {
-      this.router.navigateByUrl('/home');
     }
+    // else if (location.pathname === '/') {
+    //   this.router.navigateByUrl('/home');
+    // }
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isLoggedIn = this.storageService.getItem('dist_session')

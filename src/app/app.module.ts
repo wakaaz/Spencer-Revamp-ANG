@@ -19,6 +19,7 @@ import { LocalStorageSalemanEffects } from './core/effects/salesmen.effects';
 
 import { environment } from '../environments/environment';
 import { SharedModule } from './modules/shared/shared.module';
+import { PathLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
