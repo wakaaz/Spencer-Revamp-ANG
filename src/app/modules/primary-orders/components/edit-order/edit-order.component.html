@@ -88,11 +88,6 @@
               <div class="custom-control custom-radio">
                 <input
                   [(ngModel)]="selectedProduct.selectedScheme"
-                  (click)="
-                    selectedProduct.pref_id &&
-                      selectedProduct.stockQty &&
-                      calculateProductDiscounts(selectedProduct, scheme)
-                  "
                   [disabled]="
                     !selectedProduct.stockQty || +selectedProduct.stockQty <= 0
                   "
