@@ -44,6 +44,7 @@ export class EditOrderComponent implements OnInit {
   alreadyAdded: boolean = false;
   loading: boolean = false;
   saving: boolean = false;
+  status: string;
   constructor(
     private actr: ActivatedRoute,
     public primarySrvc: PrimaryOrdersService,
@@ -57,6 +58,7 @@ export class EditOrderComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     const orderId = this.actr.snapshot.params.orderId;
+    this.status = this.actr.snapshot.params.status;
     this.getOrderbyOrderId(orderId);
   }
 
@@ -328,7 +330,7 @@ export class EditOrderComponent implements OnInit {
             title: 'Order Updated:',
           };
           this.toastService.showToaster(toast);
-          this.router.navigate(['/primaryOrders']);
+          this.router.navigate(['/primaryOrders', this.status]);
         } else {
           const toast: Toaster = {
             type: 'error',
