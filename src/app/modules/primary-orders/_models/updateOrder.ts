@@ -60,7 +60,7 @@ export const getNewOrderContentObject = (
     scheme_min_quantity: primaryOrderItem.scheme_min_quantity || 0,
     scheme_quantity_free: primaryOrderItem.scheme_quantity_free || 0,
     scheme_rule: primaryOrderItem.scheme_rule || 0,
-    scheme_type: primaryOrderItem.scheme_type || 0,
+    scheme_type: primaryOrderItem.scheme_type || '0',
     gift_value: primaryOrderItem.gift_value || 0,
     scheme_discount: primaryOrderItem.scheme_discount_on_tp || 0,
     unit_price_after_scheme_discount:
