@@ -80,7 +80,6 @@ export class ListComponent {
     this.primaryOrderService
       .getPendingOrdersList(this.orderStatusAPI)
       .subscribe((x) => {
-        console.log('x => ', x.data);
         this.primaryOrders = [...x.data];
         this.loading = false;
       });

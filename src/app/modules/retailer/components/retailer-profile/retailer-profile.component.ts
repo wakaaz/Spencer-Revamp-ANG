@@ -14,7 +14,9 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./retailer-profile.component.css'],
 })
 export class RetailerProfileComponent implements OnInit {
-  options: LoaderOptions = {/* todo */ };
+  options: LoaderOptions = {
+    /* todo */
+  };
   loader = new Loader('AIzaSyAPx6ZyRZ1B8SoBCDMZ89LQ5TyQTr-pgN8', this.options);
   dtOptions: DataTables.Settings = {};
   dtOptionsOrders: DataTables.Settings = {};
@@ -61,21 +63,21 @@ export class RetailerProfileComponent implements OnInit {
       ): number {
         return a + b;
       },
-        0);
+      0);
       for (let i = 0; i < ds.data.length; i++) {
         text.push('<li>');
         const perc = Math.round((100 * (ds.data as Array<number>)[i]) / sum);
         text.push(
           '<span style="background-color:' +
-          ds.backgroundColor[i] +
-          '">' +
-          '</span>' +
-          chart.data.labels[i] +
-          ' (' +
-          ds.data[i] +
-          ') (' +
-          perc +
-          '%)'
+            ds.backgroundColor[i] +
+            '">' +
+            '</span>' +
+            chart.data.labels[i] +
+            ' (' +
+            ds.data[i] +
+            ') (' +
+            perc +
+            '%)'
         );
         text.push('</li>');
       }
@@ -125,7 +127,7 @@ export class RetailerProfileComponent implements OnInit {
     private retailerService: RetailerService,
     private toastService: ToasterService,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -133,7 +135,6 @@ export class RetailerProfileComponent implements OnInit {
     this.retailer = JSON.parse(this.route.snapshot.queryParams.retailer);
     // this.mapURL = this.sanitizer.bypassSecurityTrustUrl
     // (`https://maps.google.com/?q="${this.retailer?.retailer_lats},${this.retailer?.retailer_longs}`);
-    console.log('retiler -- ', this.retailer);
     this.loader.load().then(function (google) {
       const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -34.397, lng: 150.644 },
@@ -147,7 +148,6 @@ export class RetailerProfileComponent implements OnInit {
       (data) => {
         this.visits = data;
         this.loading = false;
-        console.log('this.visits => ', this.visits[0]);
       },
       (error) => {
         this.loading = false;
@@ -514,11 +514,10 @@ export class RetailerProfileComponent implements OnInit {
     salesman: string,
     date: string,
     invoice_number: string,
-    status: string,
-  )
-    : void {
+    status: string
+  ): void {
     this.orderDetail = null;
-    this.retailerService.getOrderDetail(orderId).subscribe(res => {
+    this.retailerService.getOrderDetail(orderId).subscribe((res) => {
       const data = {
         items: res.details,
         order_booker: orderBooker,
@@ -526,26 +525,34 @@ export class RetailerProfileComponent implements OnInit {
         date: date,
         invoice_number,
         status,
-      }
+      };
       this.orderDetail = { ...data };
       console.log('res =>', JSON.stringify(this.orderDetail));
     });
   }
 
   showVisitStorePicture(id) {
-    const visit = this.visits.find(x => x.id === id);
+    const visit = this.visits.find((x) => x.id === id);
     this.visitIamge = visit.picture;
   }
   getGrAmount(items: any) {
-    return items?.map(x => x.final_price).reduce((accumulator, cur) => accumulator + cur);
+    return items
+      ?.map((x) => x.final_price)
+      .reduce((accumulator, cur) => accumulator + cur);
   }
   getToAmount(items: any) {
-    return items?.map(x => x.trade_offer).reduce((accumulator, cur) => accumulator + cur);
+    return items
+      ?.map((x) => x.trade_offer)
+      .reduce((accumulator, cur) => accumulator + cur);
   }
   getSpcDiscAmount(items: any) {
-    return items?.map(x => x.special_discount).reduce((accumulator, cur) => accumulator + cur);
+    return items
+      ?.map((x) => x.special_discount)
+      .reduce((accumulator, cur) => accumulator + cur);
   }
   getExtraDiscAmount(items: any) {
-    return items?.map(x => x.extra_discount).reduce((accumulator, cur) => accumulator + cur);
+    return items
+      ?.map((x) => x.extra_discount)
+      .reduce((accumulator, cur) => accumulator + cur);
   }
 }

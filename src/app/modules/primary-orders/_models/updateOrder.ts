@@ -32,7 +32,6 @@ export class UpdateOrder implements IupdateOrder {
 export const getNewOrderContentObject = (
   primaryOrderItem: PrimaryOrderItem
 ) => {
-  console.log('primaryOrderItem.item_id => ', primaryOrderItem.item_id);
   const orderContent: IupdateOrdercontent = {
     quantity: primaryOrderItem.quantity,
     brand_id: primaryOrderItem.brand_id,

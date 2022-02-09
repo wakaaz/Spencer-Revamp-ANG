@@ -27,7 +27,6 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    debugger;
     req = this.setBearerToken(req);
     if (!window.navigator.onLine) {
       // if there is no internet, throw a HttpErrorResponse error

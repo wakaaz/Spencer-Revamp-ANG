@@ -118,10 +118,8 @@ export class EditOrderComponent implements OnInit {
                 pr.isAdded = false;
               }
               pr.net_amount = 0.0;
-              console.log(i);
               return pr;
             });
-            console.log(this.allProducts.length);
           }
 
           this.specialDiscounts = res.data.special_discount;
@@ -276,7 +274,6 @@ export class EditOrderComponent implements OnInit {
       });
     }
     this.selectedProduct = { ...product };
-    console.log('selectedProduct.hasOwnProperty', this.selectedProduct.schemes);
     this.selectedProduct.selectedScheme = null;
     // this.selectedProduct.units = this.prefrences.filter(x => x.item_id === product.item_id);
   }

@@ -82,7 +82,6 @@ export function setPrimarOrderItem(
 //#endregion
 // TODO:CODE CLEAN
 export function getNewPrimaryOderItem(selectedProduct: any): PrimaryOrderItem {
-  console.log(selectedProduct);
   const primOrderItem = new PrimaryOrderItem();
   primOrderItem.brand_id = selectedProduct.brand_id;
   primOrderItem.parent_unit_quantity = selectedProduct.parent.quantity;
