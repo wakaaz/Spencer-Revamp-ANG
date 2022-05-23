@@ -1,5 +1,6 @@
 // Primary Order Params
 export const PRIMARY_ORDER = {
+  NEW: 'new',
   BOOKED: 'booked',
   PROCESSED: 'processed',
   EXECUTE: 'execute',

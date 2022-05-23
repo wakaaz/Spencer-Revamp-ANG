@@ -257,7 +257,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="header">
-            <h2>Edit <span> Order</span></h2>
+            <h2>{{ isNew ? "Edit" : "Create" }} <span> Order</span></h2>
           </div>
           <div class="body PT-15">
             <div *ngIf="loading" class="col-md-12">
@@ -267,13 +267,31 @@
               <div class="form-wrap p-0">
                 <div class="topstats">
                   <div class="row">
-                    <div class="col-2 pr-0">
+                    <div *ngIf="!isNew" class="_sa-customer" class="col-md-6">
+                      <div class="form-s2">
+                        <ng-select
+                          [multiple]="false"
+                          class="formselect"
+                          [(ngModel)]="selectedSubDistributor"
+                          (change)="onSubDistributorChanged()"
+                          placeholder="Select Sub Distributor"
+                        >
+                          <ng-option disabled>Select Sub Distributor</ng-option>
+                          <ng-option
+                            *ngFor="let sDist of subDistributors"
+                            [value]="sDist.id"
+                            >{{ sDist.distributor_name }}</ng-option
+                          >
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div *ngIf="isNew" class="col-2 pr-0">
                       <div class="gary-box">
                         <strong>Date:</strong>
                         <span class="execution_date">{{ order.date }}</span>
                       </div>
                     </div>
-                    <div class="col-4 pr-0">
+                    <div *ngIf="isNew" class="col-4 pr-0">
                       <div class="gary-box">
                         <strong>Distributor:</strong>
                         <span class="execution_date">{{
@@ -281,7 +299,7 @@
                         }}</span>
                       </div>
                     </div>
-                    <div class="col-3 pr-0">
+                    <div *ngIf="isNew" class="col-3 pr-0">
                       <div class="gary-box">
                         <strong>Employee:</strong>
                         <span class="execution_date">{{
@@ -299,6 +317,26 @@
                         Add Product
                       </button>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!isNew" class="_cut-detail">
+                <div class="row">
+                  <div class="col-md-6">
+                    <strong>Distributor Name: &nbsp; </strong>
+                    {{ subDistributor?.distributor_name || "--" }}
+                  </div>
+                  <div class="col-md-6">
+                    <strong>Town: &nbsp; </strong>
+                    {{ subDistributor?.city_name || "--" }}
+                  </div>
+                  <div class="col-md-6">
+                    <strong>Distributor Address: &nbsp; </strong>
+                    {{ subDistributor?.distributor_address || "--" }}
+                  </div>
+                  <div class="col-md-6">
+                    <strong>TSM. Name: &nbsp; </strong>
+                    {{ subDistributor?.tsm || "--" }}
                   </div>
                 </div>
               </div>
@@ -552,6 +590,7 @@
                       "
                     >
                       <button
+                        *ngIf="isNew"
                         type="button"
                         (click)="saveOrder()"
                         class="btn btn-primary mr-2"
@@ -563,6 +602,20 @@
                           *ngIf="saving"
                         ></span>
                         {{ saving ? "Updateing" : "Save Order" }}
+                      </button>
+                      <button
+                        *ngIf="!isNew"
+                        type="button"
+                        (click)="saveOrder()"
+                        class="btn btn-primary mr-2"
+                      >
+                        <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          *ngIf="saving"
+                        ></span>
+                        {{ saving ? "Creating" : "Save Order" }}
                       </button>
                       <button
                         type="button"

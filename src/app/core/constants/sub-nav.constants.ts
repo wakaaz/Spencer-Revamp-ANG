@@ -38,8 +38,14 @@ export const ordersSubMenu = {
   ],
 };
 export const primaryOrderSubMenu = {
-  title: 'Primary Orders',
+  title: 'Sale Orders',
   subMenu: [
+    {
+      title: 'New Order',
+      link: `/primaryOrders/order/${PRIMARY_ORDER.NEW}`,
+      icon: '/assets/images/dispatched-order.svg',
+      queryParams: { order: 'new' },
+    },
     {
       title: 'Booked',
       link: `/primaryOrders/${PRIMARY_ORDER.BOOKED}`,

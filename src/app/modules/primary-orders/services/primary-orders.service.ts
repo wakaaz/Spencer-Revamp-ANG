@@ -40,6 +40,14 @@ export class PrimaryOrdersService {
     return this.baseService.get(API_URLS.GET_PRODUCTS_META_DATA);
   }
 
+  getDistributorsEmployees(id: number): Observable<any> {
+    return this.baseService.get(API_URLS.DISTRIBUTORS_EMPLOYEES + id);
+  }
+
+  getSubDistributors(): Observable<any> {
+    return this.baseService.get(API_URLS.SUB_DISTRIBUTORS);
+  }
+
   updateOrderStatus(orderId: number, orderStatus: string): Observable<any> {
     return this.baseService.put(`${API_URLS.UPDATE_ORDER_STATUS}${orderId}`, {
       status: orderStatus,
@@ -52,6 +60,41 @@ export class PrimaryOrdersService {
       `${API_URLS.UPDATE_PRIMARY_ORDER}${primaryOrder.id}`,
       order
     );
+  }
+
+  saveOrder(primaryOrder: PrimaryOrder, userId: number): Observable<any> {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+    let ddd = '';
+    let mmm = '';
+
+    if (dd < 10) ddd = '0' + dd;
+    else ddd = dd.toString();
+    if (mm < 10) mmm = '0' + mm;
+    else mmm = mm.toString();
+
+    const formatedDate = yyyy + '-' + mmm + '-' + ddd + ' ' + today.getTime();
+    const order = this.getOrderModel(primaryOrder);
+
+    order.distributor_id = primaryOrder.distributor_id;
+    order.employee_id = primaryOrder.employee_id;
+    order.status = 'completed';
+    order.web_order = 1;
+    order.order_type = 5;
+    order.executed_by_dist = userId;
+    // order.completed_by_dist = userId;
+    order.compeleted_at = formatedDate;
+    order.executed_at = formatedDate;
+    order.booker_lats = 0;
+    order.booker_longs = 0;
+    order.within_radius = 0;
+    order.phone_order = 1;
+    order.offline_order = 0;
+    order.created_at = formatedDate;
+    order.approved = 1;
+    return this.baseService.post(`${API_URLS.SAVE_PRIMARY_ORDER}`, order);
   }
 
   //#region order client side functions

@@ -24,6 +24,22 @@ export interface IupdateOrder {
 
 export class UpdateOrder implements IupdateOrder {
   frieght_price: number;
+  distributor_id: number;
+  employee_id: number;
+  status: string;
+  booker_lats: number;
+  booker_longs: number;
+  within_radius: number;
+  phone_order: number;
+  offline_order: number;
+  web_order: number;
+  order_type: number;
+  executed_by_dist: number;
+  completed_by_dist: number;
+  approved: number;
+  created_at: string;
+  compeleted_at: string;
+  executed_at: string;
   order_content: IupdateOrdercontent[];
 }
 

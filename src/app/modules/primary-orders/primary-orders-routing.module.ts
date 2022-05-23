@@ -15,6 +15,11 @@ const routes: Routes = [
         component: ListComponent,
       },
       {
+        path: ':status/:new',
+        pathMatch: 'full',
+        component: EditOrderComponent,
+      },
+      {
         path: ':status/edit/:orderId',
         pathMatch: 'full',
         component: EditOrderComponent,

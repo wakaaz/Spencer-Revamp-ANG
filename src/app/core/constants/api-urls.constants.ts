@@ -16,6 +16,7 @@ export const API_URLS = {
   PENDING_APPROVAL_ORDERS: '/orders-list/pending-approval',
   PENDING_ORDERS: '/orders-list/',
   UPDATE_PRIMARY_ORDER: '/update-order/',
+  SAVE_PRIMARY_ORDER: '/save-order',
   FETCH_ORDER_BY_ID: '/fetch-order-data/',
   SAVE_DISPATCH: '/saveOrder/dispatch',
   SAVE_EXECUTION: '/saveOrder/execution',
@@ -92,5 +93,9 @@ export const API_URLS = {
   CASH_SUMMARY: '/CashSummaryReport',
   PURCHASE_DETAIL: '/distributorPurchaseDetail',
 
-  // Payments
+  // Employee
+  DISTRIBUTORS_EMPLOYEES: '/distributors-employees/',
+
+  // SUB DISTRIBUTORS
+  SUB_DISTRIBUTORS: '/sub-distributors',
 };

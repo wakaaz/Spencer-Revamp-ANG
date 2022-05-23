@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Toaster, ToasterService } from 'src/app/core/services/toaster.service';
 import { PrimaryOrdersService } from '../../services/primary-orders.service';
@@ -15,13 +15,18 @@ import {
 } from 'src/app/core/constants/schemes.constant';
 import { DataService } from 'src/app/modules/shared/services';
 import { IOrderItemDto } from '../../_models/orderItemDtos';
+import { EMPTY, Subscription } from 'rxjs';
+import { LocalStorageService } from 'src/app/core/services/storage.service';
+import { localStorageKeys } from 'src/app/core/constants/localstorage.constants';
+
 @Component({
   selector: 'app-edit-order',
   templateUrl: './edit-order.component.html',
   styleUrls: ['./edit-order.component.css'],
 })
-export class EditOrderComponent implements OnInit {
+export class EditOrderComponent implements OnInit, OnDestroy {
   //#region Fields and Construct on int
+  subscriptions: Subscription[] = [];
   order: PrimaryOrder;
   orderItemDtos: IOrderItemDto[];
   showProducts = false;
@@ -45,7 +50,14 @@ export class EditOrderComponent implements OnInit {
   loading: boolean = false;
   saving: boolean = false;
   status: string;
+  isNew: boolean;
+  distributor: any;
+  subDistributor: any;
+  selectedSubDistributor: number;
+  subDistributors: any[];
+
   constructor(
+    @Inject(LocalStorageService) private storageService: LocalStorageService,
     private actr: ActivatedRoute,
     public primarySrvc: PrimaryOrdersService,
     private toastService: ToasterService,
@@ -54,38 +66,69 @@ export class EditOrderComponent implements OnInit {
   ) {
     this.order = new PrimaryOrder();
   }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
 
   ngOnInit(): void {
-    this.loading = true;
+    this.distributor = this.storageService.getItem(
+      localStorageKeys.distributor
+    );
+    console.log(this.distributor);
     const orderId = this.actr.snapshot.params.orderId;
     this.status = this.actr.snapshot.params.status;
-    this.getOrderbyOrderId(orderId);
+    this.getProductsMetaData();
+    this.isNewOrder();
+    if (this.isNew) {
+      this.loading = true;
+      this.getOrderbyOrderId(orderId);
+    } else {
+      this.getDistributorsEmployees(this.distributor.id);
+    }
+  }
+  getDistributorsEmployees(id: number) {
+    const sub = this.primarySrvc.getSubDistributors().subscribe((emp) => {
+      this.subDistributors = emp.data;
+    });
+    this.subscriptions.push(sub);
+  }
+
+  isNewOrder() {
+    this.isNew = this.actr.snapshot.params.new !== 'new' ? true : false;
+  }
+
+  onSubDistributorChanged(): void {
+    this.subDistributor = this.subDistributors.find(
+      (x) => x.id === this.selectedSubDistributor
+    );
   }
 
   //#region get order by orderId
-
   getOrderbyOrderId(orderId: number) {
-    this.primarySrvc.getOderDetailById(orderId).subscribe((x: any) => {
-      const orderRes = { ...x.data.order };
-      this.order.distributor_name = orderRes.distributor_name;
-      this.order.employee_name = orderRes.employee_name;
-      this.order.date = orderRes.date;
-      this.order.id = orderRes.id;
-      this.order.frieght_price = orderRes.frieght_price;
-      this.order.orderContent = this.primarySrvc.getPrimaryOrderItem([
-        ...x.data.content,
-      ]);
-      this.getProductsMetaData();
-      this.loading = false;
-      //   this.primarySrvc.setOrderItemDtos([...this.orderContent]);
-      //   console.log('ordercontent => ', this.orderContent[0]);
-      // });
-      // this.primarySrvc.orderItemDtos.subscribe((dto: IOrderItemDto[]) => {
-      //   this.orderItemDtos = dto;
-      // setInterval(() => {
-      //   console.log(this.orderContent);
-      // }, 2000);
-    });
+    const sub = this.primarySrvc
+      .getOderDetailById(orderId)
+      .subscribe((x: any) => {
+        const orderRes = { ...x.data.order };
+        this.order.distributor_name = orderRes.distributor_name;
+        this.order.employee_name = orderRes.employee_name;
+        this.order.date = orderRes.date;
+        this.order.id = orderRes.id;
+        this.order.frieght_price = orderRes.frieght_price;
+        this.order.orderContent = this.primarySrvc.getPrimaryOrderItem([
+          ...x.data.content,
+        ]);
+        // this.getProductsMetaData();
+        this.loading = false;
+        //   this.primarySrvc.setOrderItemDtos([...this.orderContent]);
+        //   console.log('ordercontent => ', this.orderContent[0]);
+        // });
+        // this.primarySrvc.orderItemDtos.subscribe((dto: IOrderItemDto[]) => {
+        //   this.orderItemDtos = dto;
+        // setInterval(() => {
+        //   console.log(this.orderContent);
+        // }, 2000);
+      });
+    this.subscriptions.push(sub);
   }
 
   //#endregion
@@ -93,6 +136,7 @@ export class EditOrderComponent implements OnInit {
   //#region  show product list
   showProductsList(event: Event): void {
     event.stopPropagation();
+    console.log(this.allProducts.length);
     this.allProducts = this.allProducts.map((product) => {
       return product;
     });
@@ -109,16 +153,24 @@ export class EditOrderComponent implements OnInit {
   //#region API call get products meta data
   getProductsMetaData(): void {
     this.loadingProducts = true;
-    this.primarySrvc.getProductsMetaData().subscribe(
+    const sub = this.primarySrvc.getProductsMetaData().subscribe(
       (res: any) => {
         if (res.status === 200) {
-          for (let i = 0; i < this.order.orderContent.length; i++) {
+          if (this.isNew) {
+            for (let i = 0; i < this.order.orderContent.length; i++) {
+              this.allProducts = res.data.inventory.map((pr) => {
+                if (this.order.orderContent[i].item_id === pr.item_id) {
+                  pr.isAdded = true;
+                } else {
+                  pr.isAdded = false;
+                }
+                pr.net_amount = 0.0;
+                return pr;
+              });
+            }
+          } else {
             this.allProducts = res.data.inventory.map((pr) => {
-              if (this.order.orderContent[i].item_id === pr.item_id) {
-                pr.isAdded = true;
-              } else {
-                pr.isAdded = false;
-              }
+              pr.isAdded = false;
               pr.net_amount = 0.0;
               return pr;
             });
@@ -151,6 +203,8 @@ export class EditOrderComponent implements OnInit {
         }
       }
     );
+
+    this.subscriptions.push(sub);
   }
   //#endregion
 
@@ -209,6 +263,9 @@ export class EditOrderComponent implements OnInit {
 
   //#region  add prioduct to order
   addProductToOrder(event: Event): void {
+    if (!this.order.orderContent && !this.isNew) {
+      this.order.orderContent = new Array<PrimaryOrderItem>();
+    }
     this.order.orderContent.push(getNewPrimaryOderItem(this.selectedProduct));
     this.displayProductsIsAddedStatus(true, this.selectedProduct.item_id);
     this.showQuantityModal = false;
@@ -321,38 +378,101 @@ export class EditOrderComponent implements OnInit {
 
   saveOrder(): void {
     this.saving = true;
-    this.primarySrvc.updateOrder(this.order).subscribe(
-      (res) => {
-        if (res.status === 200) {
-          const toast: Toaster = {
-            type: 'success',
-            message: 'Order updated successfully!',
-            title: 'Order Updated:',
-          };
-          this.toastService.showToaster(toast);
-          this.router.navigate(['/primaryOrders', this.status]);
-        } else {
-          const toast: Toaster = {
-            type: 'error',
-            message: res.message,
-            title: 'Error:',
-          };
-          this.toastService.showToaster(toast);
-        }
-        this.saving = false;
-      },
-      (error) => {
-        if (error.status !== 1 && error.status !== 401) {
-          const toast: Toaster = {
-            type: 'error',
-            message: 'Cannot save order. Please try again',
-            title: 'Error:',
-          };
-          this.toastService.showToaster(toast);
+    if (this.isNew) {
+      this.primarySrvc.updateOrder(this.order).subscribe(
+        (res) => {
+          if (res.status === 200) {
+            const toast: Toaster = {
+              type: 'success',
+              message: 'Order updated successfully!',
+              title: 'Order Updated:',
+            };
+            this.toastService.showToaster(toast);
+            this.router.navigate(['/primaryOrders', this.status]);
+          } else {
+            const toast: Toaster = {
+              type: 'error',
+              message: res.message,
+              title: 'Error:',
+            };
+            this.toastService.showToaster(toast);
+          }
           this.saving = false;
+        },
+        (error) => {
+          if (error.status !== 1 && error.status !== 401) {
+            const toast: Toaster = {
+              type: 'error',
+              message: 'Cannot save order. Please try again',
+              title: 'Error:',
+            };
+            this.toastService.showToaster(toast);
+            this.saving = false;
+          }
         }
+      );
+    } else {
+      if (this.selectedSubDistributor && this.order.orderContent) {
+        this.order.distributor_id = this.selectedSubDistributor;
+        this.order.employee_id = this.subDistributor.tsm_id;
+        // TODO: fields needs to be remove from order model
+        // this.order.status = 'completed';
+        // this.order.booker_lats = 0;
+        // this.order.booker_longs = 0;
+        // this.order.within_radius = 0;
+        // this.order.phone_order = 1;
+        // this.order.offline_order = 0;
+        // this.order.created_at = new Date();
+        this.primarySrvc.saveOrder(this.order, this.distributor.id).subscribe(
+          (res) => {
+            if (res.status === 200) {
+              const toast: Toaster = {
+                type: 'success',
+                message: 'Order created successfully!',
+                title: 'Order Created:',
+              };
+              this.toastService.showToaster(toast);
+              this.router.navigate(['/primaryOrders', this.status]);
+            } else {
+              const toast: Toaster = {
+                type: 'error',
+                message: res.message,
+                title: 'Error:',
+              };
+              this.toastService.showToaster(toast);
+            }
+            this.saving = false;
+          },
+          (error) => {
+            if (error.status !== 1 && error.status !== 401) {
+              const toast: Toaster = {
+                type: 'error',
+                message: 'Cannot save order. Please try again',
+                title: 'Error:',
+              };
+              this.toastService.showToaster(toast);
+              this.saving = false;
+            }
+          }
+        );
+      } else if (!this.selectedSubDistributor) {
+        const toast: Toaster = {
+          type: 'error',
+          message: 'Please select sub distributor',
+          title: 'Error:',
+        };
+        this.toastService.showToaster(toast);
+        this.saving = false;
+      } else if (!this.order.orderContent) {
+        const toast: Toaster = {
+          type: 'error',
+          message: 'Please add atleast one product',
+          title: 'Error:',
+        };
+        this.toastService.showToaster(toast);
+        this.saving = false;
       }
-    );
+    }
   }
 
   //#endregion

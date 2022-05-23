@@ -55,6 +55,54 @@ export class PrimaryOrder {
     this._frieght_price = v;
   }
 
+  private _booker_lats: number;
+  public get booker_lats(): number {
+    return this._booker_lats || 0;
+  }
+  public set booker_lats(v: number) {
+    this._booker_lats = v;
+  }
+
+  private _booker_longs: number;
+  public get booker_longs(): number {
+    return this._booker_longs || 0;
+  }
+  public set booker_longs(v: number) {
+    this._booker_longs = v;
+  }
+
+  private _within_radius: number;
+  public get within_radius(): number {
+    return this._within_radius || 0;
+  }
+  public set within_radius(v: number) {
+    this._within_radius = v;
+  }
+
+  private _phone_order: number;
+  public get phone_order(): number {
+    return this._phone_order || 0;
+  }
+  public set phone_order(v: number) {
+    this._phone_order = v;
+  }
+
+  private _offline_order: number;
+  public get offline_order(): number {
+    return this._offline_order || 0;
+  }
+  public set offline_order(v: number) {
+    this._offline_order = v;
+  }
+
+  private _distributor_id: number;
+  public get distributor_id(): number {
+    return this._distributor_id || 0;
+  }
+  public set distributor_id(v: number) {
+    this._distributor_id = v;
+  }
+
   private _date: Date;
   public get date(): Date {
     return this._date;
@@ -79,6 +127,14 @@ export class PrimaryOrder {
     this._employee_name = v;
   }
 
+  private _employee_id: number;
+  public get employee_id(): number {
+    return this._employee_id;
+  }
+  public set employee_id(v: number) {
+    this._employee_id = v;
+  }
+
   private _distributor_phone: string;
   public get distributor_phone(): string {
     return this._distributor_phone;
@@ -101,6 +157,14 @@ export class PrimaryOrder {
   }
   public set status(v: string) {
     this._status = v;
+  }
+
+  private _created_at: Date;
+  public get created_at(): Date {
+    return this._created_at || new Date();
+  }
+  public set created_at(v: Date) {
+    this._created_at = v;
   }
 
   //#region getter props for calc
