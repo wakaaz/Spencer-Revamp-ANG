@@ -333,150 +333,139 @@
 </div>
 
 <!-- Order Booked -->
-<div id="content-wrapper">
-  <div id="blureEffct" class="container-fluid">
-    <div class="overlay-blure"></div>
-    <div class="container">
-      <div class="row mt-2 mb-3">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-          <h2 class="_head01">Order <span> Management</span></h2>
+<div class="container">
+  <div class="row mt-2 mb-3">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <h2 class="_head01">Order <span> Management</span></h2>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <ol class="breadcrumb">
+        <li>
+          <a href="#"><span>Order Management</span></a>
+        </li>
+        <li>
+          <span>{{ orderStatus | titlecase }} Orders</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <h2>{{ orderStatus | titlecase }} <span> Orders List</span></h2>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-          <ol class="breadcrumb">
-            <li>
-              <a href="#"><span>Order Management</span></a>
-            </li>
-            <li>
-              <span>{{ orderStatus | titlecase }} Orders</span>
-            </li>
-          </ol>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="header">
-              <h2>{{ orderStatus | titlecase }} <span> Orders List</span></h2>
-            </div>
-            <div class="body PT-15">
-              <div id="floating-label">
-                <div class="form-wrap p-0">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <table
-                        datatable
-                        [dtOptions]="dtOptions"
-                        *ngIf="!loading"
-                        class="table table-hover dt-responsive nowrap"
-                        id="primaryOrdersId"
-                        style="width: 100%"
-                      >
-                        <thead>
-                          <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Distributor</th>
-                            <th>Employee</th>
-                            <th>Order Total</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let order of primaryOrders">
-                            <td>{{ order.id }}</td>
-                            <td>{{ order.created_at }}</td>
-                            <td>{{ order.distributor_name }}</td>
-                            <td>{{ order.employee_name }}</td>
-                            <td>{{ order.order_total }}</td>
-                            <td>
-                              <button
-                                type="button"
-                                (click)="onOrderDetail(order.id)"
-                                data-toggle="modal"
-                                data-target="#exampleModal"
-                                class="btn btn-default btn-line"
-                              >
-                                Detail
-                              </button>
-                              <button
-                                *ngIf="
-                                  PRIMARY_ORDER_CONST.BOOKED === orderStatus
-                                "
-                                (click)="
-                                  onUpdateOrderStatus(
-                                    order.id,
-                                    PRIMARY_ORDER_STATUS_UPDATE.PROCESSED
-                                  )
-                                "
-                                class="btn btn-default"
-                              >
-                                Process
-                              </button>
+        <div class="body PT-15">
+          <div id="floating-label">
+            <div class="form-wrap p-0">
+              <div class="row">
+                <div class="col-md-12">
+                  <table
+                    datatable
+                    [dtOptions]="dtOptions"
+                    *ngIf="!loading"
+                    class="table table-hover dt-responsive nowrap"
+                    id="primaryOrdersId"
+                    style="width: 100%"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Distributor</th>
+                        <th>Employee</th>
+                        <th>Order Total</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let order of primaryOrders">
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created_at }}</td>
+                        <td>{{ order.distributor_name }}</td>
+                        <td>{{ order.employee_name }}</td>
+                        <td>{{ order.order_total }}</td>
+                        <td>
+                          <button
+                            type="button"
+                            (click)="onOrderDetail(order.id)"
+                            data-toggle="modal"
+                            data-target="#exampleModal"
+                            class="btn btn-default btn-line"
+                          >
+                            Detail
+                          </button>
+                          <button
+                            *ngIf="PRIMARY_ORDER_CONST.BOOKED === orderStatus"
+                            (click)="
+                              onUpdateOrderStatus(
+                                order.id,
+                                PRIMARY_ORDER_STATUS_UPDATE.PROCESSED
+                              )
+                            "
+                            class="btn btn-default"
+                          >
+                            Process
+                          </button>
 
-                              <button
-                                *ngIf="
-                                  PRIMARY_ORDER_CONST.PROCESSED === orderStatus
-                                "
-                                class="btn btn-default"
-                                (click)="
-                                  onUpdateOrderStatus(
-                                    order.id,
-                                    PRIMARY_ORDER_STATUS_UPDATE.EXECUTE
-                                  )
-                                "
-                              >
-                                Execute
-                              </button>
-                              <button
-                                *ngIf="
-                                  PRIMARY_ORDER_CONST.EXECUTE === orderStatus
-                                "
-                                (click)="
-                                  onUpdateOrderStatus(
-                                    order.id,
-                                    PRIMARY_ORDER_STATUS_UPDATE.COMPLETED
-                                  )
-                                "
-                                class="btn btn-default"
-                              >
-                                Complete
-                              </button>
-                              <button
-                                class="btn btn-default"
-                                *ngIf="
-                                  !(
-                                    PRIMARY_ORDER_CONST.COMPLETED ===
-                                      orderStatus ||
-                                    PRIMARY_ORDER_CONST.CANCELED === orderStatus
-                                  )
-                                "
-                                [routerLink]="['edit', order.id]"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                class="btn btn-default"
-                                *ngIf="
-                                  !(
-                                    PRIMARY_ORDER_CONST.COMPLETED ===
-                                      orderStatus ||
-                                    PRIMARY_ORDER_CONST.CANCELED === orderStatus
-                                  )
-                                "
-                                data-toggle="modal"
-                                data-target="#cancelYesNo"
-                                (click)="onConfirmationDelete(order.id)"
-                              >
-                                Cancel
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div *ngIf="loading" class="col-md-12">
-                        <app-loader-white></app-loader-white>
-                      </div>
-                    </div>
+                          <button
+                            *ngIf="
+                              PRIMARY_ORDER_CONST.PROCESSED === orderStatus
+                            "
+                            class="btn btn-default"
+                            (click)="
+                              onUpdateOrderStatus(
+                                order.id,
+                                PRIMARY_ORDER_STATUS_UPDATE.EXECUTE
+                              )
+                            "
+                          >
+                            Execute
+                          </button>
+                          <button
+                            *ngIf="PRIMARY_ORDER_CONST.EXECUTE === orderStatus"
+                            (click)="
+                              onUpdateOrderStatus(
+                                order.id,
+                                PRIMARY_ORDER_STATUS_UPDATE.COMPLETED
+                              )
+                            "
+                            class="btn btn-default"
+                          >
+                            Complete
+                          </button>
+                          <button
+                            class="btn btn-default"
+                            *ngIf="
+                              !(
+                                PRIMARY_ORDER_CONST.COMPLETED === orderStatus ||
+                                PRIMARY_ORDER_CONST.CANCELED === orderStatus
+                              )
+                            "
+                            [routerLink]="['edit', order.id]"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            class="btn btn-default"
+                            *ngIf="
+                              !(
+                                PRIMARY_ORDER_CONST.COMPLETED === orderStatus ||
+                                PRIMARY_ORDER_CONST.CANCELED === orderStatus
+                              )
+                            "
+                            data-toggle="modal"
+                            data-target="#cancelYesNo"
+                            (click)="onConfirmationDelete(order.id)"
+                          >
+                            Cancel
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div *ngIf="loading" class="col-md-12">
+                    <app-loader-white></app-loader-white>
                   </div>
                 </div>
               </div>
@@ -484,13 +473,13 @@
           </div>
         </div>
       </div>
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            2019 Sell3sixty All rights reserved
-          </div>
-        </div>
-      </footer>
     </div>
   </div>
+  <footer class="sticky-footer">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        2019 Sell3sixty All rights reserved
+      </div>
+    </div>
+  </footer>
 </div>
