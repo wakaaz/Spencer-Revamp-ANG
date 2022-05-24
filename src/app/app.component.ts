@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { LocalStorageService } from './core/services/storage.service';
 
 import {
@@ -38,7 +38,8 @@ export class AppComponent {
   constructor(
     private router: Router,
     private storageService: LocalStorageService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.isLoggedIn = this.storageService.getItem('dist_session')
       ? true
@@ -134,7 +135,20 @@ export class AppComponent {
     this.storageService.removeItem(localStorageKeys.distributor);
     this.storageService.removeItem(localStorageKeys.saleman);
     this.storageService.removeItem(localStorageKeys.actions);
-    this.router.navigateByUrl('/login');
+    const currentUrl = this.router['location']._platformLocation.location.hash
+      .split('#')
+      .filter((x) => x)
+      .join()
+      .split('/')
+      .filter((x) => x)
+      .join('/');
+    console.log('url => ', currentUrl);
+    this.router.navigate(['login'], {
+      relativeTo: this.activatedRoute,
+      queryParams: { currentUrl },
+      queryParamsHandling: 'merge', // remove to replace all query params by provided
+    });
+    // this.router.navigateByUrl('/login');
   }
 
   closeEverything(): void {

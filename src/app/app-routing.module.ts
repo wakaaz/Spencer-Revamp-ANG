@@ -14,14 +14,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
-  {
-    path: 'salesmen',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./modules/salesmen/salesmen.module').then(
-        (m) => m.SalesmenModule
-      ),
-  },
+  // {
+  //   path: 'salesmen',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () =>
+  //     import('./modules/salesmen/salesmen.module').then(
+  //       (m) => m.SalesmenModule
+  //     ),
+  // },
   {
     path: 'orders',
     canActivate: [AuthGuard],
@@ -57,6 +57,16 @@ const routes: Routes = [
         (m) => m.RetailerModule
       ),
   },
+
+  {
+    path: 'distributor',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./modules/distributor/distributor.module').then(
+        (m) => m.DistributorModule
+      ),
+  },
+
   {
     path: 'inventory',
     canActivate: [AuthGuard],

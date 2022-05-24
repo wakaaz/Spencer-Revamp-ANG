@@ -1,0 +1,231 @@
+<!-- Saleman Ledger -->
+<!-- <div
+  id="product-cl-sec"
+  (clickOutside)="clickedOutSide($event)"
+  [ngClass]="shwoSaleManLedger ? 'active' : ''"
+>
+  <a id="pl-close" (click)="closeSalemanLedger()" class="close-btn-pl"></a>
+  <div class="pro-header-text">Leadger <span> SalesMan</span></div>
+  <div class="pc-cartlist">
+    <div class="overflow-plist">
+      <div class="plist-content">
+        <div class="_left-filter pt-0">
+          <div class="container">
+            <div class="row sell360report">
+              <div class="col-md-6">
+                <div class="card mt-0">
+                  <h4>Total <span> Revenue</span></h4>
+                  <h2 class="digit"><small>Rs.</small> <span>4.00</span></h2>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card mt-0">
+                  <h4>Total <span> Outstanding</span></h4>
+                  <h2 class="digit"><small>Rs.</small> <span>9.25</span></h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="card p-20 top_border mb-3">
+                  <h2 class="_head03 mb-10">Transaction <span>List</span></h2>
+
+                  <table
+                    *ngIf="!loading"
+                    datatable
+                    [dtOptions]="dtOptions"
+                    class="table table-hover dt-responsive nowrap"
+                    id="example4"
+                    style="width: 100%"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Paid</th>
+                        <th>Balance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>2021-04-28</td>
+                        <td>Description here</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                      </tr>
+                      <tr>
+                        <td>2021-04-28</td>
+                        <td>Description here</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                      </tr>
+                      <tr>
+                        <td>2021-04-28</td>
+                        <td>Description here</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                      </tr>
+                      <tr>
+                        <td>2021-04-28</td>
+                        <td>Description here</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                      </tr>
+                      <tr>
+                        <td>2021-04-28</td>
+                        <td>Description here</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                      </tr>
+                      <tr>
+                        <td>2021-04-28</td>
+                        <td>Description here</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                        <td>11,880</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div *ngIf="loading" class="col-md-12">
+                    <app-loader-white></app-loader-white>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="_cl-bottom">
+    <button
+      id="pl-close"
+      (click)="closeSalemanLedger()"
+      type="submit"
+      class="btn btn-cancel mr-2"
+    >
+      Close
+    </button>
+  </div>
+</div> -->
+
+<!-- Retailers List -->
+<div class="container" id="retailer-list">
+  <div class="row mt-2 mb-2">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <h2 class="_head01">Sub Distributor <span>List</span></h2>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <ol class="breadcrumb">
+        <li>
+          <a><span>Sub Distributor</span></a>
+        </li>
+        <li><span>List</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+        <div class="col-lg-12">
+            <div class="header-tabs">
+                <div class="Product-Filter">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="CL-Product"><i class="fa fa-search"></i>
+                                <input type="text" [(ngModel)]="shopIdOrName" class="form-control" id="" placeholder="Search by Shop ID or Name">
+                            </div>
+
+                            <div class="_cust_filter">
+                                <div class="form-s2">
+                                    <ng-select class="formselect" [multiple]="false" id="order-booker"
+                                        placeholder="All Order Booker" name="order-booker" [(ngModel)]="orderBooker"
+                                        required>
+                                        <ng-option *ngFor="let booker of retailerCore?.order_booker" [value]="booker.employee_id"> {{booker.employee_name}} </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="_cust_filter">
+                                <div class="form-s2">
+                                    <ng-select class="formselect" [multiple]="false" id="route" placeholder="All Route"
+                                        name="route" [(ngModel)]="route" required>
+                                        <ng-option *ngFor="let route of retailerCore?.routes" [value]="route.id"> {{route.name}} </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="_cust_filter">
+                                <div class="form-s2">
+                                    <ng-select class="formselect" [multiple]="false" id="segment"
+                                        placeholder="All Segment" name="segment" [(ngModel)]="segment" required>
+                                        <ng-option *ngFor="let segment of retailerCore?.segments" [value]="segment.id">
+                                            {{segment.name}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <button type="button" (click)="onSearch()" class="btn btn-primary">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="body">
+          <table
+            *ngIf="!loading"
+            datatable
+            [dtOptions]="dtOptions"
+            class="table table-hover dt-responsive nowrap"
+            id="example"
+            style="width: 100%"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>TSM</th>
+                <th>Region</th>
+                <th>Area</th>
+                <th>Territory</th>
+                <th>City</th>
+                <th>distributor_address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dist of distributors">
+                <td>{{ dist.distributor_name }}</td>
+                <td>{{ dist.tsm }}</td>
+                <td>{{ dist.region_name }}</td>
+                <td>{{ dist.area_name }}</td>
+                <td>{{ dist.territory_name }}</td>
+                <td>{{ dist.city_name }}</td>
+                <td>
+                  {{ dist.distributor_address }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="loading" class="col-md-12">
+            <app-loader-white></app-loader-white>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

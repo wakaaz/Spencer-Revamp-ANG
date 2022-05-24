@@ -22,8 +22,7 @@ export class RetalersListComponent implements OnInit {
 
   constructor(
     private retailerService: RetailerService,
-    private toastService: ToasterService,
-    private router: Router
+    private toastService: ToasterService
   ) {
     this.dtOptions = {
       pagingType: 'simple_numbers',
