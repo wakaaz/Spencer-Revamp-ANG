@@ -14,6 +14,7 @@ import {
   IupdateOrdercontent,
   UpdateOrder,
 } from '../_models/updateOrder';
+import * as moment from 'moment';
 
 @Injectable()
 export class PrimaryOrdersService {
@@ -63,19 +64,9 @@ export class PrimaryOrdersService {
   }
 
   saveOrder(primaryOrder: PrimaryOrder, userId: number): Observable<any> {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1; // Months start at 0!
-    let dd = today.getDate();
-    let ddd = '';
-    let mmm = '';
+    const format = 'YYYY-MM-DD HH:mm:ss';
+    const formatedDate = moment(new Date()).format(format);
 
-    if (dd < 10) ddd = '0' + dd;
-    else ddd = dd.toString();
-    if (mm < 10) mmm = '0' + mm;
-    else mmm = mm.toString();
-
-    const formatedDate = yyyy + '-' + mmm + '-' + ddd + ' ' + today.getTime();
     const order = this.getOrderModel(primaryOrder);
 
     order.distributor_id = primaryOrder.distributor_id;

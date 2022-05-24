@@ -74,7 +74,6 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     this.distributor = this.storageService.getItem(
       localStorageKeys.distributor
     );
-    console.log(this.distributor);
     const orderId = this.actr.snapshot.params.orderId;
     this.status = this.actr.snapshot.params.status;
     this.getProductsMetaData();
@@ -136,7 +135,6 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   //#region  show product list
   showProductsList(event: Event): void {
     event.stopPropagation();
-    console.log(this.allProducts.length);
     this.allProducts = this.allProducts.map((product) => {
       return product;
     });
