@@ -47,12 +47,6 @@ export const primaryOrderSubMenu = {
       queryParams: { order: 'new' },
     },
     {
-      title: 'Purchase History',
-      link: `/primaryOrders/${PRIMARY_ORDER.PURCHASE_HISTORY}`,
-      icon: '/assets/images/dispatched-order.svg',
-      queryParams: { order: 'booked' },
-    },
-    {
       title: 'Booked',
       link: `/primaryOrders/${PRIMARY_ORDER.BOOKED}`,
       icon: '/assets/images/dispatched-order.svg',
@@ -69,19 +63,9 @@ export const primaryOrderSubMenu = {
       icon: '/assets/images/dispatched-order.svg',
     },
     {
-      title: 'Completed',
-      link: `/primaryOrders/${PRIMARY_ORDER.COMPLETED}`,
-      icon: '/assets/images/dispatched-order.svg',
-    },
-    {
       title: 'Return Order',
       link: `/primaryOrders/order/${PRIMARY_ORDER.RETURN_ORDER}`,
       icon: '/assets/images/complete-orders.svg',
-    },
-    {
-      title: 'Cancelled',
-      link: `/primaryOrders/${PRIMARY_ORDER.CANCELED}`,
-      icon: '/assets/images/dispatched-order.svg',
     },
   ],
 };
@@ -144,15 +128,31 @@ export const reportsSubMenu = {
   title: 'Reports',
   subMenu: [
     {
-      title: 'DSR',
-      link: '/reports/dsr',
-      icon: '/assets/images/reports-icon.svg',
+      title: 'Purchase History',
+      link: `/primaryOrders/${PRIMARY_ORDER.PURCHASE_HISTORY}`,
+      icon: '/assets/images/dispatched-order.svg',
+      queryParams: { order: 'booked' },
     },
     {
-      title: 'Cash Summary',
-      link: '/reports/cash-summary',
-      icon: '/assets/images/reports-icon.svg',
+      title: 'Completed Orders',
+      link: `/primaryOrders/${PRIMARY_ORDER.COMPLETED}`,
+      icon: '/assets/images/dispatched-order.svg',
     },
+    {
+      title: 'Cancelled Orders',
+      link: `/primaryOrders/${PRIMARY_ORDER.CANCELED}`,
+      icon: '/assets/images/dispatched-order.svg',
+    },
+    // {
+    //   title: 'DSR',
+    //   link: '/reports/dsr',
+    //   icon: '/assets/images/reports-icon.svg',
+    // },
+    // {
+    //   title: 'Cash Summary',
+    //   link: '/reports/cash-summary',
+    //   icon: '/assets/images/reports-icon.svg',
+    // },
     {
       title: 'Export Rate List',
       link: '/reports/export-rate-list',
@@ -163,21 +163,21 @@ export const reportsSubMenu = {
     //   link: '/reports/spot-sale',
     //   icon: '/assets/images/reports-icon.svg'
     // },
-    {
-      title: 'Purchase History',
-      link: '/reports/purchase-history',
-      icon: '/assets/images/reports-icon.svg',
-    },
+    // {
+    //   title: 'Purchase History',
+    //   link: '/reports/purchase-history',
+    //   icon: '/assets/images/reports-icon.svg',
+    // },
     {
       title: 'Stock Out Report',
       link: '/reports/stock-report',
       icon: '/assets/images/reports-icon.svg',
     },
-    {
-      title: 'Sale Order History',
-      link: '/reports/sale-order-history',
-      icon: '/assets/images/complete-orders.svg',
-    },
+    // {
+    //   title: 'Sale Order History',
+    //   link: '/reports/sale-order-history',
+    //   icon: '/assets/images/complete-orders.svg',
+    // },
     {
       title: 'Retailer Ledger',
       link: '/retailer/ledger',

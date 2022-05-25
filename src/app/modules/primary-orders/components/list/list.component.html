@@ -88,7 +88,10 @@
                 <div class="p-10" style="border-bottom: solid 2px #000">
                   <div class="row m-0">
                     <div class="col-8 OrderLogo">
-                      <img src="images/sell-360.svg" alt="" />
+                      <img
+                        src="../../../../../assests/images/sell-360.svg"
+                        alt=""
+                      />
                     </div>
                     <div class="col-4 ord-no">
                       Order # <strong>{{ order.id }}</strong>
@@ -336,12 +339,15 @@
 <div class="container">
   <div class="row mt-2 mb-3">
     <div class="col-lg-6 col-md-6 col-sm-6">
-      <h2 class="_head01">Order <span> Management</span></h2>
+      <h2 *ngIf="isReports" class="_head01">Reports</h2>
+      <h2 *ngIf="!isReports" class="_head01">Order <span> Management</span></h2>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6">
       <ol class="breadcrumb">
         <li>
-          <a href="#"><span>Order Management</span></a>
+          <a
+            ><span>{{ isReports ? "Reports" : "Order Management" }}</span></a
+          >
         </li>
         <li>
           <span>{{ orderStatus | titlecase }} Orders</span>

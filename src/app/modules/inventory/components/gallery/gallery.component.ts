@@ -59,7 +59,6 @@ export class GalleryComponent implements OnInit {
         this.loading = false;
         if (res.status === 200) {
           this.products = res.data;
-          console.log(this.products[0].thumbnail);
           this.correctIamgeURL();
           this.countPagesAndProductsDisp(this.products);
         }
@@ -75,7 +74,6 @@ export class GalleryComponent implements OnInit {
   correctIamgeURL() {
     this.products.forEach((x) => {
       const urlArray = x.thumbnail.split('/');
-      console.log(urlArray);
       if (urlArray[0] === 'https:') {
         x.thumbnail =
           this.BASE_URL + '/' + x.thumbnail.split('/').splice(3).join('/');

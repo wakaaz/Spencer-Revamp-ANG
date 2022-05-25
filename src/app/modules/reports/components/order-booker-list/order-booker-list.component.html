@@ -1,10 +1,24 @@
-<div class="modal fade" id="billsModal" tabindex="-1" role="dialog" aria-labelledby="billsModalLabel"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  id="billsModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="billsModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content top_border">
       <div class="modal-header">
-        <h5 class="modal-title" id="billsModalLabel">Print bill for this order<span></span></h5>
-        <button type="button" id="close-bills" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="billsModalLabel">
+          Print bill for this order<span></span>
+        </h5>
+        <button
+          type="button"
+          id="close-bills"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -25,29 +39,45 @@
         </div>
         <div class="row print-icon-div pb-0">
           <div class="col-6 pl-0">
-            <a (click)="getBills('A4')"><img class="print-icon" src="assets/images/a4.svg" alt="">
-              <strong>A4 Portrait
-                Paper</strong></a>
+            <a (click)="getBills('A4')"
+              ><img class="print-icon" src="assets/images/a4.svg" alt="" />
+              <strong>A4 Portrait Paper</strong></a
+            >
           </div>
           <div class="col-6 pr-0">
-            <a (click)="getBills('A5')"><img class="print-icon" src="assets/images/a5.svg" alt="">
-              <strong>A5 Landscape
-                Paper</strong></a>
+            <a (click)="getBills('A5')"
+              ><img class="print-icon" src="assets/images/a5.svg" alt="" />
+              <strong>A5 Landscape Paper</strong></a
+            >
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
-<div class="modal fade" style="overflow-y: auto;" id="OrderDetailModal" tabindex="-1" role="dialog"
-  aria-labelledby="OrderDetailModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  style="overflow-y: auto"
+  id="OrderDetailModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="OrderDetailModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-full modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header border-0">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-          (click)="showDetailsModal = false;closeDetailsModal()" style="font-size:30px">×</button>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="showDetailsModal = false; closeDetailsModal()"
+          style="font-size: 30px"
+        >
+          ×
+        </button>
       </div>
       <div class="modal-body p-0">
         <div class="container">
@@ -56,28 +86,48 @@
               <div class="card mb-20">
                 <div class="p-10" style="border-bottom: solid 2px #000">
                   <div class="row m-0">
-                    <div class="col-8 OrderLogo"> <img src="/assets/images/sell-360.svg" alt="" /> </div>
-                    <div class="col-4 ord-no"> Invoice# <strong>{{ activeOrder?.invoice_number }}</strong> </div>
+                    <div class="col-8 OrderLogo">
+                      <img
+                        src="../../../../../assets/images/sell-360.svg"
+                        alt=""
+                      />
+                    </div>
+                    <div class="col-4 ord-no">
+                      Invoice#
+                      <strong>{{ activeOrder?.invoice_number }}</strong>
+                    </div>
                   </div>
                 </div>
-                <div class="body" style="padding:15px 20px">
+                <div class="body" style="padding: 15px 20px">
                   <div class="row">
                     <div class="col-12">
                       <div class="form-body">
                         <div class="row OrderInfo">
                           <div class="col-md-9">
                             <span>Retailer Name: </span>
-                            <strong>{{activeOrder?.shop_name}}</strong><br>
-                            <span>Segment: </span> <strong>{{ activeOrder?.segment }}</strong><br>
-                            <span>Phone No: </span> <strong>{{activeOrder?.retailer_phone}}</strong><br>
-                            <span>Address: </span> <strong>{{activeOrder?.retailer_address}}</strong>
+                            <strong>{{ activeOrder?.shop_name }}</strong
+                            ><br />
+                            <span>Segment: </span>
+                            <strong>{{ activeOrder?.segment }}</strong
+                            ><br />
+                            <span>Phone No: </span>
+                            <strong>{{ activeOrder?.retailer_phone }}</strong
+                            ><br />
+                            <span>Address: </span>
+                            <strong>{{ activeOrder?.retailer_address }}</strong>
                           </div>
                           <div class="col-md-3 p-0">
-                            <span>Status: </span> <strong>{{activeOrder?.status}}</strong><br>
-                            <span>Date: </span> <strong>{{activeOrder?.date}}</strong><br>
+                            <span>Status: </span>
+                            <strong>{{ activeOrder?.status }}</strong
+                            ><br />
+                            <span>Date: </span>
+                            <strong>{{ activeOrder?.date }}</strong
+                            ><br />
                             <span>Order Booker: </span>
-                            <strong>{{activeOrder?.order_booker}}</strong><br>
-                            <span>Salesman: </span> <strong>{{ activeOrder?.salesman }}</strong>
+                            <strong>{{ activeOrder?.order_booker }}</strong
+                            ><br />
+                            <span>Salesman: </span>
+                            <strong>{{ activeOrder?.salesman }}</strong>
                           </div>
                         </div>
                         <div class="seprator-block"></div>
@@ -108,15 +158,29 @@
                                 <td>{{ item.booked_qty }}</td>
                                 <td>{{ item.delivered_qty }}</td>
                                 <td>{{ item.executed_qty }}</td>
-                                <td>{{ item.item_trade_price | number: '1.2-2' }}</td>
-                                <td>{{ item.gr_amount | number: '1.2-2' }}</td>
-                                <td>{{ item.trade_offer | number: '1.2-2' }}</td>
-                                <td>{{ item.trade_discount | number: '1.2-2' }}</td>
-                                <td>{{ item.special_discount | number: '1.2-2' }}</td>
-                                <td>{{ item.extra_discount | number: '1.2-2' }}</td>
+                                <td>
+                                  {{ item.item_trade_price | number: "1.2-2" }}
+                                </td>
+                                <td>{{ item.gr_amount | number: "1.2-2" }}</td>
+                                <td>
+                                  {{ item.trade_offer | number: "1.2-2" }}
+                                </td>
+                                <td>
+                                  {{ item.trade_discount | number: "1.2-2" }}
+                                </td>
+                                <td>
+                                  {{ item.special_discount | number: "1.2-2" }}
+                                </td>
+                                <td>
+                                  {{ item.extra_discount | number: "1.2-2" }}
+                                </td>
                                 <td>{{ item.tax_in_percentage }}</td>
-                                <td>{{ item.tax_in_value | number: '1.2-2' }}</td>
-                                <td>{{ item.final_price | number: '1.2-2' }}</td>
+                                <td>
+                                  {{ item.tax_in_value | number: "1.2-2" }}
+                                </td>
+                                <td>
+                                  {{ item.final_price | number: "1.2-2" }}
+                                </td>
                               </tr>
                               <!-- Footer Columns -->
                               <tr>
@@ -133,7 +197,11 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td><strong>G.AMNT</strong></td>
-                                <td><strong>{{ orderDetail?.gross_amount | number: '1.2-2' }}</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.gross_amount | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -149,7 +217,11 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td><strong>T.O.Disc.</strong></td>
-                                <td><strong>{{ orderDetail?.to_discount | number: '1.2-2' }}</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.to_discount | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -165,7 +237,12 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td><strong>Trade Disc.</strong></td>
-                                <td><strong>{{ orderDetail?.trade_discount | number: '1.2-2' }}</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.trade_discount
+                                      | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -181,7 +258,12 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td><strong>Spc. Disc.</strong></td>
-                                <td><strong>{{ orderDetail?.special_discount | number: '1.2-2' }}</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.special_discount
+                                      | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -197,7 +279,12 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td><strong>Extra. Disc.</strong></td>
-                                <td><strong>{{ orderDetail?.booker_discount | number: '1.2-2' }}</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.booker_discount
+                                      | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -213,7 +300,11 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td><strong>Discount PKR.</strong></td>
-                                <td><strong>{{ orderDetail?.discount_pkr | number: '1.2-2' }}</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.discount_pkr | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -229,7 +320,11 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td><strong>Total TAX</strong></td>
-                                <td><strong>{{ orderDetail?.tax_amount | number: '1.2-2' }}</strong></td>
+                                <td>
+                                  <strong>{{
+                                    orderDetail?.tax_amount | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -244,9 +339,18 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
-                                <td style="background-color:#dfdfdf; color:#000"><strong>Total AMNT.</strong></td>
-                                <td style="background-color:#dfdfdf; color:#000">
-                                  <strong>{{ orderDetail?.total_amount | number: '1.2-2' }}</strong></td>
+                                <td
+                                  style="background-color: #dfdfdf; color: #000"
+                                >
+                                  <strong>Total AMNT.</strong>
+                                </td>
+                                <td
+                                  style="background-color: #dfdfdf; color: #000"
+                                >
+                                  <strong>{{
+                                    orderDetail?.total_amount | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                               <tr>
                                 <td class="border-0"></td>
@@ -261,12 +365,21 @@
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
                                 <td class="border-0"></td>
-                                <td style="background-color:#dfdfdf; color:#000"><strong>Recovery AMNT.</strong></td>
-                                <td style="background-color:#d3d3d3; color:#000">
-                                  <strong>{{ orderDetail?.recovery_amount | number: '1.2-2' }}</strong></td>
+                                <td
+                                  style="background-color: #dfdfdf; color: #000"
+                                >
+                                  <strong>Recovery AMNT.</strong>
+                                </td>
+                                <td
+                                  style="background-color: #d3d3d3; color: #000"
+                                >
+                                  <strong>{{
+                                    orderDetail?.recovery_amount
+                                      | number: "1.2-2"
+                                  }}</strong>
+                                </td>
                               </tr>
                             </tbody>
-
                           </table>
                           <div class="clearfix"></div>
                         </div>
@@ -280,11 +393,25 @@
                         <tbody class="order_items_body">
                           <tr>
                             <td><strong>Cash</strong></td>
-                            <td><strong>{{ (this.paymentInfo.cash ? this.paymentInfo.cash.amount : 0) | number: '1.2-2' }}</strong></td>
+                            <td>
+                              <strong>{{
+                                (this.paymentInfo.cash
+                                  ? this.paymentInfo.cash.amount
+                                  : 0
+                                ) | number: "1.2-2"
+                              }}</strong>
+                            </td>
                           </tr>
                           <tr>
                             <td><strong>Cheque</strong></td>
-                            <td><strong>{{ (this.paymentInfo.cheque ? this.paymentInfo.cheque.amount : 0) | number: '1.2-2' }}</strong></td>
+                            <td>
+                              <strong>{{
+                                (this.paymentInfo.cheque
+                                  ? this.paymentInfo.cheque.amount
+                                  : 0
+                                ) | number: "1.2-2"
+                              }}</strong>
+                            </td>
                           </tr>
                           <tr>
                             <td><strong>Total Payment</strong></td>
@@ -292,10 +419,16 @@
                           </tr>
                           <tr>
                             <td><strong>Credit</strong></td>
-                            <td><strong>{{ (this.paymentInfo.credit ? this.paymentInfo.credit.amount : 0) | number: '1.2-2' }}</strong></td>
+                            <td>
+                              <strong>{{
+                                (this.paymentInfo.credit
+                                  ? this.paymentInfo.credit.amount
+                                  : 0
+                                ) | number: "1.2-2"
+                              }}</strong>
+                            </td>
                           </tr>
                         </tbody>
-
                       </table>
                     </div>
                   </div>
@@ -311,14 +444,15 @@
 
 <!-- Order Booker List -->
 <div class="container" id="retailer-list">
-
   <div class="row mt-2 mb-2">
     <div class="col-lg-6 col-md-6 col-sm-6">
       <h2 class="_head01">Sale Order <span>History</span></h2>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6">
       <ol class="breadcrumb">
-        <li><a href="#"><span>Order Booker</span></a></li>
+        <li>
+          <a href="#"><span>Order Booker</span></a>
+        </li>
         <li><span>List</span></li>
       </ol>
     </div>
@@ -330,48 +464,73 @@
         <div class="Product-Filter">
           <div class="row">
             <div class="col-12 mb-10">
-              <div class="CL-Product" style="width: 100%; padding-right:0"><i class="fa fa-search"></i>
-                <input type="text" class="form-control" id="" placeholder="Search by Invoice No or Shop ID">
+              <div class="CL-Product" style="width: 100%; padding-right: 0">
+                <i class="fa fa-search"></i>
+                <input
+                  type="text"
+                  class="form-control"
+                  id=""
+                  placeholder="Search by Invoice No or Shop ID"
+                />
               </div>
             </div>
             <div class="col-12">
-              <div class="CL-Product" style="width: 116px!important;">
-                <input placeholder="Start Date" type="text" onfocus="(this.type = 'date')" id="date"
-                  class="form-control pad-date" [(ngModel)]="startDate">
+              <div class="CL-Product" style="width: 116px !important">
+                <input
+                  placeholder="Start Date"
+                  type="text"
+                  onfocus="(this.type = 'date')"
+                  id="date"
+                  class="form-control pad-date"
+                  [(ngModel)]="startDate"
+                />
               </div>
-              <div class="CL-Product" style="width: 116px!important;">
-                <input placeholder="End Date" type="text" onfocus="(this.type = 'date')" id="date"
-                  class="form-control pad-date" [(ngModel)]="endDate">
+              <div class="CL-Product" style="width: 116px !important">
+                <input
+                  placeholder="End Date"
+                  type="text"
+                  onfocus="(this.type = 'date')"
+                  id="date"
+                  class="form-control pad-date"
+                  [(ngModel)]="endDate"
+                />
               </div>
 
               <div class="_cust_filter">
                 <div class="form-s2">
-                  <ng-select class="formselect" [multiple]="false" id="OrderType" placeholder="All Order Types"
-                    name="order-type" [(ngModel)]="OrderType" required>
-                    <ng-option value="0" selected>
-                      All
-                    </ng-option>
-                    <ng-option value="executed">
-                      Executed
-                    </ng-option>
-                    <ng-option value="counter_sale">
-                      Counter Sale
-                    </ng-option>
-                    <ng-option value="spot_sale">
-                      Spot Sale
-                    </ng-option>
+                  <ng-select
+                    class="formselect"
+                    [multiple]="false"
+                    id="OrderType"
+                    placeholder="All Order Types"
+                    name="order-type"
+                    [(ngModel)]="OrderType"
+                    required
+                  >
+                    <ng-option value="0" selected> All </ng-option>
+                    <ng-option value="executed"> Executed </ng-option>
+                    <ng-option value="counter_sale"> Counter Sale </ng-option>
+                    <ng-option value="spot_sale"> Spot Sale </ng-option>
                   </ng-select>
                 </div>
               </div>
 
               <div class="_cust_filter">
                 <div class="form-s2">
-                  <ng-select class="formselect" [multiple]="false" id="AllSalesmen" placeholder="All Salesmen"
-                    name="all-salesmen" [(ngModel)]="salesmanId" required>
-                    <ng-option value="0">
-                      All Salesmen
-                    </ng-option>
-                    <ng-option *ngFor="let sman of criterias.salesmen" value="{{ sman.id }}">
+                  <ng-select
+                    class="formselect"
+                    [multiple]="false"
+                    id="AllSalesmen"
+                    placeholder="All Salesmen"
+                    name="all-salesmen"
+                    [(ngModel)]="salesmanId"
+                    required
+                  >
+                    <ng-option value="0"> All Salesmen </ng-option>
+                    <ng-option
+                      *ngFor="let sman of criterias.salesmen"
+                      value="{{ sman.id }}"
+                    >
                       {{ sman.name }}
                     </ng-option>
                   </ng-select>
@@ -380,9 +539,19 @@
 
               <div class="_cust_filter">
                 <div class="form-s2">
-                  <ng-select class="formselect" [multiple]="false" id="OrderBooker" placeholder="All Order Bookers"
-                    name="OrderBooker" [(ngModel)]="OrderBooker" required>
-                    <ng-option *ngFor="let ob of criterias.order_booker" value="{{ob.employee_id}}">
+                  <ng-select
+                    class="formselect"
+                    [multiple]="false"
+                    id="OrderBooker"
+                    placeholder="All Order Bookers"
+                    name="OrderBooker"
+                    [(ngModel)]="OrderBooker"
+                    required
+                  >
+                    <ng-option
+                      *ngFor="let ob of criterias.order_booker"
+                      value="{{ ob.employee_id }}"
+                    >
                       {{ ob.employee_name }}
                     </ng-option>
                   </ng-select>
@@ -391,20 +560,29 @@
 
               <div class="_cust_filter">
                 <div class="form-s2">
-                  <ng-select class="formselect" [multiple]="false" id="segment" placeholder="All Segments"
-                    name="segment" [(ngModel)]="segment" required>
-                    <ng-option value="0">
-                      All
-                    </ng-option>
-                    <ng-option *ngFor="let s of criterias.segments" value="{{s.id}}">
-                      {{s.name}}
+                  <ng-select
+                    class="formselect"
+                    [multiple]="false"
+                    id="segment"
+                    placeholder="All Segments"
+                    name="segment"
+                    [(ngModel)]="segment"
+                    required
+                  >
+                    <ng-option value="0"> All </ng-option>
+                    <ng-option
+                      *ngFor="let s of criterias.segments"
+                      value="{{ s.id }}"
+                    >
+                      {{ s.name }}
                     </ng-option>
                   </ng-select>
                 </div>
               </div>
 
-              <button class="btn btn-primary" (click)="getOrderBookersList()"><i class="fa fa-search"></i>
-                Search</button>
+              <button class="btn btn-primary" (click)="getOrderBookersList()">
+                <i class="fa fa-search"></i> Search
+              </button>
             </div>
           </div>
           <div class="clearfix"></div>
@@ -417,15 +595,22 @@
     <div class="col-md-12">
       <div class="card">
         <div class="body">
-          <table [style.display]="loading ? 'none' : ''" [dtTrigger]="dtTrigger" datatable [dtOptions]="dtOptions"
-            class="table table-hover dt-responsive nowrap" id="example" style="width:100%">
+          <table
+            [style.display]="loading ? 'none' : ''"
+            [dtTrigger]="dtTrigger"
+            datatable
+            [dtOptions]="dtOptions"
+            class="table table-hover dt-responsive nowrap"
+            id="example"
+            style="width: 100%"
+          >
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Invoice#</th>
                 <th>Shop ID</th>
                 <th>Shop Name</th>
-                <th>Segment </th>
+                <th>Segment</th>
                 <th>Order Booker</th>
                 <th>Salesman</th>
                 <th>Invoice Total</th>
@@ -433,7 +618,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let order of orders; let i=index">
+              <tr *ngFor="let order of orders; let i = index">
                 <td>{{ order.date }}</td>
                 <td>{{ order.invoice_number }}</td>
                 <td>{{ order.shop_id }}</td>
@@ -443,12 +628,38 @@
                 <td>{{ order.salesman }}</td>
                 <td>{{ order.order_total }}</td>
                 <td>
-                  <button data-toggle="modal" data-target="#OrderDetailModal" id="orderDetailsModalTrigger"
-                    class="btn btn-default btn-line mb-0" hidden>Detail</button>
-                    <button (click)="openDetailsModal($event, order)" class="btn btn-default btn-line mb-0">Detail</button>
-                    <button data-toggle="modal" data-target="#billsModal" id="billsPrintPaperModalTrigger" class="btn btn-default mb-0" hidden>Bill</button>
-                    <button (click)="openBillsModal(order)" class="btn btn-default mb-0">Bill</button>
-                  </tr>
+                  <button
+                    data-toggle="modal"
+                    data-target="#OrderDetailModal"
+                    id="orderDetailsModalTrigger"
+                    class="btn btn-default btn-line mb-0"
+                    hidden
+                  >
+                    Detail
+                  </button>
+                  <button
+                    (click)="openDetailsModal($event, order)"
+                    class="btn btn-default btn-line mb-0"
+                  >
+                    Detail
+                  </button>
+                  <button
+                    data-toggle="modal"
+                    data-target="#billsModal"
+                    id="billsPrintPaperModalTrigger"
+                    class="btn btn-default mb-0"
+                    hidden
+                  >
+                    Bill
+                  </button>
+                  <button
+                    (click)="openBillsModal(order)"
+                    class="btn btn-default mb-0"
+                  >
+                    Bill
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
           <div [style.display]="!loading ? 'none' : ''" class="col-md-12">

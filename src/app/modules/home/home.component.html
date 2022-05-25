@@ -207,7 +207,7 @@
         </div>
     </div> -->
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-lg-12 PB-10">
       <h2 class="_head01 HomeHead">Top 5 <span>Booked Products</span></h2>
     </div>
@@ -240,7 +240,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="row m-0">
     <div class="col-lg-12 p-0">
       <h2 class="_head01 HomeHead">Shortcuts <span></span></h2>
@@ -257,17 +257,17 @@
           </a>
         </div> -->
         <div class="col-4">
-          <a [routerLink]="['/inventory', 'distributor-purchase']"
+          <a [routerLink]="['/primaryOrders/order/new']"
             ><img src="assets/images/add-order.svg" alt="" />
-            <h2 class="HD-title">
-              Add<span class="f-light"> Stock Purchase</span>
-            </h2>
+            <h2 class="HD-title">Add<span class="f-light">New Order</span></h2>
           </a>
         </div>
         <div class="col-4">
-          <a [routerLink]="['/orders']"
+          <a [routerLink]="['/primaryOrders/booked']"
             ><img src="assets/images/dispatch-order.svg" alt="" />
-            <h2 class="HD-title">View<span class="f-light">Booking</span></h2>
+            <h2 class="HD-title">
+              View<span class="f-light">Booked Orders</span>
+            </h2>
           </a>
         </div>
       </div>

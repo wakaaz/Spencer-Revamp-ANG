@@ -15,6 +15,7 @@ import { PrimaryOrder } from '../../_models/order';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
+  isReports = false;
   readonly PRIMARY_ORDER_CONST = PRIMARY_ORDER;
   readonly PRIMARY_ORDER_STATUS_UPDATE = PRIMARY_ORDER_API_STATUS_UPDATE;
   orderStatus: string;
@@ -77,6 +78,17 @@ export class ListComponent {
       pagingType: 'simple_numbers',
     };
     this.getPendingOrders();
+    debugger;
+    if (
+      this.orderStatusAPI === PRIMARY_ORDER.COMPLETED ||
+      this.orderStatusAPI === PRIMARY_ORDER.CANCELED ||
+      this.orderStatusAPI === PRIMARY_ORDER_API_STATUS.PURCHASE_HISTORY
+    ) {
+      this.isReports = true;
+    } else {
+      this.isReports = false;
+    }
+    console.log(this.orderStatus);
   }
   getPendingOrders() {
     this.loading = true;
