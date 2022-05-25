@@ -55,6 +55,9 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   subDistributor: any;
   selectedSubDistributor: number;
   subDistributors: any[];
+  isReturn = false;
+  title: string;
+  showEditFields = false;
 
   constructor(
     @Inject(LocalStorageService) private storageService: LocalStorageService,
@@ -75,15 +78,28 @@ export class EditOrderComponent implements OnInit, OnDestroy {
       localStorageKeys.distributor
     );
     const orderId = this.actr.snapshot.params.orderId;
+    this.showEditFields = orderId > 0 ? true : false;
     this.status = this.actr.snapshot.params.status;
     this.getProductsMetaData();
+    this.isReturn = this.actr.snapshot.params.new === 'return' ? true : false;
+
+    console.log(this.actr.snapshot.params.new);
     this.isNewOrder();
     if (this.isNew) {
       this.loading = true;
       this.getOrderbyOrderId(orderId);
-    } else {
+    }
+    // else {
+    //   this.getDistributorsEmployees(this.distributor.id);
+    // }
+    this.title = this.isNew ? 'Edit' : 'Create';
+    if (this.isReturn) {
+      this.title = 'Return';
+    }
+    if (!this.isNew || this.isReturn) {
       this.getDistributorsEmployees(this.distributor.id);
     }
+    // console.log(!this.isNew || this.isReturn);
   }
   getDistributorsEmployees(id: number) {
     const sub = this.primarySrvc.getSubDistributors().subscribe((emp) => {
@@ -154,7 +170,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     const sub = this.primarySrvc.getProductsMetaData().subscribe(
       (res: any) => {
         if (res.status === 200) {
-          if (this.isNew) {
+          if (this.showEditFields) {
             for (let i = 0; i < this.order.orderContent.length; i++) {
               this.allProducts = res.data.inventory.map((pr) => {
                 if (this.order.orderContent[i].item_id === pr.item_id) {
@@ -376,7 +392,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
 
   saveOrder(): void {
     this.saving = true;
-    if (this.isNew) {
+    if (this.showEditFields) {
       this.primarySrvc.updateOrder(this.order).subscribe(
         (res) => {
           if (res.status === 200) {
@@ -386,7 +402,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
               title: 'Order Updated:',
             };
             this.toastService.showToaster(toast);
-            this.router.navigate(['/primaryOrders', this.status]);
+            this.router.navigate(['/primaryOrders/booked']);
           } else {
             const toast: Toaster = {
               type: 'error',
@@ -410,10 +426,14 @@ export class EditOrderComponent implements OnInit, OnDestroy {
         }
       );
     } else {
-      if (this.selectedSubDistributor && this.order.orderContent) {
+      if (
+        this.selectedSubDistributor &&
+        this.order.orderContent &&
+        this.order.orderContent?.length
+      ) {
         this.order.distributor_id = this.selectedSubDistributor;
         this.order.employee_id = this.subDistributor.tsm_id;
-        // TODO: fields needs to be remove from order model
+        // TODO: fields needs to be remove from order model too
         // this.order.status = 'completed';
         // this.order.booker_lats = 0;
         // this.order.booker_longs = 0;
@@ -421,38 +441,40 @@ export class EditOrderComponent implements OnInit, OnDestroy {
         // this.order.phone_order = 1;
         // this.order.offline_order = 0;
         // this.order.created_at = new Date();
-        this.primarySrvc.saveOrder(this.order, this.distributor.id).subscribe(
-          (res) => {
-            if (res.status === 200) {
-              const toast: Toaster = {
-                type: 'success',
-                message: 'Order created successfully!',
-                title: 'Order Created:',
-              };
-              this.toastService.showToaster(toast);
-              this.router.navigate(['/primaryOrders', this.status]);
-            } else {
-              const toast: Toaster = {
-                type: 'error',
-                message: res.message,
-                title: 'Error:',
-              };
-              this.toastService.showToaster(toast);
-            }
-            this.saving = false;
-          },
-          (error) => {
-            if (error.status !== 1 && error.status !== 401) {
-              const toast: Toaster = {
-                type: 'error',
-                message: 'Cannot save order. Please try again',
-                title: 'Error:',
-              };
-              this.toastService.showToaster(toast);
+        this.primarySrvc
+          .saveOrReturnOrder(this.order, this.distributor.id, this.isReturn)
+          .subscribe(
+            (res) => {
+              if (res.status === 200) {
+                const toast: Toaster = {
+                  type: 'success',
+                  message: 'Order created successfully!',
+                  title: 'Order Created:',
+                };
+                this.toastService.showToaster(toast);
+                this.router.navigate(['/primaryOrders/booked']);
+              } else {
+                const toast: Toaster = {
+                  type: 'error',
+                  message: res.message,
+                  title: 'Error:',
+                };
+                this.toastService.showToaster(toast);
+              }
               this.saving = false;
+            },
+            (error) => {
+              if (error.status !== 1 && error.status !== 401) {
+                const toast: Toaster = {
+                  type: 'error',
+                  message: 'Cannot save order. Please try again',
+                  title: 'Error:',
+                };
+                this.toastService.showToaster(toast);
+                this.saving = false;
+              }
             }
-          }
-        );
+          );
       } else if (!this.selectedSubDistributor) {
         const toast: Toaster = {
           type: 'error',
@@ -461,7 +483,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
         };
         this.toastService.showToaster(toast);
         this.saving = false;
-      } else if (!this.order.orderContent) {
+      } else if (!this.order.orderContent?.length) {
         const toast: Toaster = {
           type: 'error',
           message: 'Please add atleast one product',

@@ -63,7 +63,11 @@ export class PrimaryOrdersService {
     );
   }
 
-  saveOrder(primaryOrder: PrimaryOrder, userId: number): Observable<any> {
+  saveOrReturnOrder(
+    primaryOrder: PrimaryOrder,
+    userId: number,
+    isReturnOrder = false
+  ): Observable<any> {
     const format = 'YYYY-MM-DD HH:mm:ss';
     const formatedDate = moment(new Date()).format(format);
 
@@ -71,7 +75,11 @@ export class PrimaryOrdersService {
 
     order.distributor_id = primaryOrder.distributor_id;
     order.employee_id = primaryOrder.employee_id;
-    order.status = 'completed';
+    if (isReturnOrder) {
+      order.status = '';
+    } else {
+      order.status = 'completed';
+    }
     order.web_order = 1;
     order.order_type = 5;
     order.executed_by_dist = userId;
@@ -85,7 +93,14 @@ export class PrimaryOrdersService {
     order.offline_order = 0;
     order.created_at = formatedDate;
     order.approved = 1;
-    return this.baseService.post(`${API_URLS.SAVE_PRIMARY_ORDER}`, order);
+    return this.baseService.post(
+      `${
+        isReturnOrder
+          ? API_URLS.RETURN_PRIMARY_ORDER
+          : API_URLS.SAVE_PRIMARY_ORDER
+      }`,
+      order
+    );
   }
 
   //#region order client side functions

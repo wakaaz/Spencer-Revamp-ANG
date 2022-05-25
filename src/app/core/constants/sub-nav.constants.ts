@@ -68,6 +68,11 @@ export const primaryOrderSubMenu = {
       icon: '/assets/images/dispatched-order.svg',
     },
     {
+      title: 'Return Order',
+      link: `/primaryOrders/order/${PRIMARY_ORDER.RETURN_ORDER}`,
+      icon: '/assets/images/complete-orders.svg',
+    },
+    {
       title: 'Cancelled',
       link: `/primaryOrders/${PRIMARY_ORDER.CANCELED}`,
       icon: '/assets/images/dispatched-order.svg',

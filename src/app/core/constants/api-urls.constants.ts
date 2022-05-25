@@ -17,6 +17,7 @@ export const API_URLS = {
   PENDING_ORDERS: '/orders-list/',
   UPDATE_PRIMARY_ORDER: '/update-order/',
   SAVE_PRIMARY_ORDER: '/save-order',
+  RETURN_PRIMARY_ORDER: '/return-order',
   FETCH_ORDER_BY_ID: '/fetch-order-data/',
   SAVE_DISPATCH: '/saveOrder/dispatch',
   SAVE_EXECUTION: '/saveOrder/execution',

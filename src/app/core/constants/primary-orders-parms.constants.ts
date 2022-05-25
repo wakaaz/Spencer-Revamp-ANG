@@ -5,6 +5,7 @@ export const PRIMARY_ORDER = {
   PROCESSED: 'processed',
   EXECUTE: 'execute',
   COMPLETED: 'completed',
+  RETURN_ORDER: 'return',
   CANCELED: 'cancelled',
 };
 

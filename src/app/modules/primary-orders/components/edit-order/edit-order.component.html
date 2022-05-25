@@ -257,7 +257,10 @@
       <div class="col-md-12">
         <div class="card">
           <div class="header">
-            <h2>{{ isNew ? "Edit" : "Create" }} <span> Order</span></h2>
+            <h2>
+              {{ title }}
+              <span> Order</span>
+            </h2>
           </div>
           <div class="body PT-15">
             <div *ngIf="loading" class="col-md-12">
@@ -267,7 +270,11 @@
               <div class="form-wrap p-0">
                 <div class="topstats">
                   <div class="row">
-                    <div *ngIf="!isNew" class="_sa-customer" class="col-md-6">
+                    <div
+                      *ngIf="!isNew || isReturn"
+                      class="_sa-customer"
+                      class="col-md-6"
+                    >
                       <div class="form-s2">
                         <ng-select
                           [multiple]="false"
@@ -285,13 +292,13 @@
                         </ng-select>
                       </div>
                     </div>
-                    <div *ngIf="isNew" class="col-2 pr-0">
+                    <div *ngIf="showEditFields" class="col-2 pr-0">
                       <div class="gary-box">
                         <strong>Date:</strong>
                         <span class="execution_date">{{ order.date }}</span>
                       </div>
                     </div>
-                    <div *ngIf="isNew" class="col-4 pr-0">
+                    <div *ngIf="showEditFields" class="col-4 pr-0">
                       <div class="gary-box">
                         <strong>Distributor:</strong>
                         <span class="execution_date">{{
@@ -299,7 +306,7 @@
                         }}</span>
                       </div>
                     </div>
-                    <div *ngIf="isNew" class="col-3 pr-0">
+                    <div *ngIf="showEditFields" class="col-3 pr-0">
                       <div class="gary-box">
                         <strong>Employee:</strong>
                         <span class="execution_date">{{
@@ -590,7 +597,7 @@
                       "
                     >
                       <button
-                        *ngIf="isNew"
+                        *ngIf="showEditFields"
                         type="button"
                         (click)="saveOrder()"
                         class="btn btn-primary mr-2"
@@ -604,7 +611,7 @@
                         {{ saving ? "Updateing" : "Save Order" }}
                       </button>
                       <button
-                        *ngIf="!isNew"
+                        *ngIf="!isNew && !isReturn"
                         type="button"
                         (click)="saveOrder()"
                         class="btn btn-primary mr-2"
@@ -616,6 +623,21 @@
                           *ngIf="saving"
                         ></span>
                         {{ saving ? "Creating" : "Save Order" }}
+                      </button>
+
+                      <button
+                        *ngIf="isReturn"
+                        type="button"
+                        (click)="saveOrder()"
+                        class="btn btn-primary mr-2"
+                      >
+                        <span
+                          class="spinner-grow spinner-grow-sm"
+                          role="status"
+                          aria-hidden="true"
+                          *ngIf="saving"
+                        ></span>
+                        {{ saving ? "Returning" : "Return Order" }}
                       </button>
                       <button
                         type="button"

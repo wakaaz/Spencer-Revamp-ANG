@@ -384,7 +384,7 @@
                         <td>{{ order.created_at }}</td>
                         <td>{{ order.distributor_name }}</td>
                         <td>{{ order.employee_name }}</td>
-                        <td>{{ order.order_total }}</td>
+                        <td>{{ order.order_total | number: "1.2-2" }}</td>
                         <td>
                           <button
                             type="button"
