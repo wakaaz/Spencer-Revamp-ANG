@@ -18,6 +18,7 @@ import { IOrderItemDto } from '../../_models/orderItemDtos';
 import { EMPTY, Subscription } from 'rxjs';
 import { LocalStorageService } from 'src/app/core/services/storage.service';
 import { localStorageKeys } from 'src/app/core/constants/localstorage.constants';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-order',
@@ -26,6 +27,7 @@ import { localStorageKeys } from 'src/app/core/constants/localstorage.constants'
 })
 export class EditOrderComponent implements OnInit, OnDestroy {
   //#region Fields and Construct on int
+  BASE_URL = environment.apiDomain;
   subscriptions: Subscription[] = [];
   order: PrimaryOrder;
   orderItemDtos: IOrderItemDto[];
@@ -112,6 +114,18 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     this.isNew = this.actr.snapshot.params.new !== 'new' ? true : false;
   }
 
+  correctIamgeURL() {
+    this.allProducts.forEach((x) => {
+      const urlArray = x.thumbnail.split('/');
+      console.log(urlArray);
+      if (urlArray[0] === 'https:') {
+        x.thumbnail =
+          this.BASE_URL + '/' + x.thumbnail.split('/').splice(3).join('/');
+      } else {
+        x.thumbnail = this.BASE_URL + '/' + x.thumbnail;
+      }
+    });
+  }
   onSubDistributorChanged(): void {
     this.subDistributor = this.subDistributors.find(
       (x) => x.id === this.selectedSubDistributor
@@ -189,7 +203,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
               return pr;
             });
           }
-
+          this.correctIamgeURL();
           this.specialDiscounts = res.data.special_discount;
           // this.prefrences = res.data.prefs;
           this.dispProducts = [...this.allProducts];
