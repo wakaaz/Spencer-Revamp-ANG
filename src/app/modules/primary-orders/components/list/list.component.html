@@ -440,7 +440,7 @@
                               !(
                                 PRIMARY_ORDER_CONST.COMPLETED === orderStatus ||
                                 PRIMARY_ORDER_CONST.CANCELED === orderStatus
-                              )
+                              ) && orderStatus !== 'purchased'
                             "
                             [routerLink]="['edit', order.id]"
                           >
@@ -452,7 +452,7 @@
                               !(
                                 PRIMARY_ORDER_CONST.COMPLETED === orderStatus ||
                                 PRIMARY_ORDER_CONST.CANCELED === orderStatus
-                              )
+                              ) && orderStatus !== 'purchased'
                             "
                             data-toggle="modal"
                             data-target="#cancelYesNo"

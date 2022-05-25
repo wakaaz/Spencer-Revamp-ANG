@@ -85,15 +85,11 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     this.getProductsMetaData();
     this.isReturn = this.actr.snapshot.params.new === 'return' ? true : false;
 
-    console.log(this.actr.snapshot.params.new);
     this.isNewOrder();
     if (this.isNew) {
       this.loading = true;
       this.getOrderbyOrderId(orderId);
     }
-    // else {
-    //   this.getDistributorsEmployees(this.distributor.id);
-    // }
     this.title = this.isNew ? 'Edit' : 'Create';
     if (this.isReturn) {
       this.title = 'Return';
@@ -101,7 +97,6 @@ export class EditOrderComponent implements OnInit, OnDestroy {
     if (!this.isNew || this.isReturn) {
       this.getDistributorsEmployees(this.distributor.id);
     }
-    // console.log(!this.isNew || this.isReturn);
   }
   getDistributorsEmployees(id: number) {
     const sub = this.primarySrvc.getSubDistributors().subscribe((emp) => {
@@ -117,7 +112,6 @@ export class EditOrderComponent implements OnInit, OnDestroy {
   correctIamgeURL() {
     this.allProducts.forEach((x) => {
       const urlArray = x.thumbnail.split('/');
-      console.log(urlArray);
       if (urlArray[0] === 'https:') {
         x.thumbnail =
           this.BASE_URL + '/' + x.thumbnail.split('/').splice(3).join('/');
@@ -146,16 +140,7 @@ export class EditOrderComponent implements OnInit, OnDestroy {
         this.order.orderContent = this.primarySrvc.getPrimaryOrderItem([
           ...x.data.content,
         ]);
-        // this.getProductsMetaData();
         this.loading = false;
-        //   this.primarySrvc.setOrderItemDtos([...this.orderContent]);
-        //   console.log('ordercontent => ', this.orderContent[0]);
-        // });
-        // this.primarySrvc.orderItemDtos.subscribe((dto: IOrderItemDto[]) => {
-        //   this.orderItemDtos = dto;
-        // setInterval(() => {
-        //   console.log(this.orderContent);
-        // }, 2000);
       });
     this.subscriptions.push(sub);
   }

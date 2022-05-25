@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
               this.storageService.setItem(localStorageKeys.session, token);
               const currentUrl =
                 this.activatedRoute.snapshot.queryParamMap.get('currentUrl');
-              console.log('currentUrl =>', currentUrl);
               if (currentUrl) {
                 this.router.navigateByUrl(currentUrl);
               } else {

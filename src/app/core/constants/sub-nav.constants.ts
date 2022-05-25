@@ -47,6 +47,12 @@ export const primaryOrderSubMenu = {
       queryParams: { order: 'new' },
     },
     {
+      title: 'Purchase History',
+      link: `/primaryOrders/${PRIMARY_ORDER.PURCHASE_HISTORY}`,
+      icon: '/assets/images/dispatched-order.svg',
+      queryParams: { order: 'booked' },
+    },
+    {
       title: 'Booked',
       link: `/primaryOrders/${PRIMARY_ORDER.BOOKED}`,
       icon: '/assets/images/dispatched-order.svg',

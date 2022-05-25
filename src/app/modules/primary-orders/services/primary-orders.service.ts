@@ -15,6 +15,7 @@ import {
   UpdateOrder,
 } from '../_models/updateOrder';
 import * as moment from 'moment';
+import { PRIMARY_ORDER_API_STATUS } from 'src/app/core/constants/primary-orders-parms.constants';
 
 @Injectable()
 export class PrimaryOrdersService {
@@ -31,7 +32,11 @@ export class PrimaryOrdersService {
     this._orderItemDtos.next(this.getOrderItemsDto(primaryOrderItems));
   }
   getPendingOrdersList(orderStatus: string): Observable<any> {
-    return this.baseService.get(API_URLS.PENDING_ORDERS + orderStatus);
+    if (PRIMARY_ORDER_API_STATUS.PURCHASE_HISTORY === orderStatus) {
+      return this.baseService.get(API_URLS.PURCHASE_ORDERS);
+    } else {
+      return this.baseService.get(API_URLS.PENDING_ORDERS + orderStatus);
+    }
   }
   getOderDetailById(id: number): Observable<any> {
     return this.baseService.get(API_URLS.FETCH_ORDER_BY_ID + id);

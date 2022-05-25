@@ -142,7 +142,6 @@ export class AppComponent {
       .split('/')
       .filter((x) => x)
       .join('/');
-    console.log('url => ', currentUrl);
     this.router.navigate(['login'], {
       relativeTo: this.activatedRoute,
       queryParams: { currentUrl },

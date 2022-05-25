@@ -171,7 +171,6 @@ export class RetailerProfileComponent implements OnInit {
     this.retailerService.getRetailerOrdersById(this.profileId).subscribe(
       (data) => {
         this.orders = data;
-        console.log('orders => ', this.orders);
         this.loadingOrders = false;
       },
       (error) => {
@@ -527,7 +526,6 @@ export class RetailerProfileComponent implements OnInit {
         status,
       };
       this.orderDetail = { ...data };
-      console.log('res =>', JSON.stringify(this.orderDetail));
     });
   }
 

@@ -48,6 +48,9 @@ export class ListComponent {
         case PRIMARY_ORDER.BOOKED:
           this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.BOOKED;
           break;
+        case PRIMARY_ORDER.PURCHASE_HISTORY:
+          this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.PURCHASE_HISTORY;
+          break;
         case PRIMARY_ORDER.PROCESSED:
           this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.PROCESSED;
           break;

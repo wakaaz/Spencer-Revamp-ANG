@@ -15,6 +15,7 @@ export const API_URLS = {
   ADD_COUNTER_SALE: '/saveOrder/counter',
   PENDING_APPROVAL_ORDERS: '/orders-list/pending-approval',
   PENDING_ORDERS: '/orders-list/',
+  PURCHASE_ORDERS: '/purchase-history',
   UPDATE_PRIMARY_ORDER: '/update-order/',
   SAVE_PRIMARY_ORDER: '/save-order',
   RETURN_PRIMARY_ORDER: '/return-order',

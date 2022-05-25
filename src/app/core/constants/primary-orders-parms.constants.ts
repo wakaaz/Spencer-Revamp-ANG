@@ -1,6 +1,7 @@
 // Primary Order Params
 export const PRIMARY_ORDER = {
   NEW: 'new',
+  PURCHASE_HISTORY: 'purchased',
   BOOKED: 'booked',
   PROCESSED: 'processed',
   EXECUTE: 'execute',
@@ -10,6 +11,7 @@ export const PRIMARY_ORDER = {
 };
 
 export const PRIMARY_ORDER_API_STATUS = {
+  PURCHASE_HISTORY: 'purchase-history',
   BOOKED: 'pending',
   PROCESSED: 'processed',
   EXECUTE: 'executed',

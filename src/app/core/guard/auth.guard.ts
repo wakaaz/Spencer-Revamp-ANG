@@ -29,7 +29,6 @@ export class AuthGuard implements CanActivate {
       .split('/')
       .filter((x) => x)
       .join('/');
-    console.log('url => ', currentUrl);
     const token = this.storageService.getItem(localStorageKeys.session);
     const distributor = this.storageService.getItem(
       localStorageKeys.distributor
