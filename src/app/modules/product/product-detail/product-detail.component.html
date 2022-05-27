@@ -1,23 +1,24 @@
 <div class="container">
-
-    <div class="row mt-2 mb-2">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <h2 class="_head01">Product Detail</h2>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <ol class="breadcrumb">
-                <li><a><span>Product Management</span></a></li>
-                <li><span>Product Detail</span></li>
-            </ol>
-        </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <h2 class="_head01">Product Detail</h2>
     </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <ol class="breadcrumb">
+        <li>
+          <a><span>Product Management</span></a>
+        </li>
+        <li><span>Product Detail</span></li>
+      </ol>
+    </div>
+  </div>
 
-    <div *ngIf="!loader && product" class="row">
-        <div class="col-12 mb-30">
-            <div class="card top_border _product-D">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <div *ngIf="!loader && product" class="row">
+    <div class="col-12 mb-30">
+      <div class="card top_border _product-D">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
                                 <li *ngFor="let img of product.images; let ind=index" (click)="slideTo(ind)" [ngClass]="activeSlide === ind ? 'active' : ''"></li>
                             </ol>
@@ -26,115 +27,148 @@
                                     <img class="d-block w-100" [src]="img.picture" alt="">
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8 _product-RS">
+                        </div> -->
+            <img
+              class="d-block w-100"
+              style="border: solid 1px rgb(214, 214, 214)"
+              [src]="product.thumbnail"
+              alt=""
+            />
+          </div>
+          <div class="col-md-8 _product-RS pl-30">
+            <h2>
+              {{ product.item_name }}
+              <!--<a class="btn add_button" style="top:0;right:15px;letter-spacing:1px"><i class="fa fa-pencil"></i> <span>Edit</span></a>-->
+            </h2>
+            <span class="_Cat"
+              ><strong>SKU: </strong>{{ product.item_sku }}
+            </span>
+            <span class="_Cat"
+              ><strong>Category: </strong>{{ product.main_cat }}</span
+            >
+            <span class="_Cat"
+              ><strong>Sub Category: </strong>{{ product.sub_cat }}</span
+            >
+            <span class="_Cat"
+              ><strong>Brand Name: </strong>{{ product.brand_name }}
+            </span>
 
-                        <h2>{{product.item_name}}
-                            <!--<a class="btn add_button" style="top:0;right:15px;letter-spacing:1px"><i class="fa fa-pencil"></i> <span>Edit</span></a>-->
-                        </h2>
-                        <span class="_Cat"><strong>SKU: </strong>{{product.item_sku}} </span>
-                        <span class="_Cat"><strong>Category: </strong>{{product.main_cat}}</span>
-                        <span class="_Cat"><strong>Sub Category: </strong>{{product.sub_cat}}</span>
-                        <span class="_Cat"><strong>Brand Name: </strong>{{product.brand_name}} </span>
-                        <span class="_Cat"><strong>Description: </strong>{{product.item_main_description}}</span>
+            <span class="_Cat"
+              ><strong>Unit Name: </strong
+              >{{ stock ? product.stock.unit_name : "-" }}
+            </span>
 
+            <span class="_Cat"
+              ><strong> Trade Price: </strong
+              >{{
+                stock
+                  ? (product.stock.item_trade_price | number: "1.2-2")
+                  : "0.00"
+              }}
+            </span>
 
-                        <div *ngIf="product.packaging" class="items-available">
+            <span class="_Cat"
+              ><strong> Retail Price: </strong
+              >{{
+                stock
+                  ? (product.stock.item_retail_price | number: "1.2-2")
+                  : "0.00"
+              }}
+            </span>
+            <span class="_Cat"
+              ><strong>Description: </strong
+              >{{ product.item_main_description }}</span
+            >
 
-                            <h3>Packaging</h3>
+            <div *ngIf="product.packaging" class="items-available">
+              <h3>Packaging</h3>
 
-                            <div class="overflow-x-div">
+              <div class="overflow-x-div">
+                <div style="width: max-content; min-width: 100%">
+                  <table
+                    width="100%"
+                    border="0"
+                    cellspacing="0"
+                    cellpadding="0"
+                  >
+                    <tbody></tbody>
+                    <thead>
+                      <tr>
+                        <th>Unit Name</th>
+                        <th>QTY.</th>
+                        <th>General T.P.</th>
+                        <th>G.T.-C Class</th>
+                        <th>LMT-Silver</th>
+                        <th>IMT</th>
+                        <th>Regular WS</th>
+                        <th>HoReCa</th>
+                        <th>G.T.-A Class</th>
+                        <th>G.T-B Class</th>
+                        <th>LMT-Bronze</th>
+                        <th>LMT-Golden</th>
+                        <th>Large WS</th>
+                        <th>Mega WS</th>
+                        <th>Key Account</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Piece</td>
+                        <td>1</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                      </tr>
+                      <tr>
+                        <td>Box</td>
+                        <td>1</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                      </tr>
+                      <tr>
+                        <td>Carton</td>
+                        <td>1</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 6.50</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                        <td>Rs. 8</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-                                <div style="width:max-content; min-width: 100%;">
-                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                        <tbody>
-                                        </tbody>
-                                        <thead>
-                                            <tr>
-                                                <th>Unit Name</th>
-                                                <th>QTY.</th>
-                                                <th>General T.P.</th>
-                                                <th>G.T.-C Class</th>
-                                                <th>LMT-Silver</th>
-                                                <th>IMT</th>
-                                                <th>Regular WS</th>
-                                                <th>HoReCa</th>
-                                                <th>G.T.-A Class</th>
-                                                <th>G.T-B Class</th>
-                                                <th>LMT-Bronze</th>
-                                                <th>LMT-Golden</th>
-                                                <th>Large WS</th>
-                                                <th>Mega WS</th>
-                                                <th>Key Account</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Piece</td>
-                                                <td>1</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Box</td>
-                                                <td>1</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Carton</td>
-                                                <td>1</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 6.50</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                                <td>Rs. 8</td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                            </div>
-
-
-
-
-
-
-                            <!--<ul>
+              <!--<ul>
                 <li>
                   <div class="row">
                     <div class="col pr-0" style="max-width: 100px;"><strong>Unit Name</strong></div>                        
@@ -184,81 +218,92 @@
                  
                  
               </ul>-->
-
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
+          </div>
         </div>
-
-        <div *ngIf="product.stock" class="col-12">
-            <div class="card distTabs">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="header-tabs">
-                                    <div class="nav nav-tabs" id="nav-tab" role="tablist"> <a
-                                            class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
-                                            href="#nav-home" role="tab" aria-controls="nav-home"
-                                            aria-selected="true">Stock Distributor <span class="_cus-val"> {{product.stock || 0}} </span></a>
-                                    </div>
-                                </div>
-                                <div class="tab-content" id="nav-tabContent">
-                                    <div class="tab-pane fade show active body_sales_agants" id="nav-home"
-                                        role="tabpanel" aria-labelledby="nav-home-tab">
-                                        <table datatable [dtOptions]="dtOptions" class="table table-hover dt-responsive nowrap" id="example"
-                                            style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Distributor Name</th>
-                                                    <th>Region</th>
-                                                    <th>Available Stock</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Distributor Name Here</td>
-                                                    <td>Region here... </td>
-                                                    <td>452</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Distributor Name Here</td>
-                                                    <td>Region here... </td>
-                                                    <td>452</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Distributor Name Here</td>
-                                                    <td>Region here... </td>
-                                                    <td>452</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Distributor Name Here</td>
-                                                    <td>Region here... </td>
-                                                    <td>452</td>
-                                                </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+      </div>
     </div>
 
-    <div class="row" *ngIf="loader">
-        <div class="col-md-12">
-            <app-loader-white></app-loader-white>
+    <div *ngIf="product.stock" class="col-12">
+      <div class="card distTabs">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="header-tabs">
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a
+                      class="nav-item nav-link active"
+                      id="nav-home-tab"
+                      data-toggle="tab"
+                      href="#nav-home"
+                      role="tab"
+                      aria-controls="nav-home"
+                      aria-selected="true"
+                      >Stock Distributor
+                      <span class="_cus-val">
+                        {{ product.stock || 0 }}
+                      </span></a
+                    >
+                  </div>
+                </div>
+                <div class="tab-content" id="nav-tabContent">
+                  <div
+                    class="tab-pane fade show active body_sales_agants"
+                    id="nav-home"
+                    role="tabpanel"
+                    aria-labelledby="nav-home-tab"
+                  >
+                    <table
+                      datatable
+                      [dtOptions]="dtOptions"
+                      class="table table-hover dt-responsive nowrap"
+                      id="example"
+                      style="width: 100%"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Distributor Name</th>
+                          <th>Region</th>
+                          <th>Available Stock</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Distributor Name Here</td>
+                          <td>Region here...</td>
+                          <td>452</td>
+                        </tr>
+                        <tr>
+                          <td>Distributor Name Here</td>
+                          <td>Region here...</td>
+                          <td>452</td>
+                        </tr>
+                        <tr>
+                          <td>Distributor Name Here</td>
+                          <td>Region here...</td>
+                          <td>452</td>
+                        </tr>
+                        <tr>
+                          <td>Distributor Name Here</td>
+                          <td>Region here...</td>
+                          <td>452</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
+  <div class="row" *ngIf="loader">
+    <div class="col-md-12">
+      <app-loader-white></app-loader-white>
+    </div>
+  </div>
 </div>

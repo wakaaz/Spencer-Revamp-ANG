@@ -61,6 +61,9 @@ export class ListComponent {
         case PRIMARY_ORDER.COMPLETED:
           this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.COMPLETED;
           break;
+        case PRIMARY_ORDER.RETURNED:
+          this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.RETURNED;
+          break;
         case PRIMARY_ORDER.CANCELED:
           this.orderStatusAPI = PRIMARY_ORDER_API_STATUS.CANCELED;
           break;
@@ -78,11 +81,11 @@ export class ListComponent {
       pagingType: 'simple_numbers',
     };
     this.getPendingOrders();
-    debugger;
     if (
       this.orderStatusAPI === PRIMARY_ORDER.COMPLETED ||
       this.orderStatusAPI === PRIMARY_ORDER.CANCELED ||
-      this.orderStatusAPI === PRIMARY_ORDER_API_STATUS.PURCHASE_HISTORY
+      this.orderStatusAPI === PRIMARY_ORDER_API_STATUS.PURCHASE_HISTORY ||
+      this.orderStatusAPI === PRIMARY_ORDER_API_STATUS.RETURNED
     ) {
       this.isReports = true;
     } else {

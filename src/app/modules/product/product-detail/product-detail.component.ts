@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'src/app/core/services/toaster.service';
+import { environment } from 'src/environments/environment';
 import { ProductService } from '../product.service';
 
 @Component({
@@ -9,6 +10,8 @@ import { ProductService } from '../product.service';
   styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
+  BASE_URL = environment.apiDomain;
+
   dtOptions: DataTables.Settings = {};
   productId: number;
   product: any;
@@ -74,5 +77,19 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sliderInterval = null;
+  }
+
+  correctIamgeURL() {
+    // this.allProducts.forEach((x) => {
+    const urlArray = this.product.thumbnail.split('/');
+    if (urlArray[0] === 'https:') {
+      this.product.thumbnail =
+        this.BASE_URL +
+        '/' +
+        this.product.thumbnail.split('/').splice(3).join('/');
+    } else {
+      this.product.thumbnail = this.BASE_URL + '/' + this.product.thumbnail;
+    }
+    // });
   }
 }

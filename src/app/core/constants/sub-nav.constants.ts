@@ -139,6 +139,11 @@ export const reportsSubMenu = {
       icon: '/assets/images/dispatched-order.svg',
     },
     {
+      title: 'Returned Orders',
+      link: `/primaryOrders/${PRIMARY_ORDER.RETURNED}`,
+      icon: '/assets/images/dispatched-order.svg',
+    },
+    {
       title: 'Cancelled Orders',
       link: `/primaryOrders/${PRIMARY_ORDER.CANCELED}`,
       icon: '/assets/images/dispatched-order.svg',
